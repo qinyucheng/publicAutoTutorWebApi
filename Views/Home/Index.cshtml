@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Upload Form</title>
+    <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+    <script type="text/javascript">
+
+
+        function submitForm() {
+            var Url;
+            var method = document.fileinfo.getMethod.value;
+            var content = { status: document.fileinfo.status.value, databaseName: document.fileinfo.databaseName.value };
+            if (method == "POST")
+            {
+                 Url = '/api/MongoDB/add';
+            }
+            else if (method == "PUT")
+            {
+                Url = '/api/MongoDB/modify';
+            }
+
+            else if (method == "DELETE") {
+                Url = '/api/MongoDB/remove';
+            }
+
+            else if(method == "GET"){
+           
+                Url = '/api/MongoDB/selectByID';
+            }
+            else if (method == "GETALL") {
+                method = "GET";
+                content = "";
+                Url = '/api/MongoDB';
+            }
+           
+           
+            $.ajax({
+
+                //url: "http://localhost:12481/api/MongoDB",
+                url: Url,
+                type: method,
+
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                alert(data);
+            });
+            return false;
+        }
+
+
+   
+    </script>
+</head>
+<body>
+    <form method="POST" id="fileinfo" name="fileinfo" onsubmit="return submitForm();">
+        <select id="getMethod">
+            <option value="POST">post</option>
+            <option value="PUT">put</option>
+            <option value="DELETE">delete</option>
+            <option value="GET">get</option>
+            <option value="GETALL">getall</option>
+        </select>
+        <input type="text" name="status" value="true"><br>
+        <input type="text" name="databaseName" value="PublicAutoTutor"><br>
+
+        <input type="submit" value="Upload">
+    </form>
+
+   
+    <div id="output"></div>
+</body>
+</html>
