@@ -1,98 +1,102 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Dynamic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using MongoDB.Bson;
 using MongoDB.Driver;
-
+using MongoDB.Driver.Linq;
+using MongoDB.Driver.Builders;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Conventions;
+using publicAutoTutorWebApi.Models;
 namespace publicAutoTutorWebApi.Controllers
 {
     public class MongoDBController : ApiController
     {
-      
-        protected static IMongoClient _client;
-        protected static IMongoDatabase _database;
-        static bool connStatus=false;
+          
+             Models.OprationMongo opm = new OprationMongo();
+             const string strconn = "mongodb://localhost:27017/PublicAutoTutor";
 
         [HttpGet]
-        [ActionName("SelectByID")]
-       public async void Get(string id)
+        [ActionName("SelectByEmail")]
+       public bool Get(string Email)
         {
-            var collection = _database.GetCollection<BsonDocument>("test");
-            var filter = Builders<BsonDocument>.Filter.Eq("borough", "Manhattan");
-            var result = await collection.Find(filter).ToListAsync();
-           
-         
+
+            opm.ConnDatabase(strconn);
+           var result=opm.validateUserEmail(Email);
+            if(result)
+            {
+                return true;
+            }
+            else
+
+            {
+                return false;
+            }
         }
 
         [HttpGet]
-        [ActionName("SelectAll")]
-        public async void Get()
+        [ActionName("SelectByEmailandPwd")]
+        public string Get(string Email, string Password)
         {
-            if (connStatus == false)
+            opm.ConnDatabase(strconn);
+            var result = opm.validateUserEmailandPwd(Email, Password);
+            if (result)
             {
-                buildConn bn = new buildConn();
-                bn.databaseName = "PublicAutoTutor";
-                connStatus=conn(bn.databaseName);
-                if (connStatus == true)
-                {
-                    var collection = _database.GetCollection<BsonDocument>("test");
-                    var filter = new BsonDocument();
-                    var count = 0;
-                   // var result = await collection.Find(filter).ToListAsync();
-                    using (var cursor = await collection.FindAsync(filter))
-                    {
-                        while (await cursor.MoveNextAsync())
-                        {
-                            var batch = cursor.Current;
-                            foreach (var document in batch)
-                            {
-                                BsonElement author = document.GetElement("address");
-                                Console.WriteLine("Name: {0}, Value: {1}", author.Name, author.Value);
-                               
-                                // process document
-                               // string userID = document.GetValue("_id", "").AsString;
-
-                                count++;
-                            }
-                        }
-                    }
-                
-                
-                }
-                else
-                {
-
-                    Console.WriteLine("database connect fail");
-                }
-
+                return "validation successful";
             }
             else
             {
-
-                Console.WriteLine("database lost connect");
+                return "validation fail";
             }
-            
         }
-
-
+      
 
         [HttpPost]
         [ActionName("Add")]
-        public string Post(string id, buildConn bconn)
+        public bool Post(Models.Users userinfo)
         {
-            conn(bconn.databaseName);
-            Console.WriteLine("database connect successfully");
-            return "Customer added successfully!";
+            userinfo.RegistrationTime =  DateTime.Now;
+            userinfo.ApprovalTime = DateTime.Now;
+            opm.ConnDatabase(strconn);
+            var result = opm.addUserInfo(userinfo);
+            if (result)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+          
         }
+
 
         [HttpPut]
         [ActionName("Modify")]
-        public string Put(string id, buildConn obj)
+        public string Put(string id, Models.Users userinfo)
         {
-          
+            opm.ConnDatabase(strconn);
+            if (id == "ModifyUserInfo")
+            {
+                var result = opm.updateUserInfo(userinfo);
+            }
+            else if (id == "ModifyUserPassword")
+            {
+                var result = opm.updateUserPassword(userinfo);
+            }
+            else if (id == "ModifyUserStatus")
+            {
+                var result = opm.updateUserStatus(userinfo);
+            }
+            else if (id == "ModifyUserRole")
+            {
+                var result = opm.updateUserRole(userinfo);
+            }
+           
             return "Customer updated successfully!";
         }
 
@@ -103,42 +107,8 @@ namespace publicAutoTutorWebApi.Controllers
            
             return "Customer deleted successfully!";
         }
-
-        public bool conn(string databaseName)
-        {
-            try{
-                 _client = new MongoClient();
-                 _database = _client.GetDatabase(databaseName);
-                 return true;
-            
-            }
-            catch(Exception exp)
-            {
-                Console.WriteLine(exp.ToString());
-                return false;
-            }
-           
-            
-          
-        }
+       
+       
     }
-    public class buildConn
-    {
-        public string status { get; set; }
-        public string databaseName { get; set; }
-
-
-      
-    }
-
   
-
-    public class building
-    { 
-     public string  Building { get; set; }
-         public string  coord { get; set; }
-         public string  street { get; set; }
-         public string  zipcode { get; set; }
-
-    }
 }

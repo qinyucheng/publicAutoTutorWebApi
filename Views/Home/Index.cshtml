@@ -23,13 +23,27 @@
                 Url = '/api/MongoDB/remove';
             }
 
-            else if(method == "GET"){
-           
-                Url = '/api/MongoDB/selectByID';
+            else if (method == "GET") {
+                content = "";
+                if (document.fileinfo.status.value != null && document.fileinfo.databaseName.value == "")
+                {
+                    content = { Email: document.fileinfo.status.value };
+                }
+                else if (document.fileinfo.status.value != null && document.fileinfo.databaseName.value != null) {
+                    content = { Email: document.fileinfo.status.value, Password: document.fileinfo.databaseName.value };
+                }
+              
+                Url = '/api/MongoDB/';
             }
             else if (method == "GETALL") {
                 method = "GET";
                 content = "";
+                Url = '/api/MongoDB';
+            }
+
+            else if (method == "SelectByUserNameAndPwd") {
+                method = "GET";
+               
                 Url = '/api/MongoDB';
             }
            
@@ -50,7 +64,117 @@
             return false;
         }
 
+        function submitUserInfo() {
 
+            var method = "POST";
+            var email = document.UserInfo.Email.value;
+          
+            var firstName = document.UserInfo.FristName.value;
+            var lastName = document.UserInfo.LastName.value;
+            var email = document.UserInfo.Email.value;
+            var password = document.UserInfo.Password.value;
+            var address = document.UserInfo.Address.value;
+            var city = document.UserInfo.City.value;
+            var state = document.UserInfo.State.value;
+            var zip = document.UserInfo.ZIP.value;
+            var Phone = document.UserInfo.Phone.value;
+           
+           
+            content = { FristName: firstName, LastName: lastName, Email: email, Password: password, Address: address, City: city, State: state, Zip: zip, Phone: Phone, Status: true, Role:9};
+                method = "POST";
+                Url = '/api/MongoDB';
+               
+                $.ajax({
+
+                    url: Url,
+                    type: method,
+                    data: content,
+
+                }).success(function (data) {
+                    console.log(".net Output:");
+                    console.log(data);
+                    if (data == true) {
+                        alert(data);
+                    }
+                    else {
+                        alert(data);
+                    }
+                    
+                });
+              
+           
+        }
+        function validateUserEmail()
+        {
+            var email = document.UserInfo.Email.value;
+           
+            method = "GET";
+            Url = '/api/MongoDB';
+            content = { Email: email };
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+               
+                if (data == true) {
+                    submitUserInfo();
+                }
+                else {
+
+                    alert("this user already exist!!!");
+                }
+                
+            });
+           
+
+        }
+
+
+        function updateUserInfo() {
+
+           
+            var email = document.UserInfo.Email.value;
+
+            var firstName = document.UpdateUserInfo.FristName.value;
+            var lastName = document.UpdateUserInfo.LastName.value;
+            var email = document.UpdateUserInfo.Email.value;
+            var password = document.UpdateUserInfo.Password.value;
+            var address = document.UpdateUserInfo.Address.value;
+            var city = document.UpdateUserInfo.City.value;
+            var state = document.UpdateUserInfo.State.value;
+            var zip = document.UpdateUserInfo.ZIP.value;
+            var Phone = document.UpdateUserInfo.Phone.value;
+
+
+            content = { FristName: firstName, LastName: lastName,Email:email,  Password: password, Address: address, City: city, State: state, Zip: zip, Phone: Phone, Status: true, Role: 9 };
+            method = "PUT";
+           // Url = '/api/MongoDB/' + email;
+            Url = '/api/MongoDB/ModifyUserInfo';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                if (data == true) {
+                    alert(data);
+                }
+                else {
+                    alert(data);
+                }
+
+            });
+
+
+        }
    
     </script>
 </head>
@@ -62,9 +186,41 @@
             <option value="DELETE">delete</option>
             <option value="GET">get</option>
             <option value="GETALL">getall</option>
+            <option value="SelectByUserNameAndPwd">getByUserNameAndPwd</option>
         </select>
         <input type="text" name="status" value="true"><br>
         <input type="text" name="databaseName" value="PublicAutoTutor"><br>
+
+        <input type="submit" value="Upload">
+    </form>
+
+
+    <form method="POST" id="UserInfo" name="UserInfo" onsubmit="return validateUserEmail();">
+        
+        <input type="text" name="FristName" value="Qinyu"><br>
+        <input type="text" name="LastName" value="Cheng"><br>
+        <input type="text" name="Email" value="Cheng@gmail.com"><br>
+        <input type="text" name="Password" value="Password"><br>
+        <input type="text" name="Address" value="Cheng"><br>
+        <input type="text" name="City" value="Cheng"><br>
+        <input type="text" name="State" value="Cheng"><br>
+        <input type="text" name="ZIP" value="Cheng"><br>
+        <input type="text" name="Phone" value="Cheng"><br>
+
+        <input type="submit" value="Upload">
+    </form>
+
+    <form method="POST" id="UpdateUserInfo" name="UpdateUserInfo" onsubmit="return updateUserInfo();">
+
+        <input type="text" name="FristName" value="yehui"><br>
+        <input type="text" name="LastName" value="liu"><br>
+        <input type="text" name="Email" value="Cheng@gmail.com"><br>
+        <input type="text" name="Password" value="Password"><br>
+        <input type="text" name="Address" value="liu"><br>
+        <input type="text" name="City" value="liu"><br>
+        <input type="text" name="State" value="liu"><br>
+        <input type="text" name="ZIP" value="liu"><br>
+        <input type="text" name="Phone" value="liu"><br>
 
         <input type="submit" value="Upload">
     </form>

@@ -3,9 +3,6 @@ c:\users\qinyu\documents\visual studio 2013\Projects\publicAutoTutorWebApi\publi
 c:\users\qinyu\documents\visual studio 2013\Projects\publicAutoTutorWebApi\publicAutoTutorWebApi\bin\publicAutoTutorWebApi.pdb
 c:\users\qinyu\documents\visual studio 2013\Projects\publicAutoTutorWebApi\publicAutoTutorWebApi\bin\Antlr3.Runtime.dll
 c:\users\qinyu\documents\visual studio 2013\Projects\publicAutoTutorWebApi\publicAutoTutorWebApi\bin\Microsoft.Web.Infrastructure.dll
-c:\users\qinyu\documents\visual studio 2013\Projects\publicAutoTutorWebApi\publicAutoTutorWebApi\bin\MongoDB.Bson.dll
-c:\users\qinyu\documents\visual studio 2013\Projects\publicAutoTutorWebApi\publicAutoTutorWebApi\bin\MongoDB.Driver.Core.dll
-c:\users\qinyu\documents\visual studio 2013\Projects\publicAutoTutorWebApi\publicAutoTutorWebApi\bin\MongoDB.Driver.dll
 c:\users\qinyu\documents\visual studio 2013\Projects\publicAutoTutorWebApi\publicAutoTutorWebApi\bin\Newtonsoft.Json.dll
 c:\users\qinyu\documents\visual studio 2013\Projects\publicAutoTutorWebApi\publicAutoTutorWebApi\bin\System.Net.Http.Formatting.dll
 c:\users\qinyu\documents\visual studio 2013\Projects\publicAutoTutorWebApi\publicAutoTutorWebApi\bin\System.Web.Helpers.dll
