@@ -137,7 +137,6 @@
 
         function updateUserInfo() {
 
-           
             var email = document.UserInfo.Email.value;
 
             var firstName = document.UpdateUserInfo.FristName.value;
@@ -150,11 +149,86 @@
             var zip = document.UpdateUserInfo.ZIP.value;
             var Phone = document.UpdateUserInfo.Phone.value;
 
-
             content = { FristName: firstName, LastName: lastName,Email:email,  Password: password, Address: address, City: city, State: state, Zip: zip, Phone: Phone, Status: true, Role: 9 };
             method = "PUT";
            // Url = '/api/MongoDB/' + email;
             Url = '/api/MongoDB/ModifyUserInfo';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                alert(data);
+
+            });
+
+
+        }
+
+
+        function updateUserPwd() {
+
+            var email = document.UserInfo.Email.value;
+            var password = document.UpdateUserPwd.Password.value;
+            content = { Email: email, Password: password };
+            method = "PUT";
+            // Url = '/api/MongoDB/' + email;
+            Url = '/api/MongoDB/ModifyUserPassword';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                alert(data);
+
+            });
+
+
+        }
+        //lesson function 
+        function getAllLessonsInfo() {
+            method = "GET";
+            content = "";
+            Url = '/api/Lessons';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                alert(data);
+
+            });
+          
+        }
+
+        function addLessonsInfo() {
+
+            var LessonID = document.AddLessonsInfo.LessonID.value;
+            var LessonGroup = document.AddLessonsInfo.LessonGroup.value;
+            var LessonName = document.AddLessonsInfo.LessonName.value;
+            var Author = document.AddLessonsInfo.Author.value;
+            var LessonURL = document.AddLessonsInfo.LessonURL.value;
+            var ScriptURL = document.AddLessonsInfo.ScriptURL.value;
+            var LessonForder = document.AddLessonsInfo.LessonForder.value;
+            var ServerUrl = document.AddLessonsInfo.ServerUrl.value;
+
+
+            content = { LessonID: LessonID, LessonGroup: LessonGroup, LessonName: LessonName, Author: Author, LessonURL: LessonURL, ScriptURL: ScriptURL, LessonForder: LessonForder, ServerUrl: ServerUrl};
+            method = "POST";
+            Url = '/api/Lessons';
+
             $.ajax({
 
                 url: Url,
@@ -170,6 +244,36 @@
                 else {
                     alert(data);
                 }
+
+            });
+
+        }
+
+        function updateLessonsInfo() {
+
+            var LessonID = document.UpdateLessonsInfo.LessonID.value;
+            var LessonGroup = document.UpdateLessonsInfo.LessonGroup.value;
+            var LessonName = document.UpdateLessonsInfo.LessonName.value;
+            var Author = document.UpdateLessonsInfo.Author.value;
+            var LessonURL = document.UpdateLessonsInfo.LessonURL.value;
+            var ScriptURL = document.UpdateLessonsInfo.ScriptURL.value;
+            var LessonForder = document.UpdateLessonsInfo.LessonForder.value;
+            var ServerUrl = document.UpdateLessonsInfo.ServerUrl.value;
+
+            content = { LessonID: LessonID, LessonGroup: LessonGroup, LessonName: LessonName, Author: Author, LessonURL: LessonURL, ScriptURL: ScriptURL, LessonForder: LessonForder, ServerUrl: ServerUrl };
+            method = "PUT";
+            // Url = '/api/MongoDB/' + email;
+            Url = '/api/Lessons/ModifyLessonInfo';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                alert(data);
 
             });
 
@@ -194,7 +298,7 @@
         <input type="submit" value="Upload">
     </form>
 
-
+    <p>validateUserEmail add user info to database</p>
     <form method="POST" id="UserInfo" name="UserInfo" onsubmit="return validateUserEmail();">
         
         <input type="text" name="FristName" value="Qinyu"><br>
@@ -209,7 +313,7 @@
 
         <input type="submit" value="Upload">
     </form>
-
+    <p>UpdataUserInfo</p>
     <form method="POST" id="UpdateUserInfo" name="UpdateUserInfo" onsubmit="return updateUserInfo();">
 
         <input type="text" name="FristName" value="yehui"><br>
@@ -222,10 +326,48 @@
         <input type="text" name="ZIP" value="liu"><br>
         <input type="text" name="Phone" value="liu"><br>
 
-        <input type="submit" value="Upload">
+        <input type="submit" value="UpdataUserInfo">
+    </form>
+    
+    <p>UpdateUserPwd</p>
+    <form method="POST" id="UpdateUserPwd" name="UpdateUserPwd" onsubmit="return updateUserPwd();">
+
+        
+        <input type="text" name="Password" value="Password2"><br>
+     
+
+        <input type="submit" value="UpdateUserPwd">
+    </form>
+    <p>getAllLessonsInfo</p>
+    <input type="submit" value="getAllLessonsInfo" onclick="getAllLessonsInfo()">
+
+    <p>addLessonsInfo</p>
+    <form method="POST" id="AddLessonsInfo" name="AddLessonsInfo" onsubmit="return addLessonsInfo();">
+        <input type="text" name="LessonID" value="CSAL001"><br>
+        <input type="text" name="LessonGroup" value="CSAL"><br>
+        <input type="text" name="LessonName" value="Social Media"><br>
+        <input type="text" name="Author" value="Whitney"><br>
+        <input type="text" name="LessonURL" value="/scripts /Lesson34/ActivityMedia/"><br>
+        <input type="text" name="ScriptURL" value="scripts/Lesson34/ActivityMedia/Activity.xml"><br>
+        <input type="text" name="LessonForder" value=""><br>
+        <input type="text" name="ServerUrl" value="http://ace.autotutor.org/pilot/"><br>
+      
+        <input type="submit" value="addLessonsInfo">
     </form>
 
-   
+    <p>updateLessonsInfo</p>
+    <form method="POST" id="UpdateLessonsInfo" name="UpdateLessonsInfo" onsubmit="return updateLessonsInfo();">
+        <input type="text" name="LessonID" value="CSAL001"><br>
+        <input type="text" name="LessonGroup" value="CSAL"><br>
+        <input type="text" name="LessonName" value="Social Media"><br>
+        <input type="text" name="Author" value="Whitney"><br>
+        <input type="text" name="LessonURL" value="/scripts /Lesson34/ActivityMedia/"><br>
+        <input type="text" name="ScriptURL" value="scripts/Lesson34/ActivityMedia/Activity.xml"><br>
+        <input type="text" name="LessonForder" value=""><br>
+        <input type="text" name="ServerUrl" value="http://ace.autotutor.org/pilot/"><br>
+
+        <input type="submit" value="updateLessonsInfo">
+    </form>
     <div id="output"></div>
 </body>
 </html>

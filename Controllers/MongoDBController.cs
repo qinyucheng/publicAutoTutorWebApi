@@ -96,6 +96,10 @@ namespace publicAutoTutorWebApi.Controllers
             {
                 var result = opm.updateUserRole(userinfo);
             }
+            else if (id == "ModifyUserRoleAndStatus")
+            {
+                var result = opm.ModifyUserRoleAndStatus(userinfo);
+            }
            
             return "Customer updated successfully!";
         }
