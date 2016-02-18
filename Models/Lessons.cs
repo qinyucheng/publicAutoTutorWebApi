@@ -7,6 +7,7 @@ namespace publicAutoTutorWebApi.Models
 {
     public class Lessons
     {
+        public string _id { get; set; }
         public string LessonID { get; set; }
         public string LessonGroup { get; set; }
         public string LessonName { get; set; }

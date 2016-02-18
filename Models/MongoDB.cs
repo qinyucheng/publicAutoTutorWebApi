@@ -251,23 +251,23 @@ namespace publicAutoTutorWebApi.Models
 
         }
 
-        public List<string> getAllLessonsInfo()
+
+
+        public List<Lessons> getAllLessonsInfo()
         {
-            List<string> lessonsList = new List<string>();  
+            List<string> lessonsList = new List<string>();
             var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
-            var list = collect.FindAll().ToList();
-            foreach (var value in list)
-            {
-                //listed.Add(lt["FullName"].ToString());
-                lessonsList.Add(value.ToString());
-            }
-            return lessonsList;
+            var list = collect.FindAllAs<Lessons>().ToList();
+            return list;
 
         }
 
         public bool addLessonInfo(Lessons lessonInfo)
         {
+
+            lessonInfo._id = lessonInfo.LessonID;
             var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
+          
             var result = collect.Insert<Lessons>(lessonInfo);
             var getMessage = result.HasLastErrorMessage;
             if (getMessage == false)
@@ -284,33 +284,45 @@ namespace publicAutoTutorWebApi.Models
 
         public bool updateLessonInfo(Lessons lessonInfo)
         {
-            var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
-
-            var query = new QueryDocument { { "LessonID", lessonInfo.LessonID } };
-            var update = new UpdateDocument { 
-            { "$set", new QueryDocument { 
-            { "LessonGroup", lessonInfo.LessonGroup},
-            { "LessonName", lessonInfo.LessonName},
-            { "Author", lessonInfo.Author},
-            { "LessonURL", lessonInfo.LessonURL},
-            { "ScriptURL", lessonInfo.ScriptURL},
-            { "LessonForder", lessonInfo.LessonForder},
-            { "ServerUrl", lessonInfo.ServerUrl}
-            } } };
-
-            var result = collect.Update(query, update);
-
-
-            var getMessage = result.HasLastErrorMessage;
-            if (getMessage == false)
+            try
             {
-                return true;
+                var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
 
+                var query = new QueryDocument { { "LessonID", lessonInfo.LessonID } };
+                var update = new UpdateDocument { 
+                { "$set", new QueryDocument { 
+                { "LessonGroup", lessonInfo.LessonGroup},
+                { "LessonName", lessonInfo.LessonName},
+                { "Author", lessonInfo.Author},
+                { "LessonURL", lessonInfo.LessonURL},
+                { "ScriptURL", lessonInfo.ScriptURL},
+                { "LessonForder", lessonInfo.LessonForder},
+                { "ServerUrl", lessonInfo.ServerUrl}
+                } } };
+
+                    var result = collect.Update(query, update);
+                    var Affected = result.DocumentsAffected.ToString();
+
+                    //var getMessage = result.HasLastErrorMessage;
+                    if (Affected != "0")
+                    {
+                        return true;
+
+                    }
+                    else
+                    {
+                        return false;
+                    }
+            
             }
-            else
+            catch (Exception exp)
             {
+                Console.WriteLine(exp.ToString()); 
                 return false;
+               
             }
+           
+           
 
         }
 

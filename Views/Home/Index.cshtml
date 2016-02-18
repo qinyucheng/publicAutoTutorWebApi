@@ -2,7 +2,46 @@
 <html>
 <head>
     <title>Image Upload Form</title>
+    <style type='text/css'>
+        thead {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #444;
+        }
+
+        tbody {
+            font-size: 10pt;
+            color: #444;
+        }
+
+        td, th {
+            border: solid 1px #E6E6E6;
+            padding-left: 3px;
+        }
+
+        th {
+            background-color: #5B8;
+        }
+
+        .alternation {
+            background-color: #D2FFD2;
+        }
+
+        .alternation3 {
+            background-color: #DDEEDD;
+        }
+
+        .mouseOver {
+            background-color: #DFD;
+        }
+
+        .selected {
+            background-color: #B3E1A3;
+        }
+    </style>
     <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+   
     <script type="text/javascript">
 
 
@@ -202,15 +241,42 @@
 
                 url: Url,
                 type: method,
+                dataType: 'json',
                 data: content,
 
-            }).success(function (data) {
-                console.log(".net Output:");
-                console.log(data);
-                alert(data);
+
+                success: function (data) {
+                    console.log(".net Output:");
+
+                    $("#example").append(" <thead><th width='3%'><input id='SelectAll2' name='checkboxlist' type='checkbox' /></th><th width='10%'>LessonGroup</th><th width='10%'>LessonName</th><th width='15%'>Author</th> <th width='15%'>LessonURL</th><th width='8%'>ScriptURL</th><th width='25%'>LessonForder</th></th></thead>");
+                    $.each(data, function (index, array) { //loop  items for display
+                        $("#example").append("<tr align='center'><td ><input class='checkbox1' type='checkbox' value=" + array['LessonID'] + " /></td><td>" + array['LessonGroup'] + "</td><td>" + array['LessonName'] + "</td><td>" + array['Author'] + "</td><td>" + array['LessonURL'] + "</td><td>" + array['ScriptURL'] + "</td><td>" + array['LessonForder'] + array['ServerUrl'] + "</td></tr>");
+
+
+                    });
+
+                },
+                complete: function () { //get page bar
+                    $('tbody > tr:nth-child(3n)', $('#example')).toggleClass('alternation');
+                    $('tbody > tr:nth-child(3n+2)', $('#example')).toggleClass('alternation3');
+
+                    $('tbody > tr', $('#example')).click(function () {
+                        $('.selected').removeClass('selected');
+                        $(this).addClass('selected'); //this 表示引发事件的对象，但它不是 jquery 对象
+                        var $td = $(this).children('td')[2];
+                        $('#selectItemName').html("You selected lesson is: " + $td.innerHTML + "  Please select a name!");
+                       
+                    }).hover(		//注意这里的链式调用
+                        function () {
+                            $(this).addClass('mouseOver');
+                        },
+                        function () {
+                            $(this).removeClass('mouseOver');
+                        }
+                    );
+                },
 
             });
-          
         }
 
         function addLessonsInfo() {
@@ -264,6 +330,7 @@
             method = "PUT";
             // Url = '/api/MongoDB/' + email;
             Url = '/api/Lessons/ModifyLessonInfo';
+            
             $.ajax({
 
                 url: Url,
@@ -277,6 +344,33 @@
 
             });
 
+
+        }
+        function startLesson() {
+            getUserIp();
+           
+            //callMainpage();
+        }
+        var getIpAddress;
+        function getUserIp()
+        {
+            $.get("http://ipinfo.io", function (response) {
+                getIpAddress = response.ip;
+                setSession(getIpAddress);
+            }, "jsonp");
+
+        }
+        function setSession()
+        {
+            sessionStorage.setItem("ip", getIpAddress);
+            var formartIp = getIpAddress.split('.').join("");
+            var userName = "visitor_" + formartIp;
+            sessionStorage.setItem("UserName", userName);
+
+        }
+        function getSession()
+        {
+            alert(sessionStorage.getItem("UserName"));
 
         }
    
@@ -368,6 +462,12 @@
 
         <input type="submit" value="updateLessonsInfo">
     </form>
+
+    <table id='example' align="center" border="1" width="80%" >
+        <tbody></tbody>
+    </table>
+    <div id="showSelectItem"><div id="selectItemName"></div> <input type="submit" value="start lesson" onclick="startLesson()"></div>
+    <div id="getSession"> <input type="submit" value="start lesson" onclick="getSession()"></div>
     <div id="output"></div>
 </body>
 </html>

@@ -23,12 +23,16 @@ namespace publicAutoTutorWebApi.Controllers
 
         [HttpGet]
         [ActionName("SelectAll")]
-        public List<string> Get()
+        
+        public List<Lessons> Get()
         {
             opm.ConnDatabase(strconn);
             var list=opm.getAllLessonsInfo();
             return list;
         }
+
+        
+
 
         [HttpPost]
         [ActionName("Add")]
