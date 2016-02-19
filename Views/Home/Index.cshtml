@@ -297,8 +297,6 @@
                 console.log(".net Output:");
                 console.log(data);
 
-                
-
             });
 
 
@@ -372,11 +370,37 @@
 
 
         }
+
+        function deleteLessonById()
+        {
+            var LessonID = document.DeleteLessonById.LessonID.value;
+            method = "DELETE";
+            // Url = '/api/MongoDB/' + email;
+            Url = '/api/Lessons/deleteLessonById';
+            content = { "LessonID": LessonID};
+
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+                success: function (data) {
+                    console.log(".net Output:");
+                    alert(data);
+               
+                },
+                complete: function () { 
+                  
+                },
+
+            });
+        }
         function startLesson() {
             getUserIp();
            
             //callMainpage();
         }
+        //start
         var getIpAddress;
         function getUserIp()
         {
@@ -494,7 +518,11 @@
 
         <input type="submit" value="updateLessonsInfo">
     </form>
-
+    <p>deleteLessonById</p>
+    <form method="POST" id="DeleteLessonById" name="DeleteLessonById" onsubmit="return deleteLessonById();">
+        <input type="text" name="LessonID" value="CSAL001"><br>
+        <input type="submit" value="deleteLessonById">
+    </form>
     <table id='example' align="center" border="1" width="80%" >
         <tbody></tbody>
     </table>

@@ -75,5 +75,19 @@ namespace publicAutoTutorWebApi.Controllers
 
             return "lessonInfo updated successfully!";
         }
+
+        [HttpDelete]
+        [ActionName("Remove")]
+        public string Delete(string id, Models.Lessons lessonInfo)
+        {
+            opm.ConnDatabase(strconn);
+            if (id == "deleteLessonById")
+            {
+                var result = opm.deleteLessonById(lessonInfo.LessonID);
+                return "this lesson deleted successfully!";
+            }
+            return "this lesson deleted successfully!";
+           
+        }
     }
 }

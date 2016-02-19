@@ -64,79 +64,88 @@ namespace publicAutoTutorWebApi.Models
 
         public bool validateUserEmail(string UserEmail)
         {
-            var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
-
-            var results = collect.FindOne(Query.EQ("Email", UserEmail));
-            if (results == null)
+            try
             {
+                var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
+
+                var results = collect.FindOne(Query.EQ("Email", UserEmail));
                 return true;
             }
-            else
+            catch (Exception exp)
             {
+                Console.WriteLine(exp.ToString());
                 return false;
+
             }
           
         }
 
         public bool validateUserEmailandPwd(string UserEmail,string Password)
         {
-            var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
+            try {
+                var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
 
-            var results = collect.FindOne((Query.And(Query.EQ("Email", UserEmail), Query.EQ("Password", Password))));
-            if (results == null)
-            {
-                return false;
-            }
-            else
-            {
+                var results = collect.FindOne((Query.And(Query.EQ("Email", UserEmail), Query.EQ("Password", Password))));
                 return true;
             }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                return false;
+
+            }
+            
+          
 
         }
 
         public bool addUserInfo(Users userInfo)
         {
-            var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
-            var result=collect.Insert<Users>(userInfo);
-            var Affected = result.DocumentsAffected.ToString();
-            if (Affected != "0")
+            try
             {
+
+                var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
+                var result = collect.Insert<Users>(userInfo);
+                var Affected = result.DocumentsAffected.ToString();
                 return true;
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                return false;
 
             }
-            else
-            {
-                return false;
-            }
+           
         }
 
 
         public bool updateUserInfo(Users userInfo)
         {
-            var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
-            
-            var query = new QueryDocument { { "Email", userInfo.Email } };
-            var update = new UpdateDocument { 
-            { "$set", new QueryDocument { 
-            { "FristName", userInfo.FristName},
-            { "LastName", userInfo.LastName},
-            { "Address", userInfo.Address},
-            { "City", userInfo.City},
-            { "State", userInfo.State},
-            { "Zip", userInfo.Zip},
-            { "Phone", userInfo.Phone}
-            } } };
-             
-            var result=collect.Update(query, update);
-            var Affected = result.DocumentsAffected.ToString();
-            if (Affected != "0")
-            {
+            try {
+                var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
+
+                var query = new QueryDocument { { "Email", userInfo.Email } };
+                var update = new UpdateDocument { 
+                { "$set", new QueryDocument { 
+                { "FristName", userInfo.FristName},
+                { "LastName", userInfo.LastName},
+                { "Address", userInfo.Address},
+                { "City", userInfo.City},
+                { "State", userInfo.State},
+                { "Zip", userInfo.Zip},
+                { "Phone", userInfo.Phone}
+                } } };
+
+                var result = collect.Update(query, update);
                 return true;
 
             }
-            else
+
+            catch (Exception exp)
             {
+                Console.WriteLine(exp.ToString());
                 return false;
+
             }
         }
 
@@ -166,73 +175,73 @@ namespace publicAutoTutorWebApi.Models
         }
         public bool updateUserStatus(Users userInfo)
         {
-            var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
+            try{
+                    var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
 
-            var query = new QueryDocument { { "Email", userInfo.Email } };
-            var update = new UpdateDocument { 
-            { "$set", new QueryDocument { 
-            { "Status", userInfo.Status}
+                    var query = new QueryDocument { { "Email", userInfo.Email } };
+                    var update = new UpdateDocument { 
+                    { "$set", new QueryDocument { 
+                    { "Status", userInfo.Status}
            
-            } } };
+                    } } };
             
-            var result = collect.Update(query, update);
-            var Affected = result.DocumentsAffected.ToString();
-            if (Affected != "0")
+                    var result = collect.Update(query, update);
+                    return true;
+                }
+           catch (Exception exp)
             {
-                return true;
-
-            }
-            else
-            {
+                Console.WriteLine(exp.ToString());
                 return false;
+
             }
         }
         public bool updateUserRole(Users userInfo)
         {
-            var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
+            try {
+                var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
 
-            var query = new QueryDocument { { "Email", userInfo.Email } };
-            var update = new UpdateDocument { 
-            { "$set", new QueryDocument { 
-            { "Role", userInfo.Role}
+                var query = new QueryDocument { { "Email", userInfo.Email } };
+                var update = new UpdateDocument { 
+                { "$set", new QueryDocument { 
+                { "Role", userInfo.Role}
            
-            } } };
-            
-            var result = collect.Update(query, update);
-            var Affected = result.DocumentsAffected.ToString();
-            if (Affected != "0")
-            {
+                } } };
+
+                var result = collect.Update(query, update);
                 return true;
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                return false;
 
             }
-            else
-            {
-                return false;
-            }
+            
+         
         }
 
         public bool ModifyUserRoleAndStatus(Users userInfo)
         {
-            var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
+            try
+            {
+                var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
 
-            var query = new QueryDocument { { "Email", userInfo.Email } };
-            var update = new UpdateDocument { 
-            { "$set", new QueryDocument { 
-            { "Role", userInfo.Role},
-            { "Status", userInfo.Status}
+                var query = new QueryDocument { { "Email", userInfo.Email } };
+                var update = new UpdateDocument { 
+                { "$set", new QueryDocument { 
+                { "Role", userInfo.Role},
+                { "Status", userInfo.Status}
            
-            } } };
+                } } };
 
-            var result = collect.Update(query, update);
-            var Affected = result.DocumentsAffected.ToString();
-            if (Affected != "0")
-            {
+                var result = collect.Update(query, update);
                 return true;
-
             }
-            else
+            catch (Exception exp)
             {
+                Console.WriteLine(exp.ToString());
                 return false;
+
             }
         }
 
@@ -248,31 +257,33 @@ namespace publicAutoTutorWebApi.Models
         }
         public Lessons getLessonsInfoById(string lessonID)
         {
-           
-            var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
-            var results = collect.FindOneAs<Lessons>(Query.EQ("LessonID", lessonID));
+            
+                var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
+                var results = collect.FindOneAs<Lessons>(Query.EQ("LessonID", lessonID));
 
-            return results;
+                return results;
+           
 
         }
 
         public bool addLessonInfo(Lessons lessonInfo)
         {
-
-            lessonInfo._id = lessonInfo.LessonID;
-            var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
-          
-            var result = collect.Insert<Lessons>(lessonInfo);
-            var Affected = result.DocumentsAffected.ToString();
-            if (Affected != "0")
+            try
             {
+                lessonInfo._id = lessonInfo.LessonID;
+                var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
+
+                var result = collect.Insert<Lessons>(lessonInfo);
                 return true;
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                return false;
 
             }
-            else
-            {
-                return false;
-            }
+
+          
 
         }
 
@@ -312,6 +323,22 @@ namespace publicAutoTutorWebApi.Models
                 Console.WriteLine(exp.ToString()); 
                 return false;
                
+            }
+        }
+
+        public bool deleteLessonById(string lessonID)
+        {
+            try
+            {
+                var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
+                var result = collect.Remove(Query.EQ("LessonID", lessonID));
+                return true;
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                return false;
+
             }
         }
 
