@@ -191,7 +191,8 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\tableControl.js" />
     <Content Include="Views\Home\tableControl.js" />
-    <Content Include="Views\Home\test.html" />
+    <Content Include="index.html" />
+    <Content Include="buildClass.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
