@@ -31,6 +31,16 @@ namespace publicAutoTutorWebApi.Controllers
             return list;
         }
 
+        [HttpGet]
+        [ActionName("SelectByLessonID")]
+
+        public Lessons Get(string id)
+        {
+            opm.ConnDatabase(strconn);
+            var result = opm.getLessonsInfoById(id);
+            return result;
+        }
+
         
 
 

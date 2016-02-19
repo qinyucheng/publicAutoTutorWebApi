@@ -279,6 +279,32 @@
             });
         }
 
+
+
+        function getLessonByID() {
+            var LessonID = document.GetLessonByID.LessonID.value;
+
+            method = "GET";
+            Url = '/api/Lessons';
+            content = { ID: LessonID };
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+
+                
+
+            });
+
+
+        }
+
+
         function addLessonsInfo() {
 
             var LessonID = document.AddLessonsInfo.LessonID.value;
@@ -435,6 +461,12 @@
     <p>getAllLessonsInfo</p>
     <input type="submit" value="getAllLessonsInfo" onclick="getAllLessonsInfo()">
 
+    <p>getLessonByID</p>
+    <form method="POST" id="GetLessonByID" name="GetLessonByID" onsubmit="return getLessonByID();">
+        <input type="text" name="LessonID" value="CSAL001"><br>
+        <input type="submit" value="getLessonByID">
+    </form>
+
     <p>addLessonsInfo</p>
     <form method="POST" id="AddLessonsInfo" name="AddLessonsInfo" onsubmit="return addLessonsInfo();">
         <input type="text" name="LessonID" value="CSAL001"><br>
@@ -467,7 +499,7 @@
         <tbody></tbody>
     </table>
     <div id="showSelectItem"><div id="selectItemName"></div> <input type="submit" value="start lesson" onclick="startLesson()"></div>
-    <div id="getSession"> <input type="submit" value="start lesson" onclick="getSession()"></div>
+    <div id="getSession"> <input type="submit" value="get Session" onclick="getSession()"></div>
     <div id="output"></div>
 </body>
 </html>

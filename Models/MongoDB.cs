@@ -98,8 +98,8 @@ namespace publicAutoTutorWebApi.Models
         {
             var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
             var result=collect.Insert<Users>(userInfo);
-            var getMessage = result.HasLastErrorMessage;
-            if (getMessage == false)
+            var Affected = result.DocumentsAffected.ToString();
+            if (Affected != "0")
             {
                 return true;
 
@@ -108,7 +108,6 @@ namespace publicAutoTutorWebApi.Models
             {
                 return false;
             }
-
         }
 
 
@@ -129,10 +128,8 @@ namespace publicAutoTutorWebApi.Models
             } } };
              
             var result=collect.Update(query, update);
-
-
-            var getMessage = result.HasLastErrorMessage;
-            if (getMessage == false)
+            var Affected = result.DocumentsAffected.ToString();
+            if (Affected != "0")
             {
                 return true;
 
@@ -141,7 +138,6 @@ namespace publicAutoTutorWebApi.Models
             {
                 return false;
             }
-
         }
 
         public bool updateUserPassword(Users userInfo)
@@ -156,10 +152,8 @@ namespace publicAutoTutorWebApi.Models
             } } };
             
             var result = collect.Update(query, update);
-
-
-            var getMessage = result.HasLastErrorMessage;
-            if (getMessage == false)
+            var Affected = result.DocumentsAffected.ToString();
+            if (Affected != "0")
             {
                 return true;
 
@@ -182,10 +176,8 @@ namespace publicAutoTutorWebApi.Models
             } } };
             
             var result = collect.Update(query, update);
-
-
-            var getMessage = result.HasLastErrorMessage;
-            if (getMessage == false)
+            var Affected = result.DocumentsAffected.ToString();
+            if (Affected != "0")
             {
                 return true;
 
@@ -194,7 +186,6 @@ namespace publicAutoTutorWebApi.Models
             {
                 return false;
             }
-
         }
         public bool updateUserRole(Users userInfo)
         {
@@ -208,10 +199,8 @@ namespace publicAutoTutorWebApi.Models
             } } };
             
             var result = collect.Update(query, update);
-
-
-            var getMessage = result.HasLastErrorMessage;
-            if (getMessage == false)
+            var Affected = result.DocumentsAffected.ToString();
+            if (Affected != "0")
             {
                 return true;
 
@@ -220,7 +209,6 @@ namespace publicAutoTutorWebApi.Models
             {
                 return false;
             }
-
         }
 
         public bool ModifyUserRoleAndStatus(Users userInfo)
@@ -236,10 +224,8 @@ namespace publicAutoTutorWebApi.Models
             } } };
 
             var result = collect.Update(query, update);
-
-
-            var getMessage = result.HasLastErrorMessage;
-            if (getMessage == false)
+            var Affected = result.DocumentsAffected.ToString();
+            if (Affected != "0")
             {
                 return true;
 
@@ -248,17 +234,25 @@ namespace publicAutoTutorWebApi.Models
             {
                 return false;
             }
-
         }
 
 
 
         public List<Lessons> getAllLessonsInfo()
         {
-            List<string> lessonsList = new List<string>();
+          
             var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
             var list = collect.FindAllAs<Lessons>().ToList();
             return list;
+
+        }
+        public Lessons getLessonsInfoById(string lessonID)
+        {
+           
+            var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
+            var results = collect.FindOneAs<Lessons>(Query.EQ("LessonID", lessonID));
+
+            return results;
 
         }
 
@@ -269,8 +263,8 @@ namespace publicAutoTutorWebApi.Models
             var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
           
             var result = collect.Insert<Lessons>(lessonInfo);
-            var getMessage = result.HasLastErrorMessage;
-            if (getMessage == false)
+            var Affected = result.DocumentsAffected.ToString();
+            if (Affected != "0")
             {
                 return true;
 
@@ -302,8 +296,6 @@ namespace publicAutoTutorWebApi.Models
 
                     var result = collect.Update(query, update);
                     var Affected = result.DocumentsAffected.ToString();
-
-                    //var getMessage = result.HasLastErrorMessage;
                     if (Affected != "0")
                     {
                         return true;
@@ -321,9 +313,6 @@ namespace publicAutoTutorWebApi.Models
                 return false;
                
             }
-           
-           
-
         }
 
 
