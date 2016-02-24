@@ -16,6 +16,7 @@ namespace publicAutoTutorWebApi.Models
         public string ScriptURL { get; set; }
         public string LessonForder { get; set; }
         public string ServerUrl { get; set; }
+        public string Status { get; set; }
       
     }
 }

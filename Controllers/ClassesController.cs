@@ -1,0 +1,78 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using publicAutoTutorWebApi.Models;
+namespace publicAutoTutorWebApi.Controllers
+{
+    public class ClassesController : ApiController
+    {
+        Models.OprationMongo opm = new OprationMongo();
+        const string strconn = "mongodb://localhost:27017/PublicAutoTutor";
+      
+
+        [HttpGet]
+        [ActionName("SelectAll")]
+
+        public List<Classes> Get()
+        {
+            opm.ConnDatabase(strconn);
+            var list = opm.getAllClassInfo();
+            return list;
+        }
+
+        [HttpGet]
+        [ActionName("SelectClassesByTeacherEmail")]
+
+        public List<Classes> Get(string TeacherEmail)
+        {
+            opm.ConnDatabase(strconn);
+            var result = opm.getAllClassInfoByTeacherEmail(TeacherEmail);
+            return result;
+        }
+
+
+        [HttpPost]
+        [ActionName("Add")]
+        public bool Post(Classes ClassesObj)
+        {
+            ClassesObj._id = ClassesObj.ClassName;
+            ClassesObj.LastChangeTime = DateTime.Now;
+            ClassesObj.CreatedTime = DateTime.Now;
+            ClassesObj.ClassStatus = "inactive";
+            opm.ConnDatabase(strconn);
+            var result = opm.addClass(ClassesObj);
+            return result;
+           
+        }
+
+        [HttpPut]
+        [ActionName("Modify")]
+        public bool Put(string id, Classes ClassesObj)
+        {
+            opm.ConnDatabase(strconn);
+            if (id == "ModifyClassStudents")
+            {
+                var result = opm.updateClassStudentsInfo(ClassesObj);
+                return result;
+            }
+            else if (id == "ModifySelectedLessonsInfo")
+            {
+                var result = opm.updateClassSelectedLessonInfo(ClassesObj);
+                return result;
+            }
+            else if (id == "ModifyClassBasicInfo")
+            {
+                var result = opm.UpdateClassBasicInfo(ClassesObj);
+                return result;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+    }
+}

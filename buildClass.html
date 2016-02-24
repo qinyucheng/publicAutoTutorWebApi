@@ -44,6 +44,7 @@
         }
     </style>
     <script>
+        var saveStatus = false;
         $(function () {
             $("#datepicker1").datepicker();
             $("#datepicker2").datepicker();
@@ -76,17 +77,12 @@
                 url: Url,
                 type: method,
                 dataType: 'json',
-               
-
-
                 success: function (data) {
                     //console.log(".net Output:");
 
                     $("#example").append(" <thead><th width='3%'><input id='SelectAll2' name='checkboxlist' type='checkbox' /></th><th width='10%'>LessonGroup</th><th width='10%'>LessonName</th><th width='15%'>Author</th> <th width='15%'>LessonURL</th><th width='8%'>ScriptURL</th><th width='25%'>LessonForder</th></th></thead>");
                     $.each(data, function (index, array) { //loop  items for display
                     $("#example").append("<tr align='center'><td ><input name='noticeSelect' class='checkbox1' type='checkbox' value=" + array['LessonID'] + " /></td><td>" + array['LessonGroup'] + "</td><td>" + array['LessonName'] + "</td><td>" + array['Author'] + "</td><td>" + array['LessonURL'] + "</td><td>" + array['ScriptURL'] + "</td><td>" + array['LessonForder'] + array['ServerUrl'] + "</td></tr>");
-
-
                     });
 
                 },
@@ -127,25 +123,98 @@
 
         }
 
+
+        function saveBasicClassInfo() {
+
+            var TeacherEmail = document.BasicClassInfo.TeacherEmail.value;
+            var ClassName = document.BasicClassInfo.ClassName.value;
+            var StudyStartTime = document.BasicClassInfo.datepicker1.value;
+            var StudyEndTime = document.BasicClassInfo.datepicker2.value;
+          
+
+
+            content = { TeacherEmail: TeacherEmail, ClassName: ClassName, StudyStartTime: StudyStartTime, StudyEndTime: StudyEndTime};
+            method = "POST";
+            Url = '/api/Classes';
+
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                if (data == true) {
+                    alert(data);
+                }
+                else {
+                    alert(data);
+                }
+
+            });
+
+        }
+
+        function UpdataSelectedLessonsInfo() {
+            var SeletedLeassons = [{
+                "LessonID": "CSAL001",
+                "LessonName": "Social Media",
+                "LessonURL": "scripts/Lesson34/ActivityMedia/",
+                "ScriptURL": "scripts/Lesson34/ActivityMedia/Activity.xml"
+            }, {
+                "LessonID": "CSAL002",
+                "LessonName": "Social Media",
+                "LessonURL": "scripts/Lesson34/ActivityMedia/",
+                "ScriptURL": "scripts/Lesson34/ActivityMedia/Activity.xml"
+            }]
+            var ClassName = document.BasicClassInfo.ClassName.value;
+            content = {"ClassName": ClassName, "SeletedLeassons": SeletedLeassons };
+            method = "Put";
+            Url = '/api/Classes/ModifySelectedLessonsInfo';
+
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                if (data == true) {
+                    alert(data);
+                }
+                else {
+                    alert(data);
+                }
+
+            });
+
+        }
+
       
     </script>
 </head>
 <body>
    <div id="ClassBaseInfo">
     <p>Build Class</p>
-    <form  id="BuildClass" name="BuildClass" onsubmit="return getAllLessonsInfo();">
-        <p> ClassName:<input type="text" name="ClassName" value="FirstClass"></p><br>
-        <p> Teacher Email:<input type="text" name="TeacherEmail" value="Qinyucheng711@gmail.com"></p><br>
-        <p> Start Date: <input type="text" id="datepicker1"></p>
-        <p> End Date: <input type="text" id="datepicker2"></p>
-       
-    </form>
+       <form id="BasicClassInfo" name="BasicClassInfo">
+           <p> ClassName:<input type="text" name="ClassName" value="FirstClass"></p><br>
+           <p> Teacher Email:<input type="text" name="TeacherEmail" value="Qinyucheng711@gmail.com"></p><br>
+           <p> Start Date: <input type="text" id="datepicker1"></p>
+           <p> End Date: <input type="text" id="datepicker2"></p>
+          
+       </form>
+       <input type="submit" value="saveBasicClassInfo" id="saveBasicClassInfo" onclick="saveBasicClassInfo()">
     </div>
     <div id="ShowLessonInfo">
         <table id='example' align="center" border="1" >
             <tbody id="content"></tbody>
         </table>
         <input type="submit" value="get Selected" id="getSelected">
+        <input type="submit" value="UpdateSeletedLessons" id="UpdateSeletedLessons" onclick="UpdataSelectedLessonsInfo()">
     </div>
 
     <div id="AddStudents">

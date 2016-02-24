@@ -1,0 +1,214 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<link href="lib/Hui-iconfont/1.0.6/iconfont.css" rel="stylesheet" type="text/css" />
+
+<title>Lesson List</title>
+    <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/layer/2.1/layer.js"></script>
+    <script type="text/javascript" src="lib/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/H-ui.js"></script>
+    <script type="text/javascript" src="js/H-ui.admin.js"></script>
+    <script type="text/javascript">
+        var countPopupTimes = 0;
+        var json = {};
+        var LessonsList;
+        var selectedID;
+        var UID = "";
+        var SID = "";
+        var CSALURL = "http://ace.autotutor.org/csalpublicversion/mainpage.html";
+        var CSALServerURL = "http://ace.autotutor.org/csalpublicversion";
+        var CSALScriptfolderurl = CSALServerURL + "/scripts/";
+        var getIpAddress;
+        $(document).ready(function () {
+            Lock();
+            getAllLessonsInfoBystatus();
+        });
+
+        //lesson function
+        function getAllLessonsInfoBystatus() {
+            method = "GET";
+            content = { id: "active", status: "active" };
+            Url = '/api/Lessons';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                dataType: 'json',
+                data: content,
+
+                
+                success: function (data) {
+                    console.log(".net Output:");
+                     LessonsList = $.map(data, function (el) { return el });
+                    $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>LessonName</th><th width='75%'>Description</th></thead>");
+                    $.each(data, function (index, array) { //loop  items for display
+                        $("#LessonsList").append("<tr align='center'><td>" + (parseInt(index) + 1) + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + index + "</td></tr>");
+
+                    });
+
+                },
+                complete: function () { //
+                    $('tbody > tr', $('#LessonsList')).click(function () {
+                        $('.selected').removeClass('selected');
+                        $(this).addClass('selected'); //this 
+                        var $td = $(this).children('td')[1];
+                        selectedID=$td.id;
+                        $('#selectItemName').html("You have selected  a lesson : " + $td.innerHTML + ".");
+                        Unlock("#ShowNickName");
+
+                    }).hover(		//
+                           function () {
+                               $(this).addClass('mouseOver');
+                           },
+                           function () {
+                               $(this).removeClass('mouseOver');
+                           }
+                       );
+
+                },
+
+            });
+        }
+
+        function ShowNickNameList(title, url, w, h) {
+            countPopupTimes++;
+            layer_show(title, url, w, h);
+        }
+
+        function Lock() {
+            //unbinds click function and hover
+            $('.btn-success').prop('disabled', true); //TO DISABLED
+            //sets disabled mouse cursor
+            $('.btn-success').css('cursor', 'not-allowed');
+
+        }
+        function Unlock(getElementID) {
+            $(getElementID).prop('disabled', false); //TO DISABLED
+            $(getElementID).css('cursor', 'pointer');
+        }
+      
+        function startLesson() {
+
+            for (i = 0; i < LessonsList.length; i++)
+            {
+                var LessonID = LessonsList[i]["LessonID"];
+                var LessonName = LessonsList[i]["LessonName"];
+                var LessonGroup = LessonsList[i]["LessonGroup"];
+                if (LessonID == selectedID)
+                {
+                    json = LessonsList[i];
+                    PopUpLesson(LessonID,LessonName,LessonGroup);
+                    return;
+                }
+            
+            }
+        }
+
+       
+        function getUserIp() {
+            $.get("http://ipinfo.io", function (response) {
+                getIpAddress = response.ip;
+                setSession(getIpAddress);
+            }, "jsonp");
+
+        }
+        //Get GUID
+        function generateQuickGuid() {
+            return Math.random().toString(36).substring(2, 15) +
+                Math.random().toString(36).substring(2, 15);
+        }
+        function setSession() {
+            var GUID = generateQuickGuid();
+            sessionStorage.setItem("ip", getIpAddress);
+            var formartIp = getIpAddress.split('.').join("");
+            UID = "visitor-" + GUID + "-" + formartIp;
+            sessionStorage.setItem("visitorID", UID);
+
+        }
+        function getSession() {
+            alert(sessionStorage.getItem("UserName"));
+
+        }
+        function getValueFromPopupWindow(id, Name)
+        {
+            SID = id;
+            $('#selectedNickName').html("You have selected  a Name : " + Name + ".");
+            Unlock("#StartLesson");
+        }
+
+        function PopUpLesson(LessonID, LessonName, LessonGroup) {
+            countPopupTimes++;
+            if (LessonGroup == "CSAL")
+            {
+                getUserIp();
+                layer_show(LessonName, CSALURL, "1030", "740");
+                var PopUpIframeID = "layui-layer-iframe" + countPopupTimes;
+                $("#" + PopUpIframeID).attr("scrolling", "no");
+                document.getElementById(PopUpIframeID).onload = function () {
+
+                    var iframe = document.getElementById(PopUpIframeID);
+                    //json["SID"] = SID;
+                    json["SID"] = "C31";
+                    json["UID"] = UID;
+                    json["LessonActivity"] = LessonID;
+                    json["VisiorIp"] = getIpAddress;
+                    json["ServerUrl"] = CSALServerURL;
+                    json["LessonURL"] = CSALServerURL + json["LessonURL"];
+                    json["ScriptURL"] = CSALServerURL + json["ScriptURL"];
+                    json["scriptfolderurl"] = CSALScriptfolderurl;
+                   
+                    iframe.contentWindow.postMessage(json, '*');
+
+                }
+            }
+
+        }
+
+       
+
+    </script> 
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> Lesson List  <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="Refresh"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="pd-20">
+    
+	<div class="mt-20">
+        <table id='LessonsList' align="center" border="1" class="table table-border table-bordered table-bg table-hover table-sort dataTable no-footer">
+            <tbody></tbody>
+        </table>
+      
+       
+	</div>
+    <div class="mt-20">
+        <table id="NickNameList" align="center" border="1" class="table table-border table-bordered table-bg table-hover table-sort dataTable no-footer">
+            <thead>
+                <tr>
+                    <th colspan="2" width="50%">Girl's Name</th>
+                    <th colspan="2" width="50%">Boy's Name</th>
+                </tr>
+            </thead>
+            <tbody><tr><td>AMELIA</td><td>JASMINE</td><td style="background-color: white;">HEIDI</td><td style="background-color: white;">HARVEY</td></tr><tr><td>OLIVIA</td><td>MAYA</td><td style="background-color: white;">LYDIA</td><td style="background-color: white;">HARLEY</td></tr><tr><td>EMILY</td><td>AMELIE</td><td style="background-color: white;">OLIVER</td><td style="background-color: white;">DAVID</td></tr><tr><td>AVA</td><td>LACEY</td><td>JACK</td><td>RYAN</td></tr><tr><td>ISLA</td><td>WILLOW</td><td style="background-color: white;">HARRY</td><td style="background-color: white;">TOMMY</td></tr><tr><td>JESSICA</td><td>EMMA</td><td>JACOB</td><td>MICHAEL</td></tr><tr><td>POPPY</td><td>BELLA</td><td style="background-color: white;">CHARLIE</td><td style="background-color: white;">REUBEN</td></tr><tr><td>ISABELLA</td><td>ELEANOR</td><td>THOMAS</td><td>NATHAN</td></tr><tr><td>SOPHIE</td><td>ESME</td><td>OSCAR</td><td>BLAKE</td></tr><tr><td>MIA</td><td>ELIZA</td><td>WILLIAM</td><td>MOHAMMAD</td></tr><tr><td>RUBY</td><td>GEORGIA</td><td>JAMES</td><td>JENSON</td></tr><tr><td>LILY</td><td>HARRIET</td><td>GEORGE</td><td>BOBBY</td></tr><tr><td>GRACE</td><td>GRACIE</td><td>ALFIE</td><td>LUCA</td></tr><tr><td>EVIE</td><td>ANNABELLE</td><td>JOSHUA</td><td>CHARLES</td></tr><tr><td>SOPHIA</td><td>EMILIA</td><td>NOAH</td><td>FRANKIE</td></tr><tr><td>ELLA</td><td>AMBER</td><td>ETHAN</td><td>DEXTER</td></tr><tr><td>SCARLETT</td><td>IVY</td><td>MUHAMMAD</td><td>KAI</td></tr><tr><td>CHLOE</td><td>BROOKE</td><td>ARCHIE</td><td>ALEX</td></tr><tr><td>ISABELLE</td><td>ROSE</td><td>LEO</td><td>CONNOR</td></tr><tr><td>FREYA</td><td>ANNA</td><td>HENRY</td><td>LIAM</td></tr><tr><td>CHARLOTTE</td><td>ZARA</td><td>JOSEPH</td><td>JAMIE</td></tr><tr><td>SIENNA</td><td>LEAH</td><td>SAMUEL</td><td>ELIJAH</td></tr><tr><td>DAISY</td><td>MOLLIE</td><td>RILEY</td><td>STANLEY</td></tr><tr><td>PHOEBE</td><td>MARTHA</td><td>DANIEL</td><td>LOUIE</td></tr><tr><td>MILLIE</td><td>FAITH</td><td>MOHAMMED</td><td>JUDE</td></tr><tr><td>EVA</td><td>HOLLIE</td><td>ALEXANDER</td><td>CALLUM</td></tr><tr><td>ALICE</td><td>AMY</td><td>MAX</td><td>HUGO</td></tr><tr><td>LUCY</td><td>BETHANY</td><td>LUCAS</td><td>LEON</td></tr><tr><td>FLORENCE</td><td>VIOLET</td><td>MASON</td><td>ELLIOT</td></tr><tr><td>SOFIA</td><td>KATIE</td><td>LOGAN</td><td>LOUIS</td></tr><tr><td>LAYLA</td><td>MARYAM</td><td>ISAAC</td><td>THEODORE</td></tr><tr><td>LOLA</td><td>FRANCESCA</td><td>BENJAMIN</td><td>GABRIEL</td></tr><tr><td>HOLLY</td><td>JULIA</td><td>DYLAN</td><td>OLLIE</td></tr><tr><td>IMOGEN</td><td>MARIA</td><td>JAKE</td><td>AARON</td></tr><tr><td>MOLLY</td><td>DARCEY</td><td>EDWARD</td><td>FREDERICK</td></tr><tr><td>MATILDA</td><td>ISABEL</td><td>FINLEY</td><td>EVAN</td></tr><tr><td>LILLY</td><td>TILLY</td><td>FREDDIE</td><td>ELLIOTT</td></tr><tr><td>ROSIE</td><td>MADDISON</td><td>HARRISON</td><td>OWEN</td></tr><tr><td>ELIZABETH</td><td>VICTORIA</td><td>TYLER</td><td>TEDDY</td></tr><tr><td>ERIN</td><td>ISOBEL</td><td>SEBASTIAN</td><td>FINLAY</td></tr><tr><td>MAISIE</td><td>NIAMH</td><td>ZACHARY</td><td>CALEB</td></tr><tr><td>LEXI</td><td>SKYE</td><td>ADAM</td><td>IBRAHIM</td></tr><tr><td>ELLIE</td><td>MADISON</td><td>THEO</td><td>RONNIE</td></tr><tr><td>HANNAH</td><td>DARCY</td><td>JAYDEN</td><td>FELIX</td></tr><tr><td>EVELYN</td><td>AISHA</td><td>ARTHUR</td><td>AIDEN</td></tr><tr><td>ABIGAIL</td><td>BEATRICE</td><td>TOBY</td><td>CAMERON</td></tr><tr><td>ELSIE</td><td>SARAH</td><td>LUKE</td><td>AUSTIN</td></tr><tr><td>SUMMER</td><td>ZOE</td><td>LEWIS</td><td>KIAN</td></tr><tr><td>MEGAN</td><td>PAIGE</td><td>MATTHEW</td><td>RORY</td></tr><tr><td></td><td></td><td></td><td></td></tr></tbody>
+        </table>
+
+
+    </div>
+    <div class="cl pd-5 bg-1 bk-gray mt-20">   
+        <span id="selectItemName">Please Select a Lesson first!</span><span id="selectedNickName">Please select a nick name!</span>
+    <span class="r"> <button name="ShowNickName" id="ShowNickName" class="btn btn-success" type="submit" onclick="ShowNickNameList('Nick Names', 'NickNameList.html', '', '510')">Select A Name</button> 
+        <button name="" id="StartLesson" class="btn btn-success" type="submit" onclick="startLesson()">Start Lesson</button></span>
+    </div>
+</div>
+
+</body>
+</html>

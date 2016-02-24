@@ -266,6 +266,14 @@ namespace publicAutoTutorWebApi.Models
 
         }
 
+        public List<Lessons> getLessonsInfoByStatus(string status)
+        {
+            var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
+            var list = collect.FindAs<Lessons>(Query.EQ("Status", status)).ToList();
+            return list;
+
+        }
+
         public bool addLessonInfo(Lessons lessonInfo)
         {
             try
@@ -341,7 +349,111 @@ namespace publicAutoTutorWebApi.Models
 
             }
         }
+        //Classes MongoDB
+        //get all classes for admin 
+        public List<Classes> getAllClassInfo()
+        {
 
+            var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
+            var list = collect.FindAllAs<Classes>().ToList();
+            return list;
+
+        }
+
+        //get all classes by teacherEmail  for teacher 
+        public List<Classes> getAllClassInfoByTeacherEmail(string teacherEmail)
+        {
+
+           
+            var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
+            var list = collect.FindAs<Classes>(Query.EQ("TeacherEmail", teacherEmail)).ToList();       
+            return list;
+
+        }
+
+        public bool addClass(Classes ClassesIfo)
+        {
+            try
+            {
+
+                var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
+                var result = collect.Insert<Classes>(ClassesIfo);
+                var Affected = result.DocumentsAffected.ToString();
+                return true;
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                return false;
+
+            }
+
+        }
+
+        public bool UpdateClassBasicInfo(Classes ClassesInfo)
+        {
+            try
+            {
+                var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
+                var query = new QueryDocument { { "ClassName", ClassesInfo.ClassName } };
+                var update = new UpdateDocument { 
+                { "$set", new QueryDocument { 
+              
+                { "StudyStartTime", ClassesInfo.StudyStartTime},
+                { "StudyEndTime", ClassesInfo.StudyEndTime},
+                { "LastChangeTime", ClassesInfo.LastChangeTime}
+               
+                } } };
+                var result = collect.Update(query, update);
+                return true;
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                return false;
+
+            }
+        }
+
+        public bool updateClassStudentsInfo(Classes ClassesInfo)
+        {
+            try
+            {
+                var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
+                var query = Query<Classes>.EQ(p => p.ClassName, ClassesInfo.ClassName);
+                var update = Update<Classes>.Set(i => i.StudentGroup, ClassesInfo.StudentGroup);
+                collect.Update(query, update);
+                return true;
+             
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                return false;
+
+            }
+        }
+
+        public bool updateClassSelectedLessonInfo(Classes ClassesInfo)
+        {
+            try
+            {
+                var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
+                var query = Query<Classes>.EQ(p => p.ClassName, ClassesInfo.ClassName);
+                var update = Update<Classes>.Set(i => i.SeletedLeassons, ClassesInfo.SeletedLeassons);
+                collect.Update(query, update);
+                return true;
+
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                return false;
+
+            }
+        }
+
+        
 
     }
 }

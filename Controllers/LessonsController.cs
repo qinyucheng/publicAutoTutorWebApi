@@ -19,7 +19,7 @@ namespace publicAutoTutorWebApi.Controllers
     {
         Models.OprationMongo opm = new OprationMongo();
         const string strconn = "mongodb://localhost:27017/PublicAutoTutor";
-        private static Dictionary<string, Lessons> list = new Dictionary<string, Lessons>();
+        //private static Dictionary<string, Lessons> list = new Dictionary<string, Lessons>();
 
         [HttpGet]
         [ActionName("SelectAll")]
@@ -39,7 +39,22 @@ namespace publicAutoTutorWebApi.Controllers
             opm.ConnDatabase(strconn);
             var result = opm.getLessonsInfoById(id);
             return result;
+            
+          
         }
+
+        [HttpGet]
+        [ActionName("SelectByLessonID")]
+
+        public List<Lessons> Get(string id, string status)
+        {
+            opm.ConnDatabase(strconn);
+            var list = opm.getLessonsInfoByStatus(status);
+            return list;
+           
+
+        }
+
 
         
 

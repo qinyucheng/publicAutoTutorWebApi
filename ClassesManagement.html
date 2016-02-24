@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    
+    <style type='text/css'>
+        thead {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #444;
+        }
+
+        tbody {
+            font-size: 10pt;
+            color: #444;
+        }
+
+        td, th {
+            border: solid 1px #E6E6E6;
+            padding-left: 3px;
+        }
+
+        th {
+            background-color: #5B8;
+        }
+
+        .alternation {
+            background-color: #D2FFD2;
+        }
+
+        .alternation3 {
+            background-color: #DDEEDD;
+        }
+
+        .mouseOver {
+            background-color: #DFD;
+        }
+
+        .selected {
+            background-color: #B3E1A3;
+        }
+    </style>
+    <script>
+      
+        $(document).ready(function () {
+            getAllClassesInfo();
+            getClassesByTeacherEmail();
+        });
+
+        //lesson function 
+        function getAllClassesInfo() {
+            method = "GET";
+            content = "";
+            Url = '/api/Classes';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                dataType: 'json',
+                success: function (data) {
+                    //console.log(".net Output:");
+
+                    $("#example").append(" <thead><th width='10%'>TeacherEmail</th><th width='10%'>ClassName</th><th width='10%'>StudyStartTime</th><th width='15%'>StudyEndTime </th><th width='8%'>CreatedTime</th><th width='25%'>LastChangeTime</th></th><th width='25%'>StudyURL</th></th><th width='25%'>ClassStatus</th></th></thead>");
+                    $.each(data, function (index, array) { //loop  items for display
+                        $("#example").append("<tr align='center'><td>" + array['TeacherEmail'] + "</td><td>" + array['ClassName'] + "</td><td>" + array['StudyStartTime'] + "</td><td>" + array['StudyEndTime'] + "</td><td>" + array['CreatedTime'] + "</td><td>" + array['LastChangeTime'] + "</td><td>" + array['StudyURL'] + "</td><td>" + array['ClassStatus'] + "</td></tr>");
+
+                    });
+
+                },
+                complete: function () { //get 
+                    ShowTableWithTwoClorls();
+                },
+
+            });
+        }
+    
+        function ShowTableWithTwoClorls()
+        {
+            $('tbody > tr:nth-child(3n)', $('#example')).toggleClass('alternation');
+            $('tbody > tr:nth-child(3n+2)', $('#example')).toggleClass('alternation3');
+
+            $('tbody > tr', $('#example')).click(function () {
+                $('.selected').removeClass('selected');
+                $(this).addClass('selected');
+                var $td = $(this).children('td')[2];
+                $('#selectItemName').html("You selected lesson is: " + $td.innerHTML + "  Please select a name!");
+
+            }).hover(
+                function () {
+                    $(this).addClass('mouseOver');
+                },
+                function () {
+                    $(this).removeClass('mouseOver');
+                }
+            );
+        }
+
+        function getClassesByTeacherEmail() {
+            method = "GET";
+            Url = '/api/Classes';
+            var content = { TeacherEmail: $('#TeacherEmail').val() };
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+                dataType: 'json',
+
+                success: function (data) {
+                    $("#TeacherClasses").append("<thead>><th width='10%'>ClassName</th><th width='10%'>StudyStartTime</th><th width='15%'>StudyEndTime </th><th width='8%'>CreatedTime</th><th width='25%'>LastChangeTime</th></th><th width='25%'>StudyURL</th></th><th width='25%'>ClassStatus</th><th width='25%'>Edit</th></thead>");
+                    $.each(data, function (index, array) { //loop  items for display
+                        $("#TeacherClasses").append("<tr align='center'><td>" + array['ClassName'] + "</td><td>" + array['StudyStartTime'] + "</td><td>" + array['StudyEndTime'] + "</td><td>" + array['CreatedTime'] + "</td><td>" + array['LastChangeTime'] + "</td><td>" + array['StudyURL'] + "</td><td>" + array['ClassStatus'] + "</td><td>" + "<a href='buildClass.html'>Edit</a> " + "</td></tr>");
+
+                    });
+
+                },
+                complete: function () { //get page bar
+                    ShowTableWithTwoClorls();
+                },
+
+            });
+        }
+
+
+      
+    </script>
+</head>
+<body>
+
+    <div id="ShowAllClassInfo">
+        <table id='example' align="center" border="1" >
+            <tbody ></tbody>
+        </table>
+        <br><p> Teacher Email:<input type="text" name="TeacherEmail" id="TeacherEmail" value="Qinyucheng711@gmail.com"></p>
+        <input type="submit" value="get classes by Teacher Email " id="getClassesByTeacherEmail" onclick="getClassesByTeacherEmail()">
+
+        <table id='TeacherClasses' align="center" border="1">
+            <tbody ></tbody>
+        </table>
+    </div>
+
+   
+   
+   
+</body>
+</html>
