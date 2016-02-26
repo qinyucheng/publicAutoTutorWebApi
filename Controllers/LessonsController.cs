@@ -63,7 +63,7 @@ namespace publicAutoTutorWebApi.Controllers
         [ActionName("Add")]
         public bool Post(Models.Lessons lessonInfo)
         {
-           
+            lessonInfo.Status = "active";
             opm.ConnDatabase(strconn);
             var result = opm.addLessonInfo(lessonInfo);
             if (result)
