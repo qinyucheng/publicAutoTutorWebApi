@@ -12,13 +12,15 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using publicAutoTutorWebApi.Models;
+using System.Configuration;
 
 namespace publicAutoTutorWebApi.Controllers
 {
     public class LessonsController : ApiController
     {
         Models.OprationMongo opm = new OprationMongo();
-        const string strconn = "mongodb://localhost:27017/PublicAutoTutor";
+         string strconn = ConfigurationManager.AppSettings["connectionString"];
+        //const string strconn = "mongodb://localhost:27017/PublicAutoTutor";
         //private static Dictionary<string, Lessons> list = new Dictionary<string, Lessons>();
 
         [HttpGet]

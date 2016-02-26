@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="lib/Hui-iconfont/1.0.6/iconfont.css" rel="stylesheet" type="text/css" />
+
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/layer/2.1/layer.js"></script>
+    <script type="text/javascript" src="lib/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/H-ui.js"></script>
+    <script type="text/javascript" src="js/H-ui.admin.js"></script>
+    <style type='text/css'>
+        thead {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #444;
+        }
+
+        tbody {
+            font-size: 10pt;
+            color: #444;
+        }
+
+        td, th {
+            border: solid 1px #E6E6E6;
+            padding-left: 3px;
+        }
+
+        th {
+            background-color: #5B8;
+        }
+
+        .alternation {
+            background-color: #D2FFD2;
+        }
+
+        .alternation3 {
+            background-color: #DDEEDD;
+        }
+
+        .mouseOver {
+            background-color: #DFD;
+        }
+
+        .selected {
+            background-color: #B3E1A3;
+        }
+    </style>
+    <script>
+
+        $(document).ready(function () {
+            getAllLessonsInfo();
+        });
+
+        //lesson function
+        function getAllLessonsInfo() {
+            method = "GET";
+            content = "";
+            Url = '/api/Lessons';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                dataType: 'json',
+                data: content,
+
+
+                success: function (data) {
+                    console.log(".net Output:");
+                    var LessonsList = $.map(data, function (el) { return el });
+                    $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='95%'>LessonName</th></thead>");
+                    $.each(data, function (index, array) { //loop  items for display
+                        $("#LessonsList").append("<tr align='center'><td>" + index + "</td><td>" + array['LessonName'] + "</td></tr>");
+
+
+                    });
+
+                },
+                complete: function () { //get page bar
+                    $('tbody > tr', $('#LessonsList')).click(function () {
+                        $('.selected').removeClass('selected');
+                        $(this).addClass('selected'); 
+                        var $td = $(this).children('td')[2];
+                        $('#selectItemName').html("You selected lesson is: " + $td.innerHTML + "  Please select a name!");
+
+                    }).hover(		
+                        function () {
+                            $(this).addClass('mouseOver');
+                        },
+                        function () {
+                            $(this).removeClass('mouseOver');
+                        }
+                    );
+             
+                },
+
+            });
+        }
+
+
+
+
+    </script>
+</head>
+<body>
+
+    <div id="ShowAllClassInfo">
+        <table id='LessonsList' align="center" border="1" class="table table-border table-bordered table-bg table-hover table-sort dataTable no-footer">
+            <tbody></tbody>
+        </table>
+        <br>
+        <input type="submit" value="Start Lesson " class="btn btn-success"  id="startLesson" onclick="startLesson()">
+
+       
+    </div>
+
+
+
+
+</body>
+</html>

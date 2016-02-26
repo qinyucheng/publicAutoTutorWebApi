@@ -5,12 +5,14 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using publicAutoTutorWebApi.Models;
+using System.Configuration;
 namespace publicAutoTutorWebApi.Controllers
 {
     public class ClassesController : ApiController
     {
         Models.OprationMongo opm = new OprationMongo();
-        const string strconn = "mongodb://localhost:27017/PublicAutoTutor";
+        string strconn = ConfigurationManager.AppSettings["connectionString"];
+        //const string strconn = "mongodb://localhost:27017/PublicAutoTutor";
       
 
         [HttpGet]
