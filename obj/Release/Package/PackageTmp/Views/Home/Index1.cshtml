@@ -1,0 +1,533 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Upload Form</title>
+    <style type='text/css'>
+        thead {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #444;
+        }
+
+        tbody {
+            font-size: 10pt;
+            color: #444;
+        }
+
+        td, th {
+            border: solid 1px #E6E6E6;
+            padding-left: 3px;
+        }
+
+        th {
+            background-color: #5B8;
+        }
+
+        .alternation {
+            background-color: #D2FFD2;
+        }
+
+        .alternation3 {
+            background-color: #DDEEDD;
+        }
+
+        .mouseOver {
+            background-color: #DFD;
+        }
+
+        .selected {
+            background-color: #B3E1A3;
+        }
+    </style>
+    <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+   
+    <script type="text/javascript">
+
+
+        function submitForm() {
+            var Url;
+            var method = document.fileinfo.getMethod.value;
+            var content = { status: document.fileinfo.status.value, databaseName: document.fileinfo.databaseName.value };
+            if (method == "POST")
+            {
+                 Url = '/api/MongoDB/add';
+            }
+            else if (method == "PUT")
+            {
+                Url = '/api/MongoDB/modify';
+            }
+
+            else if (method == "DELETE") {
+                Url = '/api/MongoDB/remove';
+            }
+
+            else if (method == "GET") {
+                content = "";
+                if (document.fileinfo.status.value != null && document.fileinfo.databaseName.value == "")
+                {
+                    content = { Email: document.fileinfo.status.value };
+                }
+                else if (document.fileinfo.status.value != null && document.fileinfo.databaseName.value != null) {
+                    content = { Email: document.fileinfo.status.value, Password: document.fileinfo.databaseName.value };
+                }
+              
+                Url = '/api/MongoDB/';
+            }
+            else if (method == "GETALL") {
+                method = "GET";
+                content = "";
+                Url = '/api/MongoDB';
+            }
+
+            else if (method == "SelectByUserNameAndPwd") {
+                method = "GET";
+               
+                Url = '/api/MongoDB';
+            }
+           
+           
+            $.ajax({
+
+                //url: "http://localhost:12481/api/MongoDB",
+                url: Url,
+                type: method,
+
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                alert(data);
+            });
+            return false;
+        }
+
+        function submitUserInfo() {
+
+            var method = "POST";
+            var email = document.UserInfo.Email.value;
+          
+            var firstName = document.UserInfo.FristName.value;
+            var lastName = document.UserInfo.LastName.value;
+            var email = document.UserInfo.Email.value;
+            var password = document.UserInfo.Password.value;
+            var address = document.UserInfo.Address.value;
+            var city = document.UserInfo.City.value;
+            var state = document.UserInfo.State.value;
+            var zip = document.UserInfo.ZIP.value;
+            var Phone = document.UserInfo.Phone.value;
+           
+           
+            content = { FristName: firstName, LastName: lastName, Email: email, Password: password, Address: address, City: city, State: state, Zip: zip, Phone: Phone, Status: true, Role:9};
+                method = "POST";
+                Url = '/api/MongoDB';
+               
+                $.ajax({
+
+                    url: Url,
+                    type: method,
+                    data: content,
+
+                }).success(function (data) {
+                    console.log(".net Output:");
+                    console.log(data);
+                    if (data == true) {
+                        alert(data);
+                    }
+                    else {
+                        alert(data);
+                    }
+                    
+                });
+              
+           
+        }
+        function validateUserEmail()
+        {
+            var email = document.UserInfo.Email.value;
+           
+            method = "GET";
+            Url = '/api/MongoDB';
+            content = { Email: email };
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+               
+                if (data == true) {
+                    submitUserInfo();
+                }
+                else {
+
+                    alert("this user already exist!!!");
+                }
+                
+            });
+           
+
+        }
+
+
+        function updateUserInfo() {
+
+            var email = document.UserInfo.Email.value;
+
+            var firstName = document.UpdateUserInfo.FristName.value;
+            var lastName = document.UpdateUserInfo.LastName.value;
+            var email = document.UpdateUserInfo.Email.value;
+            var password = document.UpdateUserInfo.Password.value;
+            var address = document.UpdateUserInfo.Address.value;
+            var city = document.UpdateUserInfo.City.value;
+            var state = document.UpdateUserInfo.State.value;
+            var zip = document.UpdateUserInfo.ZIP.value;
+            var Phone = document.UpdateUserInfo.Phone.value;
+
+            content = { FristName: firstName, LastName: lastName,Email:email,  Password: password, Address: address, City: city, State: state, Zip: zip, Phone: Phone, Status: true, Role: 9 };
+            method = "PUT";
+           // Url = '/api/MongoDB/' + email;
+            Url = '/api/MongoDB/ModifyUserInfo';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                alert(data);
+
+            });
+
+
+        }
+
+
+        function updateUserPwd() {
+
+            var email = document.UserInfo.Email.value;
+            var password = document.UpdateUserPwd.Password.value;
+            content = { Email: email, Password: password };
+            method = "PUT";
+            // Url = '/api/MongoDB/' + email;
+            Url = '/api/MongoDB/ModifyUserPassword';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                alert(data);
+
+            });
+
+
+        }
+        //lesson function 
+        function getAllLessonsInfo() {
+            method = "GET";
+            content = "";
+            Url = '/api/Lessons';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                dataType: 'json',
+                data: content,
+
+
+                success: function (data) {
+                    console.log(".net Output:");
+
+                    $("#example").append(" <thead><th width='3%'><input id='SelectAll2' name='checkboxlist' type='checkbox' /></th><th width='10%'>LessonGroup</th><th width='10%'>LessonName</th><th width='15%'>Author</th> <th width='15%'>LessonURL</th><th width='8%'>ScriptURL</th><th width='25%'>LessonForder</th></th></thead>");
+                    $.each(data, function (index, array) { //loop  items for display
+                        $("#example").append("<tr align='center'><td ><input class='checkbox1' type='checkbox' value=" + array['LessonID'] + " /></td><td>" + array['LessonGroup'] + "</td><td>" + array['LessonName'] + "</td><td>" + array['Author'] + "</td><td>" + array['LessonURL'] + "</td><td>" + array['ScriptURL'] + "</td><td>" + array['LessonForder'] + array['ServerUrl'] + "</td></tr>");
+
+
+                    });
+
+                },
+                complete: function () { //get page bar
+                    $('tbody > tr:nth-child(3n)', $('#example')).toggleClass('alternation');
+                    $('tbody > tr:nth-child(3n+2)', $('#example')).toggleClass('alternation3');
+
+                    $('tbody > tr', $('#example')).click(function () {
+                        $('.selected').removeClass('selected');
+                        $(this).addClass('selected'); //this 表示引发事件的对象，但它不是 jquery 对象
+                        var $td = $(this).children('td')[2];
+                        $('#selectItemName').html("You selected lesson is: " + $td.innerHTML + "  Please select a name!");
+                       
+                    }).hover(		//注意这里的链式调用
+                        function () {
+                            $(this).addClass('mouseOver');
+                        },
+                        function () {
+                            $(this).removeClass('mouseOver');
+                        }
+                    );
+                },
+
+            });
+        }
+
+
+
+        function getLessonByID() {
+            var LessonID = document.GetLessonByID.LessonID.value;
+
+            method = "GET";
+            Url = '/api/Lessons';
+            content = { ID: LessonID };
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+
+            });
+
+
+        }
+
+
+        function addLessonsInfo() {
+
+            var LessonID = document.AddLessonsInfo.LessonID.value;
+            var LessonGroup = document.AddLessonsInfo.LessonGroup.value;
+            var LessonName = document.AddLessonsInfo.LessonName.value;
+            var Author = document.AddLessonsInfo.Author.value;
+            var LessonURL = document.AddLessonsInfo.LessonURL.value;
+            var ScriptURL = document.AddLessonsInfo.ScriptURL.value;
+            var LessonForder = document.AddLessonsInfo.LessonForder.value;
+            var ServerUrl = document.AddLessonsInfo.ServerUrl.value;
+
+
+            content = { LessonID: LessonID, LessonGroup: LessonGroup, LessonName: LessonName, Author: Author, LessonURL: LessonURL, ScriptURL: ScriptURL, LessonForder: LessonForder, ServerUrl: ServerUrl};
+            method = "POST";
+            Url = '/api/Lessons';
+
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                if (data == true) {
+                    alert(data);
+                }
+                else {
+                    alert(data);
+                }
+
+            });
+
+        }
+
+        function updateLessonsInfo() {
+
+            var LessonID = document.UpdateLessonsInfo.LessonID.value;
+            var LessonGroup = document.UpdateLessonsInfo.LessonGroup.value;
+            var LessonName = document.UpdateLessonsInfo.LessonName.value;
+            var Author = document.UpdateLessonsInfo.Author.value;
+            var LessonURL = document.UpdateLessonsInfo.LessonURL.value;
+            var ScriptURL = document.UpdateLessonsInfo.ScriptURL.value;
+            var LessonForder = document.UpdateLessonsInfo.LessonForder.value;
+            var ServerUrl = document.UpdateLessonsInfo.ServerUrl.value;
+
+            content = { LessonID: LessonID, LessonGroup: LessonGroup, LessonName: LessonName, Author: Author, LessonURL: LessonURL, ScriptURL: ScriptURL, LessonForder: LessonForder, ServerUrl: ServerUrl };
+            method = "PUT";
+            // Url = '/api/MongoDB/' + email;
+            Url = '/api/Lessons/ModifyLessonInfo';
+            
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                alert(data);
+
+            });
+
+
+        }
+
+        function deleteLessonById()
+        {
+            var LessonID = document.DeleteLessonById.LessonID.value;
+            method = "DELETE";
+            // Url = '/api/MongoDB/' + email;
+            Url = '/api/Lessons/deleteLessonById';
+            content = { "LessonID": LessonID};
+
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+                success: function (data) {
+                    console.log(".net Output:");
+                    alert(data);
+               
+                },
+                complete: function () { 
+                  
+                },
+
+            });
+        }
+        function startLesson() {
+            getUserIp();
+           
+            //callMainpage();
+        }
+        //start
+        var getIpAddress;
+        function getUserIp()
+        {
+            $.get("http://ipinfo.io", function (response) {
+                getIpAddress = response.ip;
+                setSession(getIpAddress);
+            }, "jsonp");
+
+        }
+        function setSession()
+        {
+            sessionStorage.setItem("ip", getIpAddress);
+            var formartIp = getIpAddress.split('.').join("");
+            var userName = "visitor_" + formartIp;
+            sessionStorage.setItem("UserName", userName);
+
+        }
+        function getSession()
+        {
+            alert(sessionStorage.getItem("UserName"));
+
+        }
+   
+    </script>
+</head>
+<body>
+    <form method="POST" id="fileinfo" name="fileinfo" onsubmit="return submitForm();">
+        <select id="getMethod">
+            <option value="POST">post</option>
+            <option value="PUT">put</option>
+            <option value="DELETE">delete</option>
+            <option value="GET">get</option>
+            <option value="GETALL">getall</option>
+            <option value="SelectByUserNameAndPwd">getByUserNameAndPwd</option>
+        </select>
+        <input type="text" name="status" value="true"><br>
+        <input type="text" name="databaseName" value="PublicAutoTutor"><br>
+
+        <input type="submit" value="Upload">
+    </form>
+
+    <p>validateUserEmail add user info to database</p>
+    <form method="POST" id="UserInfo" name="UserInfo" onsubmit="return validateUserEmail();">
+        
+        <input type="text" name="FristName" value="Qinyu"><br>
+        <input type="text" name="LastName" value="Cheng"><br>
+        <input type="text" name="Email" value="Cheng@gmail.com"><br>
+        <input type="text" name="Password" value="Password"><br>
+        <input type="text" name="Address" value="Cheng"><br>
+        <input type="text" name="City" value="Cheng"><br>
+        <input type="text" name="State" value="Cheng"><br>
+        <input type="text" name="ZIP" value="Cheng"><br>
+        <input type="text" name="Phone" value="Cheng"><br>
+
+        <input type="submit" value="Upload">
+    </form>
+    <p>UpdataUserInfo</p>
+    <form method="POST" id="UpdateUserInfo" name="UpdateUserInfo" onsubmit="return updateUserInfo();">
+
+        <input type="text" name="FristName" value="yehui"><br>
+        <input type="text" name="LastName" value="liu"><br>
+        <input type="text" name="Email" value="Cheng@gmail.com"><br>
+        <input type="text" name="Password" value="Password"><br>
+        <input type="text" name="Address" value="liu"><br>
+        <input type="text" name="City" value="liu"><br>
+        <input type="text" name="State" value="liu"><br>
+        <input type="text" name="ZIP" value="liu"><br>
+        <input type="text" name="Phone" value="liu"><br>
+
+        <input type="submit" value="UpdataUserInfo">
+    </form>
+    
+    <p>UpdateUserPwd</p>
+    <form method="POST" id="UpdateUserPwd" name="UpdateUserPwd" onsubmit="return updateUserPwd();">
+
+        
+        <input type="text" name="Password" value="Password2"><br>
+     
+
+        <input type="submit" value="UpdateUserPwd">
+    </form>
+    <p>getAllLessonsInfo</p>
+    <input type="submit" value="getAllLessonsInfo" onclick="getAllLessonsInfo()">
+
+    <p>getLessonByID</p>
+    <form method="POST" id="GetLessonByID" name="GetLessonByID" onsubmit="return getLessonByID();">
+        <input type="text" name="LessonID" value="CSAL001"><br>
+        <input type="submit" value="getLessonByID">
+    </form>
+
+    <p>addLessonsInfo</p>
+    <form method="POST" id="AddLessonsInfo" name="AddLessonsInfo" onsubmit="return addLessonsInfo();">
+        <input type="text" name="LessonID" value="CSAL001"><br>
+        <input type="text" name="LessonGroup" value="CSAL"><br>
+        <input type="text" name="LessonName" value="Social Media"><br>
+        <input type="text" name="Author" value="Whitney"><br>
+        <input type="text" name="LessonURL" value="/scripts /Lesson34/ActivityMedia/"><br>
+        <input type="text" name="ScriptURL" value="scripts/Lesson34/ActivityMedia/Activity.xml"><br>
+        <input type="text" name="LessonForder" value=""><br>
+        <input type="text" name="ServerUrl" value="http://ace.autotutor.org/pilot/"><br>
+      
+        <input type="submit" value="addLessonsInfo">
+    </form>
+
+    <p>updateLessonsInfo</p>
+    <form method="POST" id="UpdateLessonsInfo" name="UpdateLessonsInfo" onsubmit="return updateLessonsInfo();">
+        <input type="text" name="LessonID" value="CSAL001"><br>
+        <input type="text" name="LessonGroup" value="CSAL"><br>
+        <input type="text" name="LessonName" value="Social Media"><br>
+        <input type="text" name="Author" value="Whitney"><br>
+        <input type="text" name="LessonURL" value="/scripts /Lesson34/ActivityMedia/"><br>
+        <input type="text" name="ScriptURL" value="scripts/Lesson34/ActivityMedia/Activity.xml"><br>
+        <input type="text" name="LessonForder" value=""><br>
+        <input type="text" name="ServerUrl" value="http://ace.autotutor.org/pilot/"><br>
+
+        <input type="submit" value="updateLessonsInfo">
+    </form>
+    <p>deleteLessonById</p>
+    <form method="POST" id="DeleteLessonById" name="DeleteLessonById" onsubmit="return deleteLessonById();">
+        <input type="text" name="LessonID" value="CSAL001"><br>
+        <input type="submit" value="deleteLessonById">
+    </form>
+    <table id='example' align="center" border="1" width="80%" >
+        <tbody></tbody>
+    </table>
+    <div id="showSelectItem"><div id="selectItemName"></div> <input type="submit" value="start lesson" onclick="startLesson()"></div>
+    <div id="getSession"> <input type="submit" value="get Session" onclick="getSession()"></div>
+    <div id="output"></div>
+</body>
+</html>

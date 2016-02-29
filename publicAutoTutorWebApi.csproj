@@ -139,7 +139,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LessonsController.cs" />
     <Compile Include="Controllers\MongoDBController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -179,9 +178,13 @@
     <Content Include="images\user.png" />
     <Content Include="index.html" />
     <Content Include="js\html5.js" />
+    <Content Include="js\jquery.cookie.js" />
     <Content Include="js\lessonList.js" />
     <Content Include="js\respond.min.js" />
     <Content Include="CSAL_lessons-list.html" />
+    <Content Include="admin_lessonslist.html" />
+    <Content Include="lib\html5.js" />
+    <Content Include="lib\respond.min.js" />
     <Content Include="login.html" />
     <Content Include="skin\blue\acrossTab-bg.png" />
     <Content Include="skin\blue\acrossTab.png" />
@@ -288,6 +291,7 @@
     <Content Include="lib\Hui-iconfont\1.0.6\iconfont.woff" />
     <Content Include="images\gq\Thumbs.db" />
     <Content Include="images\Thumbs.db" />
+    <None Include="Properties\PublishProfiles\IISAutoTutor.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

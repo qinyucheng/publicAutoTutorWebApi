@@ -86,7 +86,15 @@ namespace publicAutoTutorWebApi.Models
                 var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
 
                 var results = collect.FindOne((Query.And(Query.EQ("Email", UserEmail), Query.EQ("Password", Password))));
-                return true;
+                if (results == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+                
             }
             catch (Exception exp)
             {

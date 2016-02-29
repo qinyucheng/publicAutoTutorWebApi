@@ -1,0 +1,52 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<link href="lib/Hui-iconfont/1.0.6/iconfont.css" rel="stylesheet" type="text/css" />
+
+<title>Lesson List</title>
+    <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/layer/2.1/layer.js"></script>
+    <script type="text/javascript" src="lib/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/H-ui.js"></script>
+    <script type="text/javascript" src="js/H-ui.admin.js"></script>
+    <script type="text/javascript" src="js/lessonList.js"></script>
+    <script type="text/javascript">
+      
+        $(document).ready(function () {
+            setLessonGroup("CSAL");
+        });
+       
+
+    </script> 
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> Lesson List  <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="Refresh"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="pd-20">
+    
+	<div class="mt-20">
+        <table id='LessonsList' align="center" border="1" class="table table-border table-bordered table-bg table-hover table-sort dataTable no-footer">
+            <tbody></tbody>
+        </table>
+      
+       
+	</div>
+  
+    <div class="cl pd-5 bg-1 bk-gray mt-20">   
+        <span id="selectItemName">Please Select a Lesson first!</span><span id="selectedNickName">Please select a nick name!</span>
+    <span class="r"> <button name="ShowNickName" id="ShowNickName" class="btn btn-success" type="submit" onclick="ShowNickNameList('Nick Names', 'NickNameList.html', '', '510')">Select A Name</button> 
+        <button name="" id="StartLesson" class="btn btn-success" type="submit" onclick="startLesson()">Start Lesson</button></span>
+    </div>
+</div>
+
+</body>
+</html>

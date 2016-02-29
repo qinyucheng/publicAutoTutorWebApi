@@ -12,13 +12,15 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using publicAutoTutorWebApi.Models;
+using System.Configuration;
+
 namespace publicAutoTutorWebApi.Controllers
 {
     public class MongoDBController : ApiController
     {
           
              Models.OprationMongo opm = new OprationMongo();
-             const string strconn = "mongodb://localhost:27017/PublicAutoTutor";
+             string strconn = ConfigurationManager.AppSettings["connectionString"];
 
         [HttpGet]
         [ActionName("SelectByEmail")]
@@ -40,18 +42,11 @@ namespace publicAutoTutorWebApi.Controllers
 
         [HttpGet]
         [ActionName("SelectByEmailandPwd")]
-        public string Get(string Email, string Password)
+        public bool Get(string Email, string Password)
         {
             opm.ConnDatabase(strconn);
             var result = opm.validateUserEmailandPwd(Email, Password);
-            if (result)
-            {
-                return "validation successful";
-            }
-            else
-            {
-                return "validation fail";
-            }
+           return result;
         }
       
 

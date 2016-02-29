@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    
+    <style type='text/css'>
+        thead {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #444;
+        }
+
+        tbody {
+            font-size: 10pt;
+            color: #444;
+        }
+
+        td, th {
+            border: solid 1px #E6E6E6;
+            padding-left: 3px;
+        }
+
+        th {
+            background-color: #5B8;
+        }
+
+        .alternation {
+            background-color: #D2FFD2;
+        }
+
+        .alternation3 {
+            background-color: #DDEEDD;
+        }
+
+        .mouseOver {
+            background-color: #DFD;
+        }
+
+        .selected {
+            background-color: #B3E1A3;
+        }
+    </style>
+    <script>
+        var saveStatus = false;
+        $(function () {
+            $("#datepicker1").datepicker();
+            $("#datepicker2").datepicker();
+        });
+
+        $(document).ready(function () {
+
+
+            getAllLessonsInfo();
+
+            $("#StudentInfo").append(" <thead><th width='3%'><input id='SelectAll2' name='checkboxlist' type='checkbox' /></th><th width='10%'>LessonGroup</th> <th width='15%'>LessonURL</th><th width='8%'>ScriptURL</th></thead>");
+
+            $('#getSelected').click(function () {
+                var sequence = [];
+                $('#content input[name=noticeSelect]:checked').each(function () {
+                    sequence.push(this.value);
+                });
+                alert(sequence.join(','));
+            });
+
+        });
+
+        //lesson function 
+        function getAllLessonsInfo() {
+            method = "GET";
+            content = "";
+            Url = '/api/Lessons';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                dataType: 'json',
+                success: function (data) {
+                    //console.log(".net Output:");
+
+                    $("#example").append(" <thead><th width='3%'><input id='SelectAll2' name='checkboxlist' type='checkbox' /></th><th width='10%'>LessonGroup</th><th width='10%'>LessonName</th><th width='15%'>Author</th> <th width='15%'>LessonURL</th><th width='8%'>ScriptURL</th><th width='25%'>LessonForder</th></th></thead>");
+                    $.each(data, function (index, array) { //loop  items for display
+                    $("#example").append("<tr align='center'><td ><input name='noticeSelect' class='checkbox1' type='checkbox' value=" + array['LessonID'] + " /></td><td>" + array['LessonGroup'] + "</td><td>" + array['LessonName'] + "</td><td>" + array['Author'] + "</td><td>" + array['LessonURL'] + "</td><td>" + array['ScriptURL'] + "</td><td>" + array['LessonForder'] + array['ServerUrl'] + "</td></tr>");
+                    });
+
+                },
+                complete: function () { //get page bar
+                    $('tbody > tr:nth-child(3n)', $('#example')).toggleClass('alternation');
+                    $('tbody > tr:nth-child(3n+2)', $('#example')).toggleClass('alternation3');
+
+                    $('tbody > tr', $('#example')).click(function () {
+                        $('.selected').removeClass('selected');
+                        $(this).addClass('selected'); 
+                        var $td = $(this).children('td')[2];
+                        $('#selectItemName').html("You selected lesson is: " + $td.innerHTML + "  Please select a name!");
+
+                    }).hover(		
+                        function () {
+                            $(this).addClass('mouseOver');
+                        },
+                        function () {
+                            $(this).removeClass('mouseOver');
+                        }
+                    );
+                },
+
+            });
+        }
+        function AddStudentInfo() {
+
+            var StudentID = $('#StudentID').val();
+            var StudentName = $('#StudentName').val();
+            var StudentEmail = $('#StudentEmail').val();
+            $("#StudentInfo").append("<tr align='center'><td ><input name='noticeSelect' class='checkbox1' type='checkbox' value='123' /><td>" + StudentID + "</td><td>" + StudentName + "</td><td>" + StudentEmail + "</td></tr>");
+
+           
+        }
+        function DeleteStudentInfo() {
+
+          
+
+        }
+
+
+        function saveBasicClassInfo() {
+
+            var TeacherEmail = document.BasicClassInfo.TeacherEmail.value;
+            var ClassName = document.BasicClassInfo.ClassName.value;
+            var StudyStartTime = document.BasicClassInfo.datepicker1.value;
+            var StudyEndTime = document.BasicClassInfo.datepicker2.value;
+          
+
+
+            content = { TeacherEmail: TeacherEmail, ClassName: ClassName, StudyStartTime: StudyStartTime, StudyEndTime: StudyEndTime};
+            method = "POST";
+            Url = '/api/Classes';
+
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                if (data == true) {
+                    alert(data);
+                }
+                else {
+                    alert(data);
+                }
+
+            });
+
+        }
+
+        function UpdataSelectedLessonsInfo() {
+            var SeletedLeassons = [{
+                "LessonID": "CSAL001",
+                "LessonName": "Social Media",
+                "LessonURL": "scripts/Lesson34/ActivityMedia/",
+                "ScriptURL": "scripts/Lesson34/ActivityMedia/Activity.xml"
+            }, {
+                "LessonID": "CSAL002",
+                "LessonName": "Social Media",
+                "LessonURL": "scripts/Lesson34/ActivityMedia/",
+                "ScriptURL": "scripts/Lesson34/ActivityMedia/Activity.xml"
+            }]
+            var ClassName = document.BasicClassInfo.ClassName.value;
+            content = {"ClassName": ClassName, "SeletedLeassons": SeletedLeassons };
+            method = "Put";
+            Url = '/api/Classes/ModifySelectedLessonsInfo';
+
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                if (data == true) {
+                    alert(data);
+                }
+                else {
+                    alert(data);
+                }
+
+            });
+
+        }
+
+      
+    </script>
+</head>
+<body>
+   <div id="ClassBaseInfo">
+    <p>Build Class</p>
+       <form id="BasicClassInfo" name="BasicClassInfo">
+           <p> ClassName:<input type="text" name="ClassName" value="FirstClass"></p><br>
+           <p> Teacher Email:<input type="text" name="TeacherEmail" value="Qinyucheng711@gmail.com"></p><br>
+           <p> Start Date: <input type="text" id="datepicker1"></p>
+           <p> End Date: <input type="text" id="datepicker2"></p>
+          
+       </form>
+       <input type="submit" value="saveBasicClassInfo" id="saveBasicClassInfo" onclick="saveBasicClassInfo()">
+    </div>
+    <div id="ShowLessonInfo">
+        <table id='example' align="center" border="1" >
+            <tbody id="content"></tbody>
+        </table>
+        <input type="submit" value="get Selected" id="getSelected">
+        <input type="submit" value="UpdateSeletedLessons" id="UpdateSeletedLessons" onclick="UpdataSelectedLessonsInfo()">
+    </div>
+
+    <div id="AddStudents">
+        <p> StudentID:<input type="text" id="StudentID" name="StudentID" value="Cheng111"></p><br>
+        <p> StudentName:<input type="text" id="StudentName" name="StudentName" value="StudentName"></p><br>
+        <p> StudentEmail: <input type="text" id="StudentEmail" name="StudentEmail" value="Qinyucheng711@gmail.com"></p>
+        <input type="submit" value="AddStudentInfo" id="Submit" onclick="AddStudentInfo()">
+        <input type="submit" value="DeleteStudent" id="Submit" onclick="DeleteStudentInfo()">
+     
+        <table id='StudentInfo' align="center" border="1">
+        <tbody id="content"></tbody>
+        </table>
+        <input type="submit" value="SubmitToDatabase" id="SubmitToDatabase" onclick="SubmitToDatabase()">
+</div>
+   
+   
+</body>
+</html>
