@@ -51,9 +51,23 @@ namespace publicAutoTutorWebApi.Controllers
         public List<Lessons> Get(string id, string status)
         {
             opm.ConnDatabase(strconn);
+          
             var list = opm.getLessonsInfoByStatus(status);
             return list;
            
+
+        }
+
+        [HttpGet]
+        [ActionName("SelectByGroupAndStatus")]
+
+        public List<Lessons> Get(string id,string LessonGroup, string status)
+        {
+            opm.ConnDatabase(strconn);
+
+            var list = opm.getLessonsInfoByGroupAndStatus(LessonGroup,status);
+            return list;
+
 
         }
 
@@ -65,7 +79,7 @@ namespace publicAutoTutorWebApi.Controllers
         [ActionName("Add")]
         public bool Post(Models.Lessons lessonInfo)
         {
-            lessonInfo.Status = "active";
+           
             opm.ConnDatabase(strconn);
             var result = opm.addLessonInfo(lessonInfo);
             if (result)
@@ -81,29 +95,35 @@ namespace publicAutoTutorWebApi.Controllers
 
         [HttpPut]
         [ActionName("Modify")]
-        public string Put(string id, Models.Lessons lessonInfo)
+        public bool Put(string id, Models.Lessons lessonInfo)
         {
+            var result = false;
             opm.ConnDatabase(strconn);
             if (id == "ModifyLessonInfo")
             {
-                var result = opm.updateLessonInfo(lessonInfo);
+                 result = opm.updateLessonInfo(lessonInfo);
+            }
+            else if(id == "ChangeLessonStatus")
+            {
+              result = opm.changeLessonStatus(lessonInfo);
             }
 
-
-            return "lessonInfo updated successfully!";
+            //return "lessonInfo updated successfully!";
+            return result;
         }
 
         [HttpDelete]
         [ActionName("Remove")]
-        public string Delete(string id, Models.Lessons lessonInfo)
+        public bool Delete(string id, Models.Lessons lessonInfo)
         {
+            var result = false;
             opm.ConnDatabase(strconn);
             if (id == "deleteLessonById")
             {
-                var result = opm.deleteLessonById(lessonInfo.LessonID);
-                return "this lesson deleted successfully!";
+                result = opm.deleteLessonById(lessonInfo.LessonID);
+                return result;
             }
-            return "this lesson deleted successfully!";
+            return result;
            
         }
     }

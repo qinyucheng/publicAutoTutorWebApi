@@ -115,7 +115,15 @@ namespace publicAutoTutorWebApi.Models
                 var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
                 var result = collect.Insert<Users>(userInfo);
                 var Affected = result.DocumentsAffected.ToString();
-                return true;
+                if (Affected != "0")
+                {
+                    return true;
+
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception exp)
             {
@@ -281,6 +289,17 @@ namespace publicAutoTutorWebApi.Models
             return list;
 
         }
+        public List<Lessons> getLessonsInfoByGroupAndStatus(string LessonGroup,string status)
+        {
+            var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
+            var query = Query.And(
+                Query.EQ("Status", status),
+                Query.EQ("LessonGroup", LessonGroup)
+            );
+            var list = collect.FindAs<Lessons>(query).ToList();
+            return list;
+
+        }
 
         public bool addLessonInfo(Lessons lessonInfo)
         {
@@ -318,7 +337,9 @@ namespace publicAutoTutorWebApi.Models
                 { "LessonURL", lessonInfo.LessonURL},
                 { "ScriptURL", lessonInfo.ScriptURL},
                 { "LessonForder", lessonInfo.LessonForder},
-                { "ServerUrl", lessonInfo.ServerUrl}
+                { "ServerUrl", lessonInfo.ServerUrl},
+                { "Status", lessonInfo.Status},
+                { "Description", lessonInfo.Description}
                 } } };
 
                     var result = collect.Update(query, update);
@@ -342,13 +363,62 @@ namespace publicAutoTutorWebApi.Models
             }
         }
 
+          public bool changeLessonStatus(Lessons lessonInfo)
+        {
+            try
+            {
+                var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
+
+                var query = new QueryDocument { { "LessonID", lessonInfo.LessonID } };
+                var update = new UpdateDocument { 
+                { "$set", new QueryDocument { 
+                { "Status", lessonInfo.Status}
+                } } };
+
+                    var result = collect.Update(query, update);
+                    var Affected = result.DocumentsAffected.ToString();
+                    if (Affected != "0")
+                    {
+                        return true;
+
+                    }
+                    else
+                    {
+                        return false;
+                    }
+            
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString()); 
+                return false;
+               
+            }
+        }
+
+
+
+      
+
         public bool deleteLessonById(string lessonID)
         {
             try
             {
                 var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
                 var result = collect.Remove(Query.EQ("LessonID", lessonID));
-                return true;
+                if (result.DocumentsAffected == 0)
+                {
+                    return false;
+                }
+                else if (result.DocumentsAffected == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+               
             }
             catch (Exception exp)
             {
@@ -387,7 +457,15 @@ namespace publicAutoTutorWebApi.Models
                 var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
                 var result = collect.Insert<Classes>(ClassesIfo);
                 var Affected = result.DocumentsAffected.ToString();
-                return true;
+                if (Affected != "0")
+                {
+                    return true;
+
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception exp)
             {

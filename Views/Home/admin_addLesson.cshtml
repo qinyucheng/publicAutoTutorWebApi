@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+  
+    <link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+    <link href="lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
+    <link href="lib/Hui-iconfont/1.0.6/iconfont.css" rel="stylesheet" type="text/css" />
+  
+    <title>Add Lesson</title>
+</head>
+<body>
+    <div class="pd-20">
+        <form method="post"  class="form form-horizontal" id="AddLessonsInfo" >
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>Lesson ID：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" placeholder="" id="LessonID" name="LessonID" datatype="*2-56" nullmsg="You must fill this field.">
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>Lesson Group：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" placeholder="" id="LessonGroup" name="LessonGroup" datatype="*2-56" nullmsg="You must fill this field.">
+                   
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>Lesson Name：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" placeholder="" id="LessonName" name="LessonName" datatype="*2-56" nullmsg="You must fill this field.">
+                  
+                </div>
+                <div class="col-4"> </div>
+            </div>
+
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>Lesson URL：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" value="" placeholder="" id="LessonURL" name="LessonURL" datatype="*2-56" nullmsg="You must fill this field.">
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>Script URL：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" value="" placeholder="" id="ScriptURL" name="ScriptURL" datatype="*2-56" nullmsg="You must fill this field.">
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"> Lesson Forder：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" value="" placeholder="" id="LessonForder" name="LessonForder">
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3">Server Url：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" value="" placeholder="" id="ServerUrl" name="ServerUrl">
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3">Status：</label>
+                <div class="formControls col-5 skin-minimal">
+                    <div class="radio-box">
+                        <input type="radio" checked>
+                        <label>Active</label>
+                    </div>
+                    <div class="radio-box">
+                        <input type="radio">
+                        <label>Inactive</label>
+                    </div>
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3">Description：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" value="" placeholder="" id="Description" name="Description">
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <div class="col-9 col-offset-3">
+                    <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;submit&nbsp;&nbsp;" id="submit">
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/icheck/jquery.icheck.min.js"></script>
+    <script type="text/javascript" src="lib/Validform/5.3.2/Validform.js"></script>
+    <script type="text/javascript" src="lib/layer/2.1/layer.js"></script>
+    <script type="text/javascript" src="js/H-ui.js"></script>
+    <script type="text/javascript" src="js/H-ui.admin.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.skin-minimal input').iCheck({
+                checkboxClass: 'icheckbox-blue',
+                radioClass: 'iradio-blue',
+                increaseArea: '20%'
+            });
+        
+          
+        });
+        $(document).ready(function () {
+            Url = '/api/Lessons';
+            var demo = $(".form-horizontal").Validform({
+                tiptype: 2,
+                beforeSubmit: function (curform) {
+                 
+                },
+                callback: function (form) {
+                 
+                }
+
+               
+            });
+            $("#submit").click(function () {
+               
+                addLessonsInfo();
+            });
+           
+          
+        });
+
+        
+
+        function addLessonsInfo() {
+           
+            var LessonID = $("#LessonID").val();
+            var LessonGroup = $("#LessonGroup").val();
+            var LessonName = $("#LessonName").val();
+            var Author = $("#Author").val();
+            var LessonURL = $("#LessonURL").val();
+            var ScriptURL = $("#ScriptURL").val();
+            var LessonForder = $("#LessonForder").val();
+            var ServerUrl = $("#ServerUrl").val();
+
+
+            content = { LessonID: LessonID, LessonGroup: LessonGroup, LessonName: LessonName, Author: Author, LessonURL: LessonURL, ScriptURL: ScriptURL, LessonForder: LessonForder, ServerUrl: ServerUrl };
+            method = "POST";
+            Url = '/api/Lessons';
+            $.ajax({
+                type: method,
+                url: Url,
+               
+                data: content,
+                success: function (data) {
+                    if (data == true) {
+                        alert(data);
+                    }
+                    else {
+                        alert(data);
+                    }
+                  
+                  
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    errorMessage = xhr + "\n" + textStatus + "\n" + errorThrown;
+                    alert(errorMessage);
+
+                }
+            }).done(function (data) {
+               
+            });
+          
+
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,349 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+  
+    <link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+    <link href="lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
+    <link href="lib/Hui-iconfont/1.0.6/iconfont.css" rel="stylesheet" type="text/css" />
+  
+    <title>Add Lesson</title>
+</head>
+<body>
+    <div class="pd-20">
+        <div class="form form-horizontal" >
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>Lesson ID：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" placeholder="LessonID_***" id="LessonID" name="LessonID" datatype="*2-56" nullmsg="You must fill this field.">
+                </div>
+                <div class="col-4 errorMSG" id="divLessonID"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>Lesson Group：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" placeholder="CSAL/ET" id="LessonGroup" name="LessonGroup" datatype="*2-56" nullmsg="You must fill this field.">
+
+                </div>
+                <div class="col-4 errorMSG" id="divLessonGroup"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>Lesson Name：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" placeholder="" id="LessonName" name="LessonName" datatype="*2-56" nullmsg="You must fill this field.">
+
+                </div>
+                <div class="col-4 errorMSG" id="divLessonName"></div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>Author：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" placeholder="" id="Author" name="Author" datatype="*2-56" nullmsg="You must fill this field.">
+
+                </div>
+                <div class="col-4 errorMSG" id="divAuthor"></div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>Lesson URL：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" value="" placeholder="" id="LessonURL" name="LessonURL" datatype="*2-56" nullmsg="You must fill this field.">
+                </div>
+                <div class="col-4 errorMSG" id="divLessonURL"></div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>Script URL：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" value="" placeholder="" id="ScriptURL" name="ScriptURL" datatype="*2-56" nullmsg="You must fill this field.">
+                </div>
+                <div class="col-4 errorMSG" id="divScriptURL"></div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"> Lesson Forder：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" value="" placeholder="" id="LessonForder" name="LessonForder">
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3">Server Url：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" value="" placeholder="" id="ServerUrl" name="ServerUrl">
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3">Status：</label>
+                <div class="formControls col-5 skin-minimal">
+                    <div class="radio-box" >
+                        <input type="radio" name="Status" id="active" value="active" checked >
+                        <label>Active</label>
+                    </div>
+                    <div class="radio-box">
+                        <input type="radio" name="Status" id="inactive" value="inactive">
+                        <label>Inactive</label>
+                    </div>
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3">Description：</label>
+                <div class="formControls col-5">
+                    <textarea type="text" class="input-text" value="" placeholder="" id="Description" name="Description" cols="40" rows="5" ></textarea>
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <div class="col-9 col-offset-3">
+                    <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;submit&nbsp;&nbsp;" id="submit">
+                </div>
+            </div>
+            </div>
+        </div>
+    <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/icheck/jquery.icheck.min.js"></script>
+    <script type="text/javascript" src="lib/Validform/5.3.2/Validform.js"></script>
+    <script type="text/javascript" src="lib/layer/2.1/layer.js"></script>
+    <script type="text/javascript" src="js/H-ui.js"></script>
+    <script type="text/javascript" src="js/H-ui.admin.js"></script>
+    <script type="text/javascript" src="js/URI.js"></script>
+    <script type="text/javascript">
+        var pageActionMethod = "post";
+        $(function () {
+            $('.skin-minimal input').iCheck({
+                checkboxClass: 'icheckbox-blue',
+                radioClass: 'iradio-blue',
+                increaseArea: '20%'
+            });
+
+          
+        });
+        $(document).ready(function () {
+            Url = '/api/Lessons';
+            URLParams = URI.parseQuery(window.location.search);
+            var isEmptyObject = jQuery.isEmptyObject(URLParams);
+            if (isEmptyObject == false) {
+                if (URLParams["LessonID"] != undefined) {
+
+                    var LessonID = URLParams["LessonID"];
+                    var LessonObj = window.parent.getObjByLessonID(LessonID);
+                    refillData(LessonObj);
+                    pageActionMethod = "put";
+                    $("#LessonID").prop('disabled', true);
+                   
+                }
+
+            }
+            else {
+                $("#LessonID").prop('disabled', false);
+                pageActionMethod = "post";
+
+            }
+            $("#submit").click(function () {
+               
+                submitLessonsInfo();
+            });
+
+        });
+
+        function refillData(obj)
+        {
+            $("#LessonID").val(obj["LessonID"]) ;
+            $("#LessonGroup").val(obj["LessonGroup"]);
+            $("#LessonName").val(obj["LessonName"]);
+            $("#Author").val(obj["Author"]) ;
+            $("#LessonURL").val(obj["LessonURL"]) ;
+            $("#ScriptURL").val(obj["ScriptURL"]);
+            $("#LessonForder").val(obj["LessonForder"]);
+            if (obj["Status"] == "active")
+            {
+                $("#active").parent().attr("class", "iradio-blue checked");
+                $("#inactive").parent().attr("class", "iradio-blue");
+                $("#active").prop("checked", true);
+                $("#inactive").prop("checked", false);
+            }
+            else (obj["Status"] == "inactive")
+            {
+                $("#active").parent().attr("class", "iradio-blue");
+                $("#inactive").parent().attr("class", "iradio-blue checked");
+                $("#inactive").prop("checked", true);
+                $("#active").prop("checked", false)
+
+            }
+
+              
+            //$("#Status").val() = obj["Status"];
+            $("#Description").val(obj["Description"]) ;
+
+        }
+     
+
+        function submitLessonsInfo() {
+           
+            var LessonID = $("#LessonID").val();
+          
+            var LessonGroup = $("#LessonGroup").val();
+         
+            var LessonName = $("#LessonName").val();
+            var Author = $("#Author").val();
+            var LessonURL = $("#LessonURL").val();
+            var ScriptURL = $("#ScriptURL").val();
+            var LessonForder = $("#LessonForder").val();
+            var ServerUrl = $("#ServerUrl").val();
+            var Status = $('input[name="Status"]:checked').val();
+            var Description = $('#Description').val();
+            $(".errorMSG").empty();
+            if (LessonID == "") {
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divLessonID');
+
+                $("#LessonID").focus();
+                return false;
+            }
+            else
+            {
+                if (LessonID.indexOf(" ") != -1) {
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("Lesson name is invalid !").appendTo('#divLessonID');
+
+                    $("#LessonID").focus();
+                    return false;
+                   
+                }
+                else {
+                    $('<span class="Validform_checktip Validform_right"></span>').html("").appendTo('#divLessonID');
+                  
+                }
+
+               
+                
+            }
+            if (LessonGroup == "") {
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divLessonGroup');
+
+                $("#LessonGroup").focus();
+                return false;
+            }
+            else {
+                $('<span class="Validform_checktip Validform_right"></span>').html("").appendTo('#divLessonGroup');
+
+            }
+            if (LessonName == "") {
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divLessonName');
+
+                $("#LessonName").focus();
+                return false;
+            }
+            else {
+                $('<span class="Validform_checktip Validform_right"></span>').html("").appendTo('#divLessonName');
+
+            }
+            if (Author == "") {
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divAuthor');
+
+                $("#Author").focus();
+                return false;
+            }
+            else {
+                $('<span class="Validform_checktip Validform_right"></span>').html("").appendTo('#divAuthor');
+
+            }
+            if (LessonURL == "") {
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divLessonURL');
+
+                $("#LessonURL").focus();
+                return false;
+            }
+            else {
+                $('<span class="Validform_checktip Validform_right"></span>').html("").appendTo('#divLessonURL');
+
+            }
+            if (ScriptURL == "") {
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divScriptURL');
+
+                $("#ScriptURL").focus();
+                return false;
+            }
+            else {
+                $('<span class="Validform_checktip Validform_right"></span>').html("").appendTo('#divScriptURL');
+
+            }
+            content = { LessonID: LessonID, LessonGroup: LessonGroup, LessonName: LessonName, Author: Author, LessonURL: LessonURL, ScriptURL: ScriptURL, LessonForder: LessonForder, ServerUrl: ServerUrl, Status: Status, Description: Description };
+            if (pageActionMethod == "post") {
+                addLessonInfo(content);
+
+            }
+            else if (pageActionMethod == "put") {
+
+                updateLessonInfo(content);
+            }
+           
+
+        }
+
+
+        function addLessonInfo(content)
+        {
+            method = "POST";
+            Url = '/api/Lessons';
+            $.ajax({
+                type: method,
+                url: Url,
+
+                data: content,
+                success: function (data) {
+                    if (data == true) {
+
+                        layer_close();
+                    }
+                    else {
+                        alert("Lesson addition failed!");
+                    }
+
+
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    errorMessage = xhr + "\n" + textStatus + "\n" + errorThrown;
+                    alert(errorMessage);
+
+                }
+            }).done(function (data) {
+
+            });
+
+        }
+
+        function updateLessonInfo(content) {
+            method = "PUT";
+            Url = '/api/Lessons/ModifyLessonInfo';
+            $.ajax({
+                type: method,
+                url: Url,
+
+                data: content,
+                success: function (data) {
+                    if (data == true) {
+
+                        layer_close();
+                    }
+                    else {
+                        alert("Lesson addition failed!");
+                    }
+
+
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    errorMessage = xhr + "\n" + textStatus + "\n" + errorThrown;
+                    alert(errorMessage);
+
+                }
+            }).done(function (data) {
+
+            });
+
+        }
+    </script>
+</body>
+</html>

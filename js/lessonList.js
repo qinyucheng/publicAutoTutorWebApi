@@ -25,7 +25,7 @@ function setLessonGroup(data)
 //lesson function
 function getAllLessonsInfoBystatus() {
     method = "GET";
-    content = { id: "active", status: "active" };
+    content = { id: "status", status: "active" };
     Url = '/api/Lessons';
     $.ajax({
 

@@ -14,5 +14,10 @@ namespace publicAutoTutorWebApi.Controllers
 
             return View();
         }
+        public ActionResult admin_addLesson()
+        {
+           // ViewBag.Title = "Home Page";
+            return View(); 
+        }
     }
 }
