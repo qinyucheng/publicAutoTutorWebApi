@@ -7,6 +7,7 @@ namespace publicAutoTutorWebApi.Models
 {
     public class Users
     {
+        public string _id { get; set; }
         public string FristName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -17,7 +18,7 @@ namespace publicAutoTutorWebApi.Models
         public string Phone { get; set; }
         public string Status { get; set; }
         public bool Active { get; set; }
-        public int Role { get; set; }
+        public string Role { get; set; }
         public Nullable<System.DateTime> RegistrationTime { get; set; }
         public Nullable<System.DateTime> ApprovalTime { get; set; }
         public string Password { get; set; }

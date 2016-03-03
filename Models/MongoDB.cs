@@ -111,19 +111,12 @@ namespace publicAutoTutorWebApi.Models
         {
             try
             {
-
+                userInfo._id = userInfo.Email;
                 var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
                 var result = collect.Insert<Users>(userInfo);
                 var Affected = result.DocumentsAffected.ToString();
-                if (Affected != "0")
-                {
-                    return true;
-
-                }
-                else
-                {
-                    return false;
-                }
+                return true;
+             
             }
             catch (Exception exp)
             {
@@ -481,10 +474,10 @@ namespace publicAutoTutorWebApi.Models
             try
             {
                 var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
-                var query = new QueryDocument { { "ClassName", ClassesInfo.ClassName } };
+                var query = new QueryDocument { { "_id", ClassesInfo._id } };
                 var update = new UpdateDocument { 
                 { "$set", new QueryDocument { 
-              
+                { "ClassName", ClassesInfo.ClassName},
                 { "StudyStartTime", ClassesInfo.StudyStartTime},
                 { "StudyEndTime", ClassesInfo.StudyEndTime},
                 { "LastChangeTime", ClassesInfo.LastChangeTime}
@@ -506,7 +499,7 @@ namespace publicAutoTutorWebApi.Models
             try
             {
                 var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
-                var query = Query<Classes>.EQ(p => p.ClassName, ClassesInfo.ClassName);
+                var query = Query<Classes>.EQ(p => p._id, ClassesInfo._id);
                 var update = Update<Classes>.Set(i => i.StudentGroup, ClassesInfo.StudentGroup);
                 collect.Update(query, update);
                 return true;
@@ -525,7 +518,7 @@ namespace publicAutoTutorWebApi.Models
             try
             {
                 var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
-                var query = Query<Classes>.EQ(p => p.ClassName, ClassesInfo.ClassName);
+                var query = Query<Classes>.EQ(p => p._id, ClassesInfo._id);
                 var update = Update<Classes>.Set(i => i.SeletedLeassons, ClassesInfo.SeletedLeassons);
                 collect.Update(query, update);
                 return true;
