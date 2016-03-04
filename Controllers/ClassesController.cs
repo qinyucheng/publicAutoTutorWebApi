@@ -40,10 +40,10 @@ namespace publicAutoTutorWebApi.Controllers
         [ActionName("Add")]
         public bool Post(Classes ClassesObj)
         {
-            ClassesObj._id = ClassesObj.ClassName;
+            //ClassesObj._id = ClassesObj.ClassName;
             ClassesObj.LastChangeTime = DateTime.Now;
             ClassesObj.CreatedTime = DateTime.Now;
-            ClassesObj.ClassStatus = "inactive";
+            ClassesObj.ClassStatus = "active";
             opm.ConnDatabase(strconn);
             var result = opm.addClass(ClassesObj);
             return result;
@@ -67,7 +67,14 @@ namespace publicAutoTutorWebApi.Controllers
             }
             else if (id == "ModifyClassBasicInfo")
             {
+                ClassesObj.LastChangeTime = DateTime.Now;
                 var result = opm.UpdateClassBasicInfo(ClassesObj);
+                return result;
+            }
+            else if (id == "ModifyClassStadyURL")
+            {
+                ClassesObj.LastChangeTime = DateTime.Now;
+                var result = opm.UpdateClassStadyURL(ClassesObj);
                 return result;
             }
             else

@@ -430,15 +430,7 @@ namespace publicAutoTutorWebApi.Models
                 var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
                 var result = collect.Insert<Classes>(ClassesIfo);
                 var Affected = result.DocumentsAffected.ToString();
-                if (Affected != "0")
-                {
-                    return true;
-
-                }
-                else
-                {
-                    return false;
-                }
+                return true;
             }
             catch (Exception exp)
             {
@@ -457,11 +449,32 @@ namespace publicAutoTutorWebApi.Models
                 var query = new QueryDocument { { "_id", ClassesInfo._id } };
                 var update = new UpdateDocument { 
                 { "$set", new QueryDocument { 
-                { "ClassName", ClassesInfo.ClassName},
+                //{ "ClassName", ClassesInfo.ClassName},
                 { "StudyStartTime", ClassesInfo.StudyStartTime},
                 { "StudyEndTime", ClassesInfo.StudyEndTime},
                 { "LastChangeTime", ClassesInfo.LastChangeTime}
                
+                } } };
+                var result = collect.Update(query, update);
+                return true;
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                return false;
+
+            }
+        }
+
+        public bool UpdateClassStadyURL(Classes ClassesInfo)
+        {
+            try
+            {
+                var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
+                var query = new QueryDocument { { "_id", ClassesInfo._id } };
+                var update = new UpdateDocument { 
+                { "$set", new QueryDocument { 
+                { "StudyURL", ClassesInfo.StudyURL}
                 } } };
                 var result = collect.Update(query, update);
                 return true;
