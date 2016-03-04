@@ -42,7 +42,7 @@ namespace publicAutoTutorWebApi.Controllers
 
         [HttpGet]
         [ActionName("SelectByEmailandPwd")]
-        public bool Get(string Email, string Password)
+        public Users Get(string Email, string Password)
         {
             opm.ConnDatabase(strconn);
             var result = opm.validateUserEmailandPwd(Email, Password);
@@ -72,31 +72,32 @@ namespace publicAutoTutorWebApi.Controllers
 
         [HttpPut]
         [ActionName("Modify")]
-        public string Put(string id, Models.Users userinfo)
+        public bool Put(string id, Models.Users userinfo)
         {
+            var result=false;
             opm.ConnDatabase(strconn);
             if (id == "ModifyUserInfo")
             {
-                var result = opm.updateUserInfo(userinfo);
+                 result = opm.updateUserInfo(userinfo);
             }
             else if (id == "ModifyUserPassword")
             {
-                var result = opm.updateUserPassword(userinfo);
+                 result = opm.updateUserPassword(userinfo);
             }
             else if (id == "ModifyUserStatus")
             {
-                var result = opm.updateUserStatus(userinfo);
+                 result = opm.updateUserStatus(userinfo);
             }
             else if (id == "ModifyUserRole")
             {
-                var result = opm.updateUserRole(userinfo);
+                 result = opm.updateUserRole(userinfo);
             }
             else if (id == "ModifyUserRoleAndStatus")
             {
-                var result = opm.ModifyUserRoleAndStatus(userinfo);
+                 result = opm.ModifyUserRoleAndStatus(userinfo);
             }
-           
-            return "Customer updated successfully!";
+
+            return result;
         }
 
         [HttpDelete]

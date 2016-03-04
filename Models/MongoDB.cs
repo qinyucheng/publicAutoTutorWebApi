@@ -80,31 +80,11 @@ namespace publicAutoTutorWebApi.Models
           
         }
 
-        public bool validateUserEmailandPwd(string UserEmail,string Password)
+        public Users validateUserEmailandPwd(string UserEmail,string Password)
         {
-            try {
                 var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
-
-                var results = collect.FindOne((Query.And(Query.EQ("Email", UserEmail), Query.EQ("Password", Password))));
-                if (results == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-                
-            }
-            catch (Exception exp)
-            {
-                Console.WriteLine(exp.ToString());
-                return false;
-
-            }
-            
-          
-
+                var results = collect.FindOneAs<Users>((Query.And(Query.EQ("Email", UserEmail), Query.EQ("Password", Password))));
+                return results;
         }
 
         public bool addUserInfo(Users userInfo)

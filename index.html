@@ -55,8 +55,8 @@
 			<dt><i class="Hui-iconfont">&#xe620;</i> My Account	<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a _href="product-brand.html" data-title="My Profile" href="javascript:void(0)">My Profile</a></li>
-					<li><a _href="product-category.html" data-title="Password" href="javascript:void(0)">Password</a></li>
+					<li><a _href="user_updatePersonalInfo.html" data-title="My Profile" href="javascript:void(0)">My Profile</a></li>
+					<li><a _href="change-password.html" data-title="Password" href="javascript:void(0)">Password</a></li>
 					
 				</ul>
 			</dd>
@@ -121,10 +121,44 @@
 
     $(document).ready(function () {
         $("#logout").bind("click", function () {
-           
+            localStorage.PersonInfo = '';
             window.location.replace("login.html");
 
         });
+
+        var PersonInfoObj = localStorage.getItem('PersonInfo');
+        var PersonInfo =JSON.parse(PersonInfoObj);
+        var isEmptyObject = jQuery.isEmptyObject(PersonInfo);
+        if (isEmptyObject == false) {
+            if (PersonInfo.Role == "Teacher" && PersonInfo.Status == "active") {
+                $('#menu-article').show();
+                $('#menu-member').hide();
+                $('#menu-member').hide();
+                $('#menu-admin').hide();
+            }
+            else if (PersonInfo.Role == "Teacher" && PersonInfo.Status == "inactive") {
+                $('#menu-article').hide();
+                $('#menu-member').hide();
+                $('#menu-member').hide();
+                $('#menu-admin').hide();
+            }
+           else if (PersonInfo.Role == "User" ) {
+                $('#menu-article').show();
+                $('#menu-member').hide();
+                $('#menu-member').hide();
+                $('#menu-admin').hide();
+           }
+           else if (PersonInfo.Role == "Admin")
+           {
+               $('#menu-article').show();
+               $('#menu-member').show();
+               $('#menu-member').show();
+               $('#menu-admin').show();
+
+           }
+          
+        }
+
     });
 
 </script> 

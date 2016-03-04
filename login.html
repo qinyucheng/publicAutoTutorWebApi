@@ -254,17 +254,21 @@
 
             }).success(function (data) {
                 myStorage = localStorage;
-                if (data == true) {
+                var isEmptyObject = jQuery.isEmptyObject(data);
+                if (isEmptyObject == false) {
                     // window.location.replace("index.html");
                     $('#Email').val('');
                     $('#Password').val('');
+                    localStorage.setItem('PersonInfo', JSON.stringify(data));
+
+                   
                     window.location.href = "index.html";
                 }
                 else {
                     alert("Please check your Account or Password!")
-                   
+                  
                     //window.location.replace("login.html");
-                    clearInputBox();
+                   // clearInputBox();
                   
                 }
 
@@ -326,7 +330,7 @@
         if (Password != rePassword)
         {
             $("#divregRePassword").css("width", "+=100");
-            $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregRePassword');
+            $('<span class="Validform_checktip Validform_wrong"></span>').html("Your password do not march!").appendTo('#divregRePassword');
             $("#regRePassword").focus();
             return;
         }
@@ -338,7 +342,7 @@
         {
             Status = "active";
         }
-        content = { 'FristName': FristName, 'LastName': LastName, 'Email': Email, 'Password': Password, 'Status': Status, 'Role': Role };
+        content = { 'FristName': FristName, 'LastName': LastName, 'Email': Email, 'Phone':Phone, 'Password': Password, 'Status': Status, 'Role': Role };
         method = "POST";
         Url = '/api/MongoDB';
 
