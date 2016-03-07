@@ -13,11 +13,16 @@ var getIpAddress;
 var isTried = false;
 var isLogin = false;
 var lessonGroup;
+var count = 0;
 $(document).ready(function () {
     Lock();
     getAllLessonsInfoBystatus();
     getUserIp();
+    checkLoginStatus();
 });
+function checkLoginStatus() {
+    isLogin = localStorage.getItem('isLogin');
+}
 function setLessonGroup(data)
 {
     lessonGroup = data;
@@ -103,6 +108,7 @@ function Unlock(getElementID) {
 }
 
 function startLesson() {
+    count++;
     if (isTried == true) {
         alert("Please Login to try more lessons!")
         return;
@@ -116,7 +122,7 @@ function startLesson() {
         if (LessonID == selectedID) {
             json = LessonsList[i];
             PopUpLesson(LessonID, LessonName, LessonGroup, LessonURL);
-            if (isLogin == false) {
+            if (isLogin == false && count>2) {
                 isTried = true;
             }
 

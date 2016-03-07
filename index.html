@@ -25,8 +25,8 @@
 		<ul></ul>
 	</nav>
 	<ul class="Hui-userbar">
-		<li>Welcome Admin</li>
-		<li class="dropDown dropDown_hover"><a class="dropDown_A" id="logout">Log Out <i class="Hui-iconfont"></i></a></li>
+		<li>Welcome &nbsp;</li><li id="showUserFname"></id>
+<li class="dropDown dropDown_hover"><a class="dropDown_A" id="logout">Log Out <i class="Hui-iconfont"></i></a></li>
 
 	</ul>
 	<a href="javascript:;" class="Hui-nav-toggle Hui-iconfont" aria-hidden="false">&#xe667;</a> </header>
@@ -47,7 +47,8 @@
 			<dt><i class="Hui-iconfont">&#xe613;</i> Review Lessons<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a _href="picture-list.html" data-title="Review Lessons" href="javascript:void(0)">Review Lessons</a></li>
+					<li><a _href=" lessons-list.html"" data-title="Lesson List" href="javascript:void(0)">Lesson List</a></li>
+                    <li><a _href="picture-list.html" data-title="My Report" href="javascript:void(0)">My Report</a></li>
 				</ul>
 			</dd>
 		</dl>
@@ -80,7 +81,7 @@
 					<li><a _href="admin-role.html" data-title="Role Management" href="javascript:void(0)">Role Management</a></li>
 					
 					<li><a _href="admin-list.html" data-title="Admin List" href="javascript:void(0)">Admin List</a></li>
-                    <li><a _href="admin_lessonslist.html" data-title="Add Lesson" href="javascript:void(0)">Add Lesson</a></li>
+                    <li><a _href="admin_lessonslist.html" data-title="Lessons Management" href="javascript:void(0)">Lessons Management</a></li>
 				</ul>
 			</dd>
 		</dl>
@@ -122,6 +123,7 @@
     $(document).ready(function () {
         $("#logout").bind("click", function () {
             localStorage.PersonInfo = '';
+            localStorage.isLogin = '';
             window.location.replace("login.html");
 
         });
@@ -130,7 +132,10 @@
         var PersonInfo =JSON.parse(PersonInfoObj);
         var isEmptyObject = jQuery.isEmptyObject(PersonInfo);
         if (isEmptyObject == false) {
+            $('#showUserFname').html(PersonInfo.FristName)
             if (PersonInfo.Role == "Teacher" && PersonInfo.Status == "active") {
+              
+                
                 $('#menu-article').show();
                 $('#menu-member').hide();
                 $('#menu-member').hide();
