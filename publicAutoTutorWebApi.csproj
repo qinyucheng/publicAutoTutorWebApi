@@ -210,6 +210,7 @@
     <Content Include="skin\yellow\acrossTab.png" />
     <Content Include="skin\yellow\icon_arrow.png" />
     <Content Include="skin\yellow\skin.css" />
+    <Content Include="teacher_buildClass.html" />
     <Content Include="visitorTry.html" />
     <Content Include="js\nameList.js" />
     <Content Include="lessons-list.html" />
@@ -323,6 +324,7 @@
     <Content Include="skin\orange\Thumbs.db" />
     <Content Include="skin\red\Thumbs.db" />
     <Content Include="skin\yellow\Thumbs.db" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -37,3 +37,30 @@ c:\users\qinyu\documents\visual studio 2013\Projects\publicAutoTutorWebApi\publi
 c:\users\qinyu\documents\visual studio 2013\Projects\publicAutoTutorWebApi\publicAutoTutorWebApi\obj\Debug\publicAutoTutorWebApi.pdb
 C:\Users\Qinyu\documents\visual studio 2013\Projects\publicAutoTutorWebApi\publicAutoTutorWebApi\obj\Debug\publicAutoTutorWebApi.csprojResolveAssemblyReference.cache
 C:\Users\Qinyu\documents\visual studio 2013\Projects\publicAutoTutorWebApi\publicAutoTutorWebApi\bin\System.Web.Cors.dll
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\publicAutoTutorWebApi.dll.config
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\publicAutoTutorWebApi.dll
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\publicAutoTutorWebApi.pdb
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\Newtonsoft.Json.dll
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\MongoDB.Bson.pdb
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\MongoDB.Bson.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\MongoDB.Driver.pdb
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\MongoDB.Driver.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\MongoDB.Driver.Core.pdb
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\MongoDB.Driver.Core.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\Microsoft.Web.Infrastructure.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\Newtonsoft.Json.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Net.Http.Formatting.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.Helpers.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.Http.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.Http.WebHost.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.Mvc.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.Optimization.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.Razor.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.WebPages.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.WebPages.Deployment.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.WebPages.Razor.xml
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\Antlr3.Runtime.pdb
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\obj\Debug\publicAutoTutorWebApi.csprojResolveAssemblyReference.cache
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\obj\Debug\publicAutoTutorWebApi.dll
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\obj\Debug\publicAutoTutorWebApi.pdb
