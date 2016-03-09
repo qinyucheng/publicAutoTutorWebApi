@@ -136,6 +136,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ClassesController.cs" />
+    <Compile Include="Controllers\CreateClassesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LessonsController.cs" />
     <Compile Include="Controllers\MongoDBController.cs" />
@@ -143,6 +144,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Classes.cs" />
+    <Compile Include="Models\CreateClass.cs" />
     <Compile Include="Models\Lessons.cs" />
     <Compile Include="Models\MongoDB.cs" />
     <Compile Include="Models\Users.cs" />

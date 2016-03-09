@@ -258,7 +258,10 @@ function admin_del(obj,id){
 		//此处请求后台程序，下方是成功后的前台处理……
 		
 		$(obj).parents("tr").remove();
-		layer.msg('已删除!',{icon:1,time:1000});
+		layer.msg('已删除!', { icon: 1, time: 1000 });
+		studentsList = [];
+		studentsName = [];
+		studentsListName();
 	});
 }
 /*管理员-编辑*/
@@ -378,7 +381,7 @@ $("#second_next").click(function(){
 	step[2] = true;
 	tabId = "step3";
 	classInformation["SeletedLeassons"] = lessonInformation;
-	putLessonInfo();
+	//putLessonInfo();
 });
 $("#third_next").click(function(){
 	$("#studentList").hide();
@@ -387,11 +390,15 @@ $("#third_next").click(function(){
 	$("#step4").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
 	step[3] = true;
 	tabId = "step4";
+	//studentsList = [];
+	//studentsName = [];
+   	//studentsListName();
 	classInformation["StudentGroup"] = studentsList;
 	putStudentInfo();
     confirmST();
     confirmCS();
     confirmLessonInfo();
+    bindClick();
 });
 $("#third_back").click(function(){
 	$("#studentList").show();
@@ -517,7 +524,7 @@ function displayLessons() {
 
     // reviseStudentInfo button click event
 $('#reviseStudentInfo').click(function () {
-    $.each(studentsList, function (index, selectStudent) {
+    /*$.each(studentsList, function (index, selectStudent) {
         if (selectStud[0].innerHTML === selectStudent["studentID"]) {
             studentsList[index]["studentID"] = document.getElementById("studentID").value;
             studentsList[index]["studentName"] = document.getElementById("studentName").value;
@@ -525,7 +532,7 @@ $('#reviseStudentInfo').click(function () {
             return false;
             }
         }
-    );
+    );*/
     selectStud[0].innerHTML = document.getElementById("studentID").value;
     selectStud[1].innerHTML = document.getElementById("studentName").value;
     selectStud[2].innerHTML = document.getElementById("studentEmail").value;
@@ -534,6 +541,9 @@ $('#reviseStudentInfo').click(function () {
     $('#studentEmail').val('');
     $('#addStudent').show();
     $('#reviseStudentInfo').hide();
+    studentsList = [];
+    studentsName = [];
+    studentsListName();
 });
 
 
@@ -549,19 +559,19 @@ $("#createClass").click(function () {
 
     //add new student in the student table
 $("#addStudent").click(function () {
-    var student = {};
-    var studentID = student["studentID"]=document.getElementById("studentID").value;
-    var studentName = student["studentName"]=document.getElementById("studentName").value;
-    var studentEmail = student["studentEmail"]=document.getElementById("studentEmail").value;
-    //var getval = ($("#probleminput").val() ? $("#probleminput").val() : alert('please fill the   text field'))
+    //var student = {};
+    var studentID =document.getElementById("studentID").value;
+    var studentName = document.getElementById("studentName").value;
+    var studentEmail=document.getElementById("studentEmail").value;
     $("#studentTable").append("<tr align='center' class='text-c'><td>" + studentID + "</td><td>" + studentEmail + "</td>" + "<td>" + studentName + "</td>" + "<td class='td-manage'><a title='删除' href='javascript:;' "+ "onclick=\"admin_del(this,'1')\""+ "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
-    studentsList.push(student);
+    //studentsList.push(student);         //need to revise it.
+    //studentsName.push();
     $('#studentID').val('');
     $('#studentName').val('');
     $('#studentEmail').val('');
-
-
-
+    studentsList = [];
+    studentsName = [];
+    studentsListName();
     // click student table to revise student info
     $('tbody > tr', $('#studentTable')).click(function () {
         $('.selected').removeClass('selected');
@@ -585,7 +595,22 @@ $("#addStudent").click(function () {
                );
 });
 
-//push();
+    //push();
+
+
+    //get studentList and studentname list
+    function studentsListName() {
+        $("#studentTable tbody tr").each(function () {
+            var student = {};           
+            student["studentID"] = $(this).children('td')[0].innerHTML;
+            var name = student["studentName"] = $(this).children('td')[1].innerHTML;
+            student["studentEmail"] = $(this).children('td')[2].innerHTML;
+            studentsList.push(student);         //need to revise it.
+            studentsName.push(name);
+        });
+    }
+
+
 
 // display confirm information
 function confirmST() {
@@ -621,6 +646,7 @@ function confirmLessonInfo() {
 
 $('#confirmBT').click(function () {
     var flag = confirm("Are you sure all information is correct?");
+    putClassInfor();
     if (flag === true) { location.replace(location.href); }
     
 });
@@ -632,6 +658,7 @@ var lessonInformation = [];
 var studentsList = [];
 var lessonObj;
 var selectStud;
+var studentsName = [];
 
 function lessonPost() {
     var method = "POST";
@@ -703,6 +730,26 @@ function putStudentInfo() {
     });
 }
 
+function putClassInfor() {
+    var method = "PUT";
+
+    content = classInformation;
+
+    // Url = '/api/MongoDB/' + email;
+    Url = '/api/Classes/ModifyUpdateClassInfo';
+    $.ajax({
+
+        url: Url,
+        type: method,
+        data: content,
+
+    }).success(function (data) {
+        console.log(".net Output:");
+        console.log(data);
+        alert(data);
+
+    });
+}
 
 
 
@@ -710,14 +757,27 @@ function putStudentInfo() {
 
 
 
+    //unbind event
+/*function unbindClick() {
+    step = [false, false, false, false];
+    $('#second_back').attr("disabled", true);
+}
 
+function bindClick() {
+    step = [true, true, true, true];
+    //$('#step1').attr("disabled", false);
+    //$('#step2').attr("disabled", false);
+    //$('#step3').attr("disabled", false);
+    //$('#step4').attr("disabled", false);
+    $('#second_back').attr("disabled", false);
 
-
+}*/
 
 
 //
 
 $(document).ready(function () {
+    //unbindClick();
     var isLogin = localStorage.getItem('isLogin');
     var PersonInfoObj = localStorage.getItem('PersonInfo');
     var PersonInfo = JSON.parse(PersonInfoObj);
