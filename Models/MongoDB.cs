@@ -494,6 +494,7 @@ namespace publicAutoTutorWebApi.Models
                 var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
                 var query = Query<Classes>.EQ(p => p._id, ClassesInfo._id);
                 var update = Update<Classes>.Set(i => i.StudentGroup, ClassesInfo.StudentGroup);
+                   
                 collect.Update(query, update);
                 return true;
              
@@ -505,7 +506,6 @@ namespace publicAutoTutorWebApi.Models
 
             }
         }
-
         public bool updateClassInfo(Classes ClassesInfo)
         {
             try
@@ -518,7 +518,6 @@ namespace publicAutoTutorWebApi.Models
                             .Set(i => i.StudyEndTime, ClassesInfo.StudyEndTime)
                             .Set(i => i.LastChangeTime, ClassesInfo.LastChangeTime)
                             .Set(i => i.StudyURL, ClassesInfo.StudyURL);
-
                 collect.Update(query, update);
                 return true;
 
@@ -527,7 +526,6 @@ namespace publicAutoTutorWebApi.Models
             {
                 Console.WriteLine(exp.ToString());
                 return false;
-
             }
 
 

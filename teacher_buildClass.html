@@ -58,7 +58,7 @@
             <div class="row cl">
                 <label class="form-label col-3"><span class="c-red">*</span>Teacher Email:</label>
                 <div class="formControls col-5">
-                    <input type="text" class="input-text" placeholder="@" name="email" id="email" datatype="e" nullmsg="请输入邮箱！">
+                    <input type="text" class="input-text" placeholder="@" name="email" id="email" datatype="e" nullmsg="">
                 </div>
                 <div class="col-4"> </div>
             </div>
@@ -73,7 +73,7 @@
              <!-- <div class="row cl">
                 <label class="form-label col-3"><span class="c-red">*</span>Lesson Group:</label>
                 <div class="formControls col-5">
-                    <input type="text" placeholder="Name" autocomplete="off" id="lessonGroup" class="input-text" datatype="*6-20" nullmsg="密码不能为空" name="newpassword">
+                    <input type="text" placeholder="Name" autocomplete="off" id="lessonGroup" class="input-text" datatype="*6-20" nullmsg="" name="newpassword">
                 </div>
                 <div class="col-4"> </div>
                          </div>  -->
@@ -81,9 +81,10 @@
             <div class="row cl">
                 <label class="form-label col-3"><span class="c-red">*</span> Class period:</label>
                 <div class="formControls col-5">
-                    <input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})" id="datemin" class="input-text Wdate" style="width:120px;">
-                    -
-                    <input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})" id="datemax" class="input-text Wdate" style="width:120px;">
+                    <input type="text" onfocus="WdatePicker({ minDate: '#F{$dp.$D(\'datemin\')}', minDate: '%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
+                    ---
+                    <input type="text" onfocus="WdatePicker({minDate: '#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+                 
                 </div>
                 <div class="col-4"> </div>
             </div>

@@ -151,6 +151,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="admin_addLesson.html" />
     <Content Include="change-password.html" />
     <Content Include="ET_lessons-list.html" />
     <Content Include="images\acrossTab-2.png" />
