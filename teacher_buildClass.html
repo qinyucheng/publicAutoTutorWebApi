@@ -259,9 +259,6 @@ function admin_del(obj,id){
 		
 		$(obj).parents("tr").remove();
 		layer.msg('已删除!', { icon: 1, time: 1000 });
-		studentsList = [];
-		studentsName = [];
-		studentsListName();
 	});
 }
 /*管理员-编辑*/
@@ -394,11 +391,11 @@ $("#third_next").click(function(){
 	//studentsName = [];
    	//studentsListName();
 	classInformation["StudentGroup"] = studentsList;
-	putStudentInfo();
+	//putStudentInfo();        //put function
     confirmST();
     confirmCS();
     confirmLessonInfo();
-    bindClick();
+    //bindClick();
 });
 $("#third_back").click(function(){
 	$("#studentList").show();
@@ -426,12 +423,6 @@ $("#first_back").click(function(){
 	$("#step2").attr("class","ideal-tabs-tab");
 	$("#step1").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
 	tabId = "step1";
-});
-
-
-
-$("#confirm").click(function(){
-    //confirm("Are you sure all information is correct?");
 });
 
 
@@ -524,7 +515,7 @@ function displayLessons() {
 
     // reviseStudentInfo button click event
 $('#reviseStudentInfo').click(function () {
-    /*$.each(studentsList, function (index, selectStudent) {
+    $.each(studentsList, function (index, selectStudent) {
         if (selectStud[0].innerHTML === selectStudent["studentID"]) {
             studentsList[index]["studentID"] = document.getElementById("studentID").value;
             studentsList[index]["studentName"] = document.getElementById("studentName").value;
@@ -532,7 +523,7 @@ $('#reviseStudentInfo').click(function () {
             return false;
             }
         }
-    );*/
+    );
     selectStud[0].innerHTML = document.getElementById("studentID").value;
     selectStud[1].innerHTML = document.getElementById("studentName").value;
     selectStud[2].innerHTML = document.getElementById("studentEmail").value;
@@ -541,37 +532,26 @@ $('#reviseStudentInfo').click(function () {
     $('#studentEmail').val('');
     $('#addStudent').show();
     $('#reviseStudentInfo').hide();
-    studentsList = [];
-    studentsName = [];
-    studentsListName();
+    //studentsList = [];
+    //studentsName = [];
+    //studentsListName();
 });
 
-
-    // click createClass button
-$("#createClass").click(function () {
-    classInformation["_id"] = document.getElementById("className").value;
-    classInformation["TeacherEmail"] = document.getElementById("email").value;
-    classInformation["StudyStartTime"] = document.getElementById("datemin").value;
-    classInformation["StudyEndTime"] = document.getElementById("datemin").value;
-    classInformation["ClassName"] = $("#group option:selected").text();
-    lessonPost();
-});
-
-    //add new student in the student table
+//add new student in the student table
 $("#addStudent").click(function () {
-    //var student = {};
-    var studentID =document.getElementById("studentID").value;
-    var studentName = document.getElementById("studentName").value;
-    var studentEmail=document.getElementById("studentEmail").value;
-    $("#studentTable").append("<tr align='center' class='text-c'><td>" + studentID + "</td><td>" + studentEmail + "</td>" + "<td>" + studentName + "</td>" + "<td class='td-manage'><a title='删除' href='javascript:;' "+ "onclick=\"admin_del(this,'1')\""+ "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
-    //studentsList.push(student);         //need to revise it.
+    var student = {};
+    var studentID = student["studentID"] = document.getElementById("studentID").value;
+    var studentName = student["studentName"] = document.getElementById("studentName").value;
+    var studentEmail = student["studentEmail"] = document.getElementById("studentEmail").value;
+    $("#studentTable").append("<tr align='center' class='text-c'><td>" + studentID + "</td><td>" + studentEmail + "</td>" + "<td>" + studentName + "</td>" + "<td class='td-manage'><a title='删除' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
+    studentsList.push(student);         //need to revise it.
     //studentsName.push();
     $('#studentID').val('');
     $('#studentName').val('');
     $('#studentEmail').val('');
-    studentsList = [];
-    studentsName = [];
-    studentsListName();
+    //studentsList = [];
+    //studentsName = [];
+    //studentsListName();
     // click student table to revise student info
     $('tbody > tr', $('#studentTable')).click(function () {
         $('.selected').removeClass('selected');
@@ -582,7 +562,7 @@ $("#addStudent").click(function () {
         $('#studentID').val(selectStud[0].innerHTML);
         $('#studentName').val(selectStud[1].innerHTML);
         $('#studentEmail').val(selectStud[2].innerHTML);
-       
+
         $('#addStudent').hide();
         $('#reviseStudentInfo').show();
     }).hover(		//
@@ -595,20 +575,38 @@ $("#addStudent").click(function () {
                );
 });
 
-    //push();
+//push();
+
+
+    // click createClass button
+$("#createClass").click(function () {
+    classInformation["_id"] = document.getElementById("className").value;
+    classInformation["TeacherEmail"] = document.getElementById("email").value;
+    classInformation["StudyStartTime"] = document.getElementById("datemin").value;
+    classInformation["StudyEndTime"] = document.getElementById("datemin").value;
+    classInformation["ClassName"] = $("#group option:selected").text();
+    lessonPost();
+});
+
+
 
 
     //get studentList and studentname list
-    function studentsListName() {
-        $("#studentTable tbody tr").each(function () {
-            var student = {};           
-            student["studentID"] = $(this).children('td')[0].innerHTML;
-            var name = student["studentName"] = $(this).children('td')[1].innerHTML;
-            student["studentEmail"] = $(this).children('td')[2].innerHTML;
-            studentsList.push(student);         //need to revise it.
-            studentsName.push(name);
-        });
-    }
+function studentsListName() {
+    studentsName=[];
+    $.each(studentsList, function (index, singleStudent){
+        studentsName.push(singleStudent["studentName"])
+    });
+
+
+       /*$("#studentTable tbody tr").each(function () {
+           var student = {};           
+           student["studentID"] = $(this).children('td')[0].innerHTML;
+           var name = student["studentName"] = $(this).children('td')[1].innerHTML;
+           student["studentEmail"] = $(this).children('td')[2].innerHTML;
+           studentsList.push(student);         //need to revise it.
+           studentsName.push(name);*/
+   }
 
 
 
@@ -646,7 +644,9 @@ function confirmLessonInfo() {
 
 $('#confirmBT').click(function () {
     var flag = confirm("Are you sure all information is correct?");
-    putClassInfor();
+    studentsListName();
+    postStuName();
+    //putClassInfor();
     if (flag === true) { location.replace(location.href); }
     
 });
@@ -658,7 +658,7 @@ var lessonInformation = [];
 var studentsList = [];
 var lessonObj;
 var selectStud;
-var studentsName = [];
+var studentsName;
 
 function lessonPost() {
     var method = "POST";
@@ -751,12 +751,6 @@ function putClassInfor() {
     });
 }
 
-
-
-
-
-
-
     //unbind event
 /*function unbindClick() {
     step = [false, false, false, false];
@@ -774,7 +768,40 @@ function bindClick() {
 }*/
 
 
-//
+    //
+
+//post funtion upload studentNames
+function postStuName() {
+
+    var method = "POST";
+
+
+    content = { "StudentsName": studentsName, "group": groupName, "ClassName": classInformation["_id"] };
+    method = "POST";
+    Url = '/api/CreateClasses';
+
+    $.ajax({
+
+        url: Url,
+        type: method,
+        data: content,
+
+    }).success(function (data) {
+        console.log(".net Output:");
+        console.log(data);
+        if (data == true) {
+            alert(data);
+        }
+        else {
+            alert(data);
+        }
+
+    });
+
+}
+
+
+
 
 $(document).ready(function () {
     //unbindClick();

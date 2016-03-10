@@ -9,5 +9,12 @@ namespace publicAutoTutorWebApi.Controllers
 {
     public class CreateClassesController : ApiController
     {
+        public bool Post(Models.CreateClass names)
+        {
+
+            Console.Write(names.StudentsName.ToString());
+
+            return true;
+        }
     }
 }
