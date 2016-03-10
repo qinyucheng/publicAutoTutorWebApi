@@ -181,6 +181,7 @@
     <Content Include="index.html" />
     <Content Include="js\html5.js" />
     <Content Include="js\jquery.cookie.js" />
+    <Content Include="js\lessonGroupList.js" />
     <Content Include="js\lessonList.js" />
     <Content Include="js\respond.min.js" />
     <Content Include="CSAL_lessons-list.html" />

@@ -12,7 +12,11 @@ namespace publicAutoTutorWebApi.Controllers
         public bool Post(Models.CreateClass names)
         {
 
-            Console.Write(names.StudentsName.ToString());
+            Console.Write(names.StudentsName);
+            Console.Write(names.group);
+
+            names.generateLoginPage();
+
 
             return true;
         }

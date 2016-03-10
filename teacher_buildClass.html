@@ -91,8 +91,8 @@
                 <label class="form-label col-3"><span class="c-red">*</span>Lesson Group:</label>
                 <div class="formControls col-5">
                     <select id="group">
-                        <option value="CSAL">CSAL</option>
-                        <option value="ET">ET</option>
+                        <!--<option value="CSAL">CSAL</option>
+                        <option value="ET">ET</option>-->
                     </select>
                 </div>
                 <div class="col-4"> </div>
@@ -236,6 +236,7 @@
 <script type="text/javascript" src="lib/Validform/5.3.2/Validform.min.js"></script> 
 <script type="text/javascript" src="js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/jquery.idealforms.js"></script>
+<script type="text/javascript" src="js/lessonGroupList.js"></script>
 
 
 
@@ -253,12 +254,21 @@ function admin_add(title,url,w,h){
 	layer_show(title,url,w,h);
 }
 /*管理员-删除*/
-function admin_del(obj,id){
-	layer.confirm('确认要删除吗？',function(index){
+function admin_del(obj, id) {
+    flag = 1;
+    var studentID = $(obj).parents("tr").children("td")[0].innerHTML;
+	layer.confirm('delete it？',function(index){
 		//此处请求后台程序，下方是成功后的前台处理……
-		
+
 		$(obj).parents("tr").remove();
-		layer.msg('已删除!', { icon: 1, time: 1000 });
+		layer.msg('deleted!', { icon: 1, time: 1000 });
+		$.each(studentsList, function (index, student) {
+		    if (studentID === student["studentID"]) {
+		        studentsList.splice(index, 1);
+		        return false;
+		    }
+		}
+);
 	});
 }
 /*管理员-编辑*/
@@ -347,6 +357,10 @@ $("#step4").click(function () {
         $(nameMap["step4"]).show();
 
         tabId = $(this).attr("id");
+        clearnConfirmTable();
+        confirmST();
+        confirmCS();
+        confirmLessonInfo();
     }
 });
 
@@ -387,9 +401,6 @@ $("#third_next").click(function(){
 	$("#step4").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
 	step[3] = true;
 	tabId = "step4";
-	//studentsList = [];
-	//studentsName = [];
-   	//studentsListName();
 	classInformation["StudentGroup"] = studentsList;
 	//putStudentInfo();        //put function
     confirmST();
@@ -403,12 +414,7 @@ $("#third_back").click(function(){
 	$("#step4").attr("class","ideal-tabs-tab");
 	$("#step3").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
 	tabId = "step3";
-	$("#confirmClass thead").remove();
-	$("#confirmClass tr").remove();
-	$("#confirmLesson thead").remove();
-	$("#confirmLesson tr").remove();
-	$("#confirmStudent thead").remove();
-	$("#confirmStudent tr").remove();
+	clearnConfirmTable();
 });
 $("#second_back").click(function(){
 	$("#studentList").hide();
@@ -425,7 +431,14 @@ $("#first_back").click(function(){
 	tabId = "step1";
 });
 
-
+function clearnConfirmTable() {   
+    $("#confirmClass thead").remove();
+    $("#confirmClass tr").remove();
+    $("#confirmLesson thead").remove();
+    $("#confirmLesson tr").remove();
+    $("#confirmStudent thead").remove();
+    $("#confirmStudent tr").remove();
+}
 
 //$(function(){
     //displayLessons();
@@ -543,7 +556,7 @@ $("#addStudent").click(function () {
     var studentID = student["studentID"] = document.getElementById("studentID").value;
     var studentName = student["studentName"] = document.getElementById("studentName").value;
     var studentEmail = student["studentEmail"] = document.getElementById("studentEmail").value;
-    $("#studentTable").append("<tr align='center' class='text-c'><td>" + studentID + "</td><td>" + studentEmail + "</td>" + "<td>" + studentName + "</td>" + "<td class='td-manage'><a title='删除' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
+    $("#studentTable").append("<tr align='center' class='text-c'><td>" + studentID + "</td><td>" + studentEmail + "</td>" + "<td>" + studentName + "</td>" + "<td class='td-manage' id='delete'><a title='delete' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
     studentsList.push(student);         //need to revise it.
     //studentsName.push();
     $('#studentID').val('');
@@ -554,17 +567,22 @@ $("#addStudent").click(function () {
     //studentsListName();
     // click student table to revise student info
     $('tbody > tr', $('#studentTable')).click(function () {
-        $('.selected').removeClass('selected');
-        $(this).addClass('selected'); //this 
-        //var $td = $(this).children('td')[1];
-        selectStud = $(this).children('td');
-        //selectedID = $td.id;
-        $('#studentID').val(selectStud[0].innerHTML);
-        $('#studentName').val(selectStud[1].innerHTML);
-        $('#studentEmail').val(selectStud[2].innerHTML);
+        if (flag === 0) {
+            $('.selected').removeClass('selected');
+            $(this).addClass('selected'); //this 
+            //var $td = $(this).children('td')[1];
+            selectStud = $(this).children('td');
+            //selectedID = $td.id;
+            $('#studentID').val(selectStud[0].innerHTML);
+            $('#studentName').val(selectStud[1].innerHTML);
+            $('#studentEmail').val(selectStud[2].innerHTML);
 
-        $('#addStudent').hide();
-        $('#reviseStudentInfo').show();
+            $('#addStudent').hide();
+            $('#reviseStudentInfo').show();
+        }
+        else {
+            flag = 0;
+        }
     }).hover(		//
                    function () {
                        $(this).addClass('mouseOver');
@@ -659,6 +677,9 @@ var studentsList = [];
 var lessonObj;
 var selectStud;
 var studentsName;
+var flag = 0;
+var teacherName;
+
 
 function lessonPost() {
     var method = "POST";
@@ -776,7 +797,7 @@ function postStuName() {
     var method = "POST";
 
 
-    content = { "StudentsName": studentsName, "group": groupName, "ClassName": classInformation["_id"] };
+    content = { "StudentsName": studentsName, "group": groupName,ClassName:"ET120"};
     method = "POST";
     Url = '/api/CreateClasses';
 
@@ -802,6 +823,12 @@ function postStuName() {
 
 
 
+    //add option lessonGroup
+function groupOption() {
+    for (var i = 0; i <= lessonGroupList.length - 1;i++)
+        $("#group").append("<option value='" + lessonGroupList[i] + "'>" + lessonGroupList[i] + "</option>");
+}
+
 
 $(document).ready(function () {
     //unbindClick();
@@ -813,7 +840,9 @@ $(document).ready(function () {
         var TeacherEmail = PersonInfo.Email;
         $("#email").val(TeacherEmail);
         $('#email').attr('disabled', true);
+        teacherName = PersonInfo.FristName;
     }
+   groupOption();
 });
 
 </script>
