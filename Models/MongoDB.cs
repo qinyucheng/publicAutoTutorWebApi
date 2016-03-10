@@ -507,8 +507,8 @@ namespace publicAutoTutorWebApi.Models
             }
         }
         public bool updateClassInfo(Classes ClassesInfo)
-        { 
-              try
+        {
+            try
             {
                 var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
                 var query = Query<Classes>.EQ(p => p._id, ClassesInfo._id);
@@ -520,16 +520,15 @@ namespace publicAutoTutorWebApi.Models
                             .Set(i => i.StudyURL, ClassesInfo.StudyURL);
                 collect.Update(query, update);
                 return true;
-             
+
             }
             catch (Exception exp)
             {
                 Console.WriteLine(exp.ToString());
                 return false;
-
             }
-        
-        
+
+
         }
         public bool updateClassSelectedLessonInfo(Classes ClassesInfo)
         {

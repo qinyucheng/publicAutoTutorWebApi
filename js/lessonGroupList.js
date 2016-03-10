@@ -1,0 +1,1 @@
+var lessonGroupList=["CSAL","ET"];
