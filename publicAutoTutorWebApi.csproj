@@ -136,6 +136,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ClassesController.cs" />
+    <Compile Include="Controllers\CreateClassesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LessonsController.cs" />
     <Compile Include="Controllers\MongoDBController.cs" />
@@ -143,6 +144,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Classes.cs" />
+    <Compile Include="Models\CreateClass.cs" />
     <Compile Include="Models\Lessons.cs" />
     <Compile Include="Models\MongoDB.cs" />
     <Compile Include="Models\Users.cs" />
@@ -179,6 +181,7 @@
     <Content Include="index.html" />
     <Content Include="js\html5.js" />
     <Content Include="js\jquery.cookie.js" />
+    <Content Include="js\lessonGroupList.js" />
     <Content Include="js\lessonList.js" />
     <Content Include="js\respond.min.js" />
     <Content Include="CSAL_lessons-list.html" />
@@ -210,6 +213,7 @@
     <Content Include="skin\yellow\acrossTab.png" />
     <Content Include="skin\yellow\icon_arrow.png" />
     <Content Include="skin\yellow\skin.css" />
+    <Content Include="teacher_buildClass.html" />
     <Content Include="visitorTry.html" />
     <Content Include="js\nameList.js" />
     <Content Include="lessons-list.html" />
@@ -323,6 +327,7 @@
     <Content Include="skin\orange\Thumbs.db" />
     <Content Include="skin\red\Thumbs.db" />
     <Content Include="skin\yellow\Thumbs.db" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

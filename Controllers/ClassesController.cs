@@ -77,6 +77,12 @@ namespace publicAutoTutorWebApi.Controllers
                 var result = opm.UpdateClassStadyURL(ClassesObj);
                 return result;
             }
+            else if (id == "ModifyUpdateClassInfo")
+            {
+                ClassesObj.LastChangeTime = DateTime.Now;
+                var result = opm.updateClassInfo(ClassesObj);
+                return result;
+            }
             else
             {
                 return false;
