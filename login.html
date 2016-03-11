@@ -256,14 +256,21 @@
                 myStorage = localStorage;
                 var isEmptyObject = jQuery.isEmptyObject(data);
                 if (isEmptyObject == false) {
-                    // window.location.replace("index.html");
+                    /*
+                    if (data.Status == "inactive") {
+                        alert("Your account has locked. Please contect administrator to Unlock your account!");
+                        return;
+                    }
+                    else {
+                        // window.location.replace("index.html");
+                    }*/
                     $('#Email').val('');
                     $('#Password').val('');
                     localStorage.setItem('PersonInfo', JSON.stringify(data));
                     localStorage.setItem('isLogin', true);
 
-                   
                     window.location.href = "index.html";
+                  
                 }
                 else {
                     alert("Please check your Account or Password!")
@@ -279,14 +286,14 @@
     function registration()
     {
         $(".errorMSG").empty();
-        var FristName = $('#fName').val();
+        var FirstName = $('#fName').val();
         var LastName = $('#lName').val();
         var Email = $('#regEmail').val();
         var Phone = $('#regPhone').val();
         var Role = $('input[name="role"]:checked').val();
         var Password = $('#regPassword').val();
         var rePassword = $('#regRePassword').val();
-        if (FristName == "") {
+        if (FirstName == "") {
             $("#divfName").css("width", "+=100");
             $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divfName');
 
@@ -343,7 +350,7 @@
         {
             Status = "active";
         }
-        content = { 'FristName': FristName, 'LastName': LastName, 'Email': Email, 'Phone':Phone, 'Password': Password, 'Status': Status, 'Role': Role };
+        content = { 'FirstName': FirstName, 'LastName': LastName, 'Email': Email, 'Phone':Phone, 'Password': Password, 'Status': Status, 'Role': Role };
         method = "POST";
         Url = '/api/MongoDB';
 

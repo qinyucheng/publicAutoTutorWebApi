@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="admin_addLesson.html" />
+    <Content Include="admin_userList.html" />
     <Content Include="change-password.html" />
     <Content Include="ET_lessons-list.html" />
     <Content Include="images\acrossTab-2.png" />
@@ -190,6 +191,8 @@
     <Content Include="lib\html5.js" />
     <Content Include="lib\respond.min.js" />
     <Content Include="login.html" />
+    <Content Include="admin_adminList.html" />
+    <Content Include="admin_userInfo.html" />
     <Content Include="skin\blue\acrossTab-bg.png" />
     <Content Include="skin\blue\acrossTab.png" />
     <Content Include="skin\blue\icon_arrow.png" />
