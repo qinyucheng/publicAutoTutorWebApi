@@ -13,13 +13,16 @@ namespace publicAutoTutorWebApi.Models
         public string group{get;set;}      // using in student login to distingush classGroup
 
         public bool generateLoginPage() {
+            string templateLoginHtml = HttpContext.Current.Server.MapPath("~/login.html");
+            string newLoginHtml = HttpContext.Current.Server.MapPath("~/login" + ClassName.Replace(" ", "")+".html"); //new URL
+            System.IO.File.Copy(templateLoginHtml, newLoginHtml, true);
             generateNameList();
             return true;
         }
 
         public bool generateNameList()
         {
-            string path = HttpContext.Current.Server.MapPath("../js/xyz.js");
+            string path = HttpContext.Current.Server.MapPath("~/js/xyz.js");
             string studentNameListString="";
             int length= StudentsName.Count;
             StreamWriter sr = File.CreateText(path);
@@ -34,7 +37,7 @@ namespace publicAutoTutorWebApi.Models
                     studentNameListString += "\"" + StudentsName[i] + "\", ";
                 }
             }
-            string data = "var studentNames=[" + studentNameListString + "];" + "\r\n" + "var ClassName=" + group + ";";
+            string data = "var studentNames=[" + studentNameListString + "];" + "\r\n" + "var ClassName=\"" + group + "\";";
             sr.Write(data);
             sr.Flush();
             sr.Close();
