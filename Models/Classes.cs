@@ -33,7 +33,7 @@ namespace publicAutoTutorWebApi.Models
     }
     public class SeletedStudent 
     {
-        public string id { get; set; }
+        public string ID { get; set; }
         public string StudentID { get; set; }
         public string StudentName { get; set; }
         public string StudentEmail { get; set; }

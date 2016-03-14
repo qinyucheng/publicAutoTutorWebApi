@@ -183,10 +183,12 @@
     <Content Include="js\html5.js" />
     <Content Include="js\jquery.cookie.js" />
     <Content Include="js\lessonGroupList.js" />
+    <Content Include="js\studentLessonList.js" />
     <Content Include="js\lessonList.js" />
     <Content Include="js\respond.min.js" />
     <Content Include="CSAL_lessons-list.html" />
     <Content Include="admin_lessonslist.html" />
+    <Content Include="student_lessonslist.html" />
     <Content Include="lib\html5.js" />
     <Content Include="lib\respond.min.js" />
     <Content Include="login.html" />
@@ -214,7 +216,9 @@
     <Content Include="skin\yellow\acrossTab.png" />
     <Content Include="skin\yellow\icon_arrow.png" />
     <Content Include="skin\yellow\skin.css" />
+    <Content Include="student_Lessons.html" />
     <Content Include="teacher_buildClass.html" />
+    <Content Include="templateLogin.html" />
     <Content Include="visitorTry.html" />
     <Content Include="js\nameList.js" />
     <Content Include="lessons-list.html" />

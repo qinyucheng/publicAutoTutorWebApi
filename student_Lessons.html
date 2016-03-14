@@ -25,7 +25,6 @@
 		<ul></ul>
 	</nav>
 	<ul class="Hui-userbar">
-		<li>Please Login to try more lessons</li>
 		<li class="dropDown dropDown_hover"><a class="dropDown_A" id="login">Log in<i class="Hui-iconfont"></i></a></li>
 
 	</ul>
@@ -46,7 +45,7 @@
         
 		<div class="show_iframe">
 			<div style="display:none" class="loading"></div>
-            <iframe id="mainIframe" scrolling="yes" frameborder="0" src="lessons-list.html"></iframe>
+            <iframe scrolling="yes" frameborder="0" src="student_lessonslist.html"></iframe>
 		</div>
 	</div>
 </section>
@@ -54,34 +53,15 @@
 <script type="text/javascript" src="lib/layer/2.1/layer.js"></script> 
 <script type="text/javascript" src="js/H-ui.js"></script> 
 <script type="text/javascript" src="js/H-ui.admin.js"></script> 
-<script type="text/javascript" src="js/URI.js"></script>
 <script type="text/javascript">
-    var URLParams = window.location.href;
+    var returnURL;
     $(document).ready(function () {
         $("#login").bind("click", function () {
-
-            window.location.replace("login.html");
-
+            
+            window.location.replace(returnURL);
+            
         });
     });
-
-  var pageName;
-  var pageURI;
-    window.onload = function () {
-        var URLParams = URI.parseQuery(window.location.search);
-        pageName = URLParams["lessonGroup"];
-        if (pageName === "ET") {
-            pageURI = "ET_lessons-list.html"
-        }
-        if (pageName === "CSAL") {
-            pageURI = "CSAL_lessons-list.html"
-        }
-        if (pageName === undefined) {
-            pageURI = "lessons-list.html";
-        }
-        $("#mainIframe").attr('src', pageURI);
-    }
-
 
 </script> 
 

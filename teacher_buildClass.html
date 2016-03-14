@@ -70,14 +70,6 @@
                 </div>
                 <div class="col-4"> </div>
             </div>
-             <!-- <div class="row cl">
-                <label class="form-label col-3"><span class="c-red">*</span>Lesson Group:</label>
-                <div class="formControls col-5">
-                    <input type="text" placeholder="Name" autocomplete="off" id="lessonGroup" class="input-text" datatype="*6-20" nullmsg="" name="newpassword">
-                </div>
-                <div class="col-4"> </div>
-                         </div>  -->
-
             <div class="row cl">
                 <label class="form-label col-3"><span class="c-red">*</span> Class period:</label>
                 <div class="formControls col-5">
@@ -92,8 +84,6 @@
                 <label class="form-label col-3"><span class="c-red">*</span>Lesson Group:</label>
                 <div class="formControls col-5">
                     <select id="group">
-                        <!--<option value="CSAL">CSAL</option>
-                        <option value="ET">ET</option>-->
                     </select>
                 </div>
                 <div class="col-4"> </div>
@@ -101,7 +91,7 @@
 
             <div class="cl pd-5 bg-1 bk-gray mt-20">
                 <span class="r">
-                    <button class="btn btn-success" type="submit" id="createClass">Create a Class</button>
+                    <!--<button class="btn btn-success" type="submit" id="createClass">Create a Class</button>-->
                     <button class="btn btn-success" type="submit" id="first_next">Next</button>
                 </span>
             </div>
@@ -205,6 +195,7 @@
                 </tr>
             </thead>-->
         </table>
+		<br/>
         <table class="table table-border table-bordered table-bg" id="confirmLesson" align="center">
             <!--<thead>
                 <tr>
@@ -212,6 +203,7 @@
                 </tr>
             </thead>-->
         </table>
+		<br/>
         <table class="table table-border table-bordered table-bg" id="confirmStudent" align="center">
             <!-- <thead>
                 <tr>
@@ -384,6 +376,7 @@ $("#first_next").click(function(){
 	displayLessons();
 	step[1] = true;
 	tabId = "step2";
+	createClass();
 });
 $("#second_next").click(function(){
 	$("#lessonInfo").hide();
@@ -407,7 +400,6 @@ $("#third_next").click(function(){
     confirmST();
     confirmCS();
     confirmLessonInfo();
-    //bindClick();
 });
 $("#third_back").click(function(){
 	$("#studentList").show();
@@ -474,7 +466,6 @@ function displayLessons() {
             var length = lessonArray.length;
 
             for (i=0; i <length-1; i=+ 2) {
-                    //countNO++;
                 $("#lessonsTable").append("<tr align='center' class='text-c'><td><input type='checkbox' value='1' name=''></td><td>" + lessonArray[i]['LessonID'] + "</td><td id=" + lessonArray[i]['LessonID'] + " >" + lessonArray[i]['LessonName'] + "</td><td>" + lessonArray[i]['Description'] + "</td><td width='25'></td><td><input type='checkbox' value='1' name=''></td><td>" + lessonArray[i + 1]['LessonID'] + "</td><td id=" + lessonArray[i + 1]['LessonID'] + " >" + lessonArray[i + 1]['LessonName'] + "</td><td>" + lessonArray[i + 1]['Description'] + "</td></tr>");
             }
             if (length - 1 == i) {
@@ -557,16 +548,12 @@ $("#addStudent").click(function () {
     var studentID = student["studentID"] = document.getElementById("studentID").value;
     var studentName = student["studentName"] = document.getElementById("studentName").value;
     var studentEmail = student["studentEmail"] = document.getElementById("studentEmail").value;
-    $("#studentTable").append("<tr align='center' class='text-c'><td>" + studentID + "</td><td>" + studentEmail + "</td>" + "<td>" + studentName + "</td>" + "<td class='td-manage' id='delete'><a title='delete' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
+    student["ID"] = teacherName + "-" + classInformation["ClassName"] + "-" + studentID;                          //ID 
+    $("#studentTable").append("<tr align='center' class='text-c'><td>" + studentID + "</td><td>" + studentName + "</td>" + "<td>" + studentEmail + "</td>" + "<td class='td-manage' id='delete'><a title='delete' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
     studentsList.push(student);         //need to revise it.
-    //studentsName.push();
     $('#studentID').val('');
     $('#studentName').val('');
     $('#studentEmail').val('');
-    //studentsList = [];
-    //studentsName = [];
-    //studentsListName();
-    // click student table to revise student info
     $('tbody > tr', $('#studentTable')).click(function () {
         if (flag === 0) {
             $('.selected').removeClass('selected');
@@ -598,14 +585,17 @@ $("#addStudent").click(function () {
 
 
     // click createClass button
-$("#createClass").click(function () {
-    classInformation["_id"] = document.getElementById("className").value;
+function createClass() {
+    var dt = new Date();
+    var time = dt.getFullYear().toString()+ (dt.getMonth()+1)+dt.getHours() + dt.getMinutes() + dt.getSeconds();
+    classInformation["_id"] = document.getElementById("className").value + time;
+    classInformation["ClassName"] = document.getElementById("className").value;
     classInformation["TeacherEmail"] = document.getElementById("email").value;
     classInformation["StudyStartTime"] = document.getElementById("datemin").value;
     classInformation["StudyEndTime"] = document.getElementById("datemin").value;
-    classInformation["ClassName"] = $("#group option:selected").text();
-    lessonPost();
-});
+    //classInformation["ClassName"] = $("#group option:selected").text();
+    //lessonPost();
+    }
 
 
 
@@ -614,24 +604,15 @@ $("#createClass").click(function () {
 function studentsListName() {
     studentsName=[];
     $.each(studentsList, function (index, singleStudent){
-        studentsName.push(singleStudent["studentName"])
+        studentsName.push(singleStudent["ID"] + ":" + singleStudent["studentName"])
     });
-
-
-       /*$("#studentTable tbody tr").each(function () {
-           var student = {};           
-           student["studentID"] = $(this).children('td')[0].innerHTML;
-           var name = student["studentName"] = $(this).children('td')[1].innerHTML;
-           student["studentEmail"] = $(this).children('td')[2].innerHTML;
-           studentsList.push(student);         //need to revise it.
-           studentsName.push(name);*/
    }
 
 
 
 // display confirm information
 function confirmST() {
-    $("#confirmStudent").append("<thead><tr><th scope='col' colspan='9'>Confirm Student List</th></tr>");
+    $("#confirmStudent").append("<thead><tr><th scope='col' colspan='9'>Confirm Student List</th></tr><tr class='text-c'><th width='40'>StudentID</th><th width='150'>StudentName</th><th width='90'>StudentEmail</th></tr></thead>");
     if (studentsList.length === 0) {
     }
     else { 
@@ -642,21 +623,23 @@ function confirmST() {
   }
 
 function confirmCS() {
-    $("#confirmClass").append("<thead><tr><th scope='col' colspan='9'>Confirm class information</th></tr>");
-    if (classInformation.length === undefined) {
+    $("#confirmClass").append("<thead><tr><th scope='col' colspan='9'>Confirm class information</th></tr><tr class='text-c'><th width='40'>Class Name</th><th width='40'>Lesson Group</th><th width='150'>Study Start time</th><th width='150'>Study End time</th></tr></thead>");
+
+	
+    if (classInformation["ClassName"] === undefined) {
     }
     else {
-        $("#confirmClass").append("<tr align='center' class='text-c'><td>" + classInformation["_id"] + "</td><td>" + classInformation["TeacherEmail"] + "</td>" + "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td><td>" + classInformation["ClassName"] + "</td></tr>");
+        $("#confirmClass").append("<tr align='center' class='text-c'><td>" + classInformation["_id"] + "</td>"+"<td>" + classInformation["ClassName"] + "</td>"+ "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td></tr>");
     }
    }
 
 function confirmLessonInfo() {
-    $("#confirmLesson").append("<thead><tr><th scope='col' colspan='9'>Confirm lessons information</th></tr></thead>");
+    $("#confirmLesson").append("<thead><tr><th scope='col' colspan='9'>Confirm Lesson List</th></tr><tr class='text-c'><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>description</th></tr></thead>");
     if (lessonInformation.length === 0) {
     }
     else {
         for (var array in lessonInformation) {
-            $("#confirmLesson").append("<tr align='center' class='text-c'><td><input type='checkbox' value='1' name=''></td><td>" + lessonInformation[array]['LessonID'] + "</td><td id=" + lessonInformation[array]['LessonID'] + " >" + lessonInformation[array]['LessonName'] + "</td><td>" + lessonInformation[array]['Description'] + "</td></tr>");
+            $("#confirmLesson").append("<tr align='center' class='text-c'><td>" + lessonInformation[array]['LessonID'] + "</td><td id=" + lessonInformation[array]['LessonID'] + " >" + lessonInformation[array]['LessonName'] + "</td><td>" + lessonInformation[array]['Description'] + "</td></tr>");
         }
     }
 }
@@ -798,7 +781,8 @@ function postStuName() {
     var method = "POST";
 
 
-    content = { "StudentsName": studentsName, "group": groupName,ClassName:"  ET  120  "};
+    //content = { "StudentsName": studentsName, "group": groupName, ClassName: classInformation["ClassName"], "teacherName": teacherName };
+    content = { "StudentsName": studentsName, "group": groupName, ClassName: classInformation["ClassName"]};
     method = "POST";
     Url = '/api/CreateClasses';
 
