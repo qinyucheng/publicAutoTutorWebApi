@@ -455,6 +455,17 @@ namespace publicAutoTutorWebApi.Models
 
         }
 
+        //get all classes by classID  
+        public List<Classes> getClassInfoByClassName(string ClassName)
+        {
+
+
+            var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
+            var list = collect.FindAs<Classes>(Query.EQ("ClassName", ClassName)).ToList();
+            return list;
+
+        }
+
         public bool addClass(Classes ClassesIfo)
         {
             try

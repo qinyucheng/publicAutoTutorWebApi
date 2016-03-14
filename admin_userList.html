@@ -42,6 +42,7 @@ $(document).ready(function () {
 });
 
 var userStatusAction;
+var userRole;
 function getUserList()
 {
     content = ""
@@ -123,11 +124,21 @@ function changeUserStatus(obj, id, Status) {
     });
 }
 
-function user_roleChange(obj, Email) {
-    layer.confirm('Do you want to change this user to Teacher?', function (index) {
-        changeUserRole(obj, Email, "Teacher");
-        userStatusAction = "active";
-        StatusActionObj = obj;
+function user_roleChange(obj, Email, Role) {
+    Email = Email.trim();
+    Role = Role.trim();
+    if (Role == "User")
+    {
+        Role = "Teacher";
+    }
+    else if (Role == "Teacher") {
+        Role = "User";
+    }
+    layer.confirm('Do you want to change this user to \"'+Role+'\"?', function (index) {
+       
+        changeUserRole(obj, Email, Role);
+       
+        userRoleObj = obj;
 
     });
 
@@ -135,10 +146,12 @@ function user_roleChange(obj, Email) {
 
 function changeUserRole(obj, id, role) {
 
+  
+
     content = { 'Email': id, 'Role': role };
     method = "PUT";
     // Url = '/api/MongoDB/' + email;
-    Url = '/api/MongoDB/ModifyUserStatus';
+    Url = '/api/MongoDB/ModifyUserRole';
 
     $.ajax({
 
@@ -148,8 +161,18 @@ function changeUserRole(obj, id, role) {
 
     }).success(function (data) {
        
-     var a= jQuery(obj).closest("tr").find("td").eq(0).text();
+        if (data == true) {
+            $(obj).parents("tr").find(".td-manage").append('<a title="Change Role" id=" '+ id +' " name="'+ role +' " href="javascript:;" onclick="user_roleChange(this,id,name);" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe611;</i></a>');
+            $(obj).parents("tr").find(".td-role").html('<span class="label label-success radius">' + role + '</span>');
+            $(obj).remove();
+            layer.msg('The role has changed!', { icon: 6, time: 1000 });
+           // updateUserList(id, Status);
 
+        }
+      
+        else {
+            layer.msg('Role Changing fail!', { icon: 6, time: 1000 });
+        }
        
 
 
@@ -209,11 +232,11 @@ function getInfo(content)
                 if (array['Role'] != "Admin") {
                     countNO++;
                     if (array['Status'] == "active") {
-                        $("#UserList").append("<tr> align='center'><td>" + countNO + "</td><td><u id=" + array['Email'] + " style='cursor:pointer' class='text-primary' onclick='member_show(id,\"admin_userInfo.html\",id,\"360\",\"500\")'>  " + array['Email'] + "</u></td><td> " + array['FirstName'] + "</td><td>" + array['LastName'] + "</td><td>" + array['Phone'] + "</td><td>" + array['Role'] + "</td><td>" + array['Address'] + " " + array['City'] + " " + array['State'] + " " + array['Zip'] + "</td><td class='td-status'>" + '<span class="label label-success radius">Active</span>' + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['Email'] + " onclick='user_stop(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe631;</i></a> <a title='Change Role' id=" + array['Email'] + " href='javascript:;' onclick='user_roleChange(this,id);' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe611;</i></a></td></tr>");
+                        $("#UserList").append("<tr> align='center'><td>" + countNO + "</td><td><u id=" + array['Email'] + " style='cursor:pointer' class='text-primary' onclick='member_show(id,\"admin_userInfo.html\",id,\"360\",\"500\")'>  " + array['Email'] + "</u></td><td> " + array['FirstName'] + "</td><td>" + array['LastName'] + "</td><td>" + array['Phone'] + "</td><td class='td-role'><span class='label label-default radius'>" + array['Role'] + "</span></td><td>" + array['Address'] + " " + array['City'] + " " + array['State'] + " " + array['Zip'] + "</td><td class='td-status'>" + '<span class="label label-success radius">Active</span>' + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['Email'] + " onclick='user_stop(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe631;</i></a> <a title='Change Role' id=" + array['Email'] + " name=" + array['Role'] + " href='javascript:;' onclick='user_roleChange(this,id,name);' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe611;</i></a></td></tr>");
 
                     }
                     else {
-                        $("#UserList").append("<tr> align='center'><td>" + countNO + "</td><td> <u id=" + array['Email'] + " style='cursor:pointer' class='text-primary' onclick='member_show(id,\"admin_userInfo.html\",id,\"360\",\"500\")'>  " + array['Email'] + "</u></td><td>" + array['FirstName'] + "</td><td>" + array['LastName'] + "</td><td>" + array['Phone'] + "</td><td>" + array['Role'] + "</td><td>" + array['Address'] + " " + array['City'] + " " + array['State'] + " " + array['Zip'] + "</td><td class='td-status'>" + '<span class="label  radius">Inactive</span>' + "</td>><td class='td-manage'><a style='text-decoration:none' id=" + array['Email'] + " onclick='user_start(this,id)' href='javascript:;' title='Active'><i class='Hui-iconfont'>&#xe615;</i></a>  <a title='Change Role' id=" + array['Email'] + " href='javascript:;' onclick='user_roleChange(this,id);' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe611;</i></a></td></tr>");
+                        $("#UserList").append("<tr> align='center'><td>" + countNO + "</td><td> <u id=" + array['Email'] + " style='cursor:pointer' class='text-primary' onclick='member_show(id,\"admin_userInfo.html\",id,\"360\",\"500\")'>  " + array['Email'] + "</u></td><td>" + array['FirstName'] + "</td><td>" + array['LastName'] + "</td><td>" + array['Phone'] + "</td><td class='td-role'><span class='label label-default radius'>" + array['Role'] + "</span></td><td>" + array['Address'] + " " + array['City'] + " " + array['State'] + " " + array['Zip'] + "</td><td class='td-status'>" + '<span class="label  radius">Inactive</span>' + "</td>><td class='td-manage'><a style='text-decoration:none' id=" + array['Email'] + " onclick='user_start(this,id)' href='javascript:;' title='Active'><i class='Hui-iconfont'>&#xe615;</i></a>  <a title='Change Role' id=" + array['Email'] + " name=" + array['Role'] + " href='javascript:;' onclick='user_roleChange(this,id,name);' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe611;</i></a></td></tr>");
 
                     }
                 }

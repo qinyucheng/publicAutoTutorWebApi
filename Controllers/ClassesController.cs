@@ -35,6 +35,28 @@ namespace publicAutoTutorWebApi.Controllers
             return result;
         }
 
+        [HttpGet]
+        [ActionName("SelectClassesByKey")]
+
+        public List<Classes> Get(string key, string searchKey)
+        {
+            List<Classes> result;
+            opm.ConnDatabase(strconn);
+            if (key == "getClassInfoByClassName")
+            {
+                var ClassName = searchKey;
+                result = opm.getClassInfoByClassName(ClassName);
+
+            }
+            else { 
+            
+             List<Classes> ls=new List<Classes>();
+              
+             result = ls;
+            }
+            return result;
+            
+        }
 
         [HttpPost]
         [ActionName("Add")]
