@@ -1,33 +1,26 @@
-﻿<!DOCTYPE HTML>
+﻿<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="renderer" content="webkit|ie-comp|ie-stand">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-<LINK rel="Bookmark" href="/favicon.ico" >
-<LINK rel="Shortcut Icon" href="/favicon.ico" />
-
-<link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="css/style.css" rel="stylesheet" type="text/css" />
-<link href="lib/Hui-iconfont/1.0.6/iconfont.css" rel="stylesheet" type="text/css" />
-
-<!--[if IE 6]>
-<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
-<script>DD_belatedPNG.fix('*');</script>
-<![endif]-->
-<title>Update Personal Information</title>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+  
+    <link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+    <link href="lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
+    <link href="lib/Hui-iconfont/1.0.6/iconfont.css" rel="stylesheet" type="text/css" />
+  
+    <title>Add Lesson</title>
 </head>
 <body>
-
-    <div class="form form-horizontal" id="form-change-password">
-        <div class="form form-horizontal" id="loginForm" name="loginForm">
+    <div class="pd-20">
+        <div class="form form-horizontal" >
             <div class="row cl">
                 <label class="form-label col-4"><i class="Hui-iconfont">&#xe63b;</i></label>
                 <div class="form-label col-4">
-                    <input name="regEmail" id="regEmail" type="text" placeholder="Email" class="input-text size-L" autocomplete="off" >
+                    <input name="regEmail" id="regEmail" type="text" placeholder="Email" class="input-text size-L" autocomplete="off">
                     <div class="col-4 errorMSG" id="divregEmail"></div>
                 </div>
             </div>
@@ -46,7 +39,7 @@
                     <div class="col-4 errorMSG" id="divlName"></div>
                 </div>
             </div>
-          
+
             <div class="row cl">
                 <label class="form-label col-4"><i class="Hui-iconfont">&#xe696;</i></label>
                 <div class="form-label col-4">
@@ -54,6 +47,20 @@
                     <div class="col-4 errorMSG" id="divregPhone"></div>
                 </div>
 
+            </div>
+            <div class="row cl">
+                <label class="form-label col-4"><i class="Hui-iconfont">&#xe60e;</i></label>
+                <div class="formControls col-4">
+                    <input name="regPassword" id="regPassword" type="password" placeholder="Password" class="input-text size-L" autocomplete="off">
+                    <div class="col-4 errorMSG" id="divregPassword"></div>
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-4"><i class="Hui-iconfont"></i></label>
+                <div class="formControls col-4">
+                    <input name="regRePassword" id="regRePassword" type="password" placeholder="Re-enter password" class="input-text size-L" autocomplete="off">
+                    <div class="col-4 errorMSG" id="divregRePassword"></div>
+                </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-4"><i class="Hui-iconfont">&#xe6c9;</i></label>
@@ -66,7 +73,7 @@
             <div class="row cl">
                 <label class="form-label col-4"><i class="Hui-iconfont"></i></label>
                 <div class="form-label col-4">
-                    <input name="regAddress" id="regCity" type="text" placeholder="City" class="input-text size-L" autocomplete="off">
+                    <input name="regCity" id="regCity" type="text" placeholder="City" class="input-text size-L" autocomplete="off">
                     <div class="col-4 errorMSG" id="divregCity"></div>
                 </div>
 
@@ -150,140 +157,117 @@
                     <input class="btn btn-primary radius" type="submit" onclick="save()" value="&nbsp;&nbsp;Save&nbsp;&nbsp;">
                 </div>
             </div>
+            </div>
         </div>
+    <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/icheck/jquery.icheck.min.js"></script>
+    <script type="text/javascript" src="lib/Validform/5.3.2/Validform.js"></script>
+    <script type="text/javascript" src="lib/layer/2.1/layer.js"></script>
+    <script type="text/javascript" src="js/H-ui.js"></script>
+    <script type="text/javascript" src="js/H-ui.admin.js"></script>
+    <script type="text/javascript" src="js/URI.js"></script>
+    <script type="text/javascript">
 
-    </div>
+        function isValidMail(email) {
 
-<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>  
-<script type="text/javascript" src="lib/layer/2.1/layer.js"></script> 
-<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script> 
-<script type="text/javascript" src="lib/My97DatePicker/WdatePicker.js"></script> 
-<script type="text/javascript" src="js/H-ui.js"></script> 
-<script type="text/javascript" src="js/H-ui.admin.js"></script> 
-<script type="text/javascript">
-    var PersonInfo;
-    $(document).ready(function () {
-       
-        $('#divSelectState').css("width", "-=450");
-        // Retrieve the object from storage
-        var PersonInfoObj = localStorage.getItem('PersonInfo');
-        PersonInfo =JSON.parse(PersonInfoObj);
-        var isEmptyObject = jQuery.isEmptyObject(PersonInfo);
-        if (isEmptyObject == false)
-        {
-            $('#regEmail').val(PersonInfo.Email);
-            $("#regEmail").prop('disabled', true);
-            $('#fName').val(PersonInfo.FirstName);
-            $('#lName').val(PersonInfo.LastName);
-            $('#regPhone').val(PersonInfo.Phone);
-            $('#regAddress').val(PersonInfo.Address);
-            $('#regCity').val(PersonInfo.City);
-            $('#regZip').val(PersonInfo.Zip);
-            if (PersonInfo.State == "State" || PersonInfo.State == null) {
+            var patten = new RegExp(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]+$/);
 
-                $("#State").val('State');
-            }
-            else {
-
-                $("#State").val(PersonInfo.State);
-
-            }
+            return patten.test(email);
 
         }
-      
-    });
+  
 
-
-
-    function isValidMail(email) {
-
-        var patten = new RegExp(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]+$/);
-
-        return patten.test(email);
-
-    }
-
-
-    function save() {
-        $(".errorMSG").empty();
-        var Email = $('#regEmail').val();
-        var FirstName = $('#fName').val();
-        var LastName = $('#lName').val();
-        var Phone = $('#regPhone').val();
-        var regAddress = $('#regAddress').val();
-        var regCity = $('#regCity').val();
-        var regZip = $('#regZip').val();
-        var reState = $('#State option:selected').text();
-        if (Email != "") {
-            var result = isValidMail(Email);
-            if (result == false) {
-
-                $('<span class="Validform_checktip Validform_wrong"></span>').html("Please Check your Email Format!").appendTo('#divregEmail');
+        function save() {
+            $(".errorMSG").empty();
+            var Email = $('#regEmail').val();
+            var FirstName = $('#fName').val();
+            var LastName = $('#lName').val();
+            var Phone = $('#regPhone').val();
+            var Role = "Admin";
+            var Password = $('#regPassword').val();
+            var rePassword = $('#regRePassword').val();
+            var regAddress = $('#regAddress').val();
+            var regCity = $('#regCity').val();
+            var regZip = $('#regZip').val();
+            var reState = $('#State option:selected').text();
+            if (Email != "") {
+                var result = isValidMail(Email);
+                if (result == false) {
+                 
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("Please Check your Email Format!").appendTo('#divregEmail');
+                    $("#regEmail").focus();
+                    return;
+                }
+            }
+            else {
+             
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregEmail');
                 $("#regEmail").focus();
                 return;
             }
-        }
-        else {
+            if (FirstName == "") {
+              
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divfName');
 
-            $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregEmail');
-            $("#regEmail").focus();
-            return;
-        }
-        if (FirstName == "") {
-
-            $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divfName');
-
-            $("#fName").focus();
-            return;
-        }
-        if (LastName == "") {
-
-            $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divlName');
-
-            $("#lName").focus();
-            return;
-        }
-
-
-        if (Phone == "") {
-
-            $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregPhone');
-            $("#regPhone").focus();
-            return;
-        }
-      
-    
-
-
-        content = { 'FirstName': FirstName, 'LastName': LastName, 'Email': Email, 'Phone': Phone,  'Address': regAddress, 'City': regCity, 'Zip': regZip, 'State': reState };
-        method = "PUT";
-        Url = '/api/MongoDB/ModifyUserInfo';
-
-        $.ajax({
-
-            url: Url,
-            type: method,
-            data: content,
-
-        }).success(function (data) {
-            if (data == true) {
-
-                PersonInfo.FirstName = FirstName;
-                PersonInfo.LastName = LastName;
-                PersonInfo.Phone = Phone;
-                PersonInfo.Address = regAddress;
-                PersonInfo.City = regCity;
-                PersonInfo.Zip = regZip;
-                localStorage.setItem('PersonInfo', JSON.stringify(PersonInfo));
-                alert("Update successful!");
+                $("#fName").focus();
+                return;
             }
-            else {
-                alert("User failed!");
+            if (LastName == "") {
+              
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divlName');
+
+                $("#lName").focus();
+                return;
             }
+            
+           
+            if (Phone == "") {
+              
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregPhone');
+                $("#regPhone").focus();
+                return;
+            }
+            if (Password == "") {
 
-        });
+                
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregPassword');
+                $("#regPassword").focus();
+                return;
+            }
+            if (Password != rePassword) {
+              
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("Your password do not march!").appendTo('#divregRePassword');
+                $("#regRePassword").focus();
+                return;
+            }
+            var regAddress = $('#regAddress').val();
+            var regCity = $('#regCity').val();
+            var regZip = $('#regZip').val();
+            var reState = $('#State option:selected').text();
 
-    }
-</script>
+
+            content = { 'FirstName': FirstName, 'LastName': LastName, 'Email': Email, 'Phone': Phone, 'Password': Password, 'Address': regAddress, 'City': regCity, 'Zip': regZip, 'State': reState, 'Status': "active", 'Role': Role };
+            method = "POST";
+            Url = '/api/MongoDB';
+
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                if (data == true) {
+
+                    layer_close();
+                }
+                else {
+                    alert("User addition failed!");
+                }
+
+            });
+
+        }
+    </script>
 </body>
 </html>

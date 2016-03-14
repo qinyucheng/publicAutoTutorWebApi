@@ -20,7 +20,7 @@
         <input type="text" class="input-text" style="width:250px" placeholder="Email/First Name/Last Name" id="serarchContent" name="">
 		<button type="submit" class="btn btn-success radius" id="userSearch" name="" onclick="searchUser()" ><i class="Hui-iconfont">&#xe665;</i> Search</button>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"></div>
+	
 	<div class="mt-20">
         <table id='UserList'  class="table table-border table-bordered  table-bg"></table>
 	</div>
@@ -166,7 +166,8 @@ function changeUserRole(obj, id, role) {
             $(obj).parents("tr").find(".td-role").html('<span class="label label-success radius">' + role + '</span>');
             $(obj).remove();
             layer.msg('The role has changed!', { icon: 6, time: 1000 });
-           // updateUserList(id, Status);
+           
+            updateUserList2(id, role);
 
         }
       
@@ -185,6 +186,16 @@ function updateUserList(id, status) {
 
         if (Email == id) {
             UserList[i]["Status"] = status;
+            return;
+        }
+    }
+}
+function updateUserList2(id, Role) {
+    for (i = 0; i < UserList.length; i++) {
+        var Email = UserList[i]["Email"];
+
+        if (Email == id) {
+            UserList[i]["Role"] = Role;
             return;
         }
     }
@@ -244,12 +255,12 @@ function getInfo(content)
 
         },
         complete: function () {
+          
         },
 
     });
-
-
 }
+
 
 </script> 
 </body>
