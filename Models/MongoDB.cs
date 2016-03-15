@@ -9,6 +9,7 @@ using MongoDB.Driver.Builders;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
+using System.Text.RegularExpressions;
 
 namespace publicAutoTutorWebApi.Models
 {
@@ -77,7 +78,11 @@ namespace publicAutoTutorWebApi.Models
          
             try {
                 var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
-                var query = Query.Or(Query.Matches("Email", searchKey), Query.Matches("FirstName", searchKey), Query.Matches("LastName", searchKey));
+                 //var query = Query.Or(Query.Matches("Email", BsonRegularExpression.Create(new Regex(searchKey, RegexOptions.IgnoreCase))), Query.Matches("FirstName", BsonRegularExpression.Create(new Regex(searchKey, RegexOptions.IgnoreCase))), Query.Matches("LastName", BsonRegularExpression.Create(new Regex(searchKey, RegexOptions.IgnoreCase))));
+                var query = Query.Or(Query.Matches("Email", new BsonRegularExpression(searchKey, "i")), Query.Matches("FirstName", new BsonRegularExpression(searchKey, "i")), Query.Matches("LastName", new BsonRegularExpression(searchKey, "i")));
+               
+
+              
                  var results = collect.FindAs<Users>(query).ToList();
 
                 return results;
@@ -295,6 +300,71 @@ namespace publicAutoTutorWebApi.Models
             return list;
 
         }
+
+        public List<Lessons> searchLessonsInfo(string searchKey)
+        {
+         
+            try {
+                var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
+                //var query = Query.And(Query.Or(Query.Matches("LessonName", searchKey), Query.Matches("LessonGroup", searchKey)), (Query.EQ("Status", "active")));
+                var query = Query.And(Query.Or(Query.Matches("LessonName", new BsonRegularExpression(searchKey, "i")), Query.Matches("LessonGroup", new BsonRegularExpression(searchKey, "i"))), (Query.EQ("Status", "active")));
+               
+                var results = collect.FindAs<Lessons>(query).ToList();
+
+                return results;
+            
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                List<Lessons> aa = new List<Lessons>();
+                return aa;
+                
+
+            }
+          
+
+        }
+
+        public List<Lessons> advanceSearchLessonsInfo(string searchKey)
+        {
+
+            try
+            {
+               
+                var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);
+                //var query = Query.And(Query.Or(Query.Matches("LessonName", searchKey), Query.Matches("LessonGroup", searchKey)), (Query.EQ("Status", "active")));
+
+                if (searchKey.ToLower() == "inactive" || searchKey.ToLower() == "active")
+                {
+                    var query = (Query.EQ("Status", searchKey.ToLower()));
+                    var results = collect.FindAs<Lessons>(query).ToList();
+                    return results;
+               
+                }
+                else {
+                   var  query = Query.Or(Query.Matches("LessonName", new BsonRegularExpression(searchKey, "i")), Query.Matches("LessonGroup", new BsonRegularExpression(searchKey, "i")), Query.Matches("Author", new BsonRegularExpression(searchKey, "i")), Query.Matches("Status", new BsonRegularExpression(searchKey, "i")));
+                   var results = collect.FindAs<Lessons>(query).ToList();
+                   return results;
+                }
+                
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                List<Lessons> aa = new List<Lessons>();
+                return aa;
+
+
+            }
+
+
+        }
+       
+       
+        
+
+
         public List<Lessons> getLessonsInfoByGroupAndStatus(string LessonGroup,string status)
         {
             var collect = this.mongoDatabase.GetCollection(LESSON_COLLECTION);

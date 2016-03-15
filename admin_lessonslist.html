@@ -26,7 +26,7 @@
         var LessonsList;
        
         $(document).ready(function () {
-            getAllLessonsInfoBystatus();
+            getAllLessonsInfo();
 
 
         });
@@ -73,21 +73,29 @@
         }
        
         //lesson function
-        function getAllLessonsInfoBystatus() {
+        function getAllLessonsInfo(content) {
+            searchApi(content);
+        }
+
+        function searchApi(content)
+        {
             method = "GET";
-           
+
             Url = '/api/Lessons';
             $.ajax({
 
                 url: Url,
                 type: method,
+                data: content,
                 dataType: 'json',
                 success: function (data) {
-                    console.log(".net Output:");
+                    $("#LessonsList tr").remove();
+                    $("#LessonsList thead").remove();
+                    $("#LessonsList tbody").remove();
                     LessonsList = $.map(data, function (el) { return el });
 
                     //$("#LessonsList").append(" <thead><th width='100'><input type='checkbox' id='SelectAll'></th><th width='100'>NO.</th><th width='300'>Lesson Name</th><th width='200'>Lesson Group</th><th width='300'>Author</th><th width='400'>LessonURL</th><th width='200'>Status</th><th width='500'>Description</th><th width='500'>***</th></thead>");
-                    $("#LessonsList").append(" <thead><th width='100'>NO.</th><th width='300'>Lesson Name</th><th width='200'>Lesson Group</th><th width='300'>Author</th><th width='400'>LessonURL</th><th width='200'>Status</th><th width='500'>Description</th><th width='500'>***</th></thead>");
+                    $("#LessonsList").append(" <thead><th width='100'>NO.</th><th width='300'>Lesson Name</th><th width='200'>Lesson Group</th><th width='300'>Author</th><th width='400'>Lesson URL</th><th width='200'>Status</th><th width='500'>Description</th><th width='500'>***</th></thead>");
 
                     $("#LessonsList").append(" <tbody></tbody>");
 
@@ -121,6 +129,19 @@
                 },
 
             });
+
+        }
+        //lesson function
+        function searchLessons() {
+            var SearchKey = $("#serarchContent").val().trim();
+            if (SearchKey == null || SearchKey == "") {
+                content = "";
+                getAllLessonsInfo(content);
+            }
+            else {
+                content = { 'id': "advanceSearch", 'status': SearchKey };
+                searchApi(content);
+            }
         }
 
         function changeLessonStatus(obj,id, Status) {
@@ -137,6 +158,8 @@
                 data: content,
 
             }).success(function (data) {
+              
+
                 if (data == true && lessonStatusAction == "inactive") {
                     $(obj).parents("tr").find(".td-manage").prepend('<a onClick="lesson_start(this,id)" id='+id+'  "href="javascript:;" title="Active" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
                     $(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">Inactive</span>');
@@ -247,7 +270,10 @@
 <body>
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> Lesson List  <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="Refresh"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
     <div class="pd-20">
-
+        <div class="text-c">
+            <input type="text" class="input-text" style="width:250px" placeholder="Lesson Name/Lesson Group/Author" id="serarchContent" name="">
+            <button type="submit" class="btn btn-success radius" id="userSearch" name="" onclick="searchLessons()"><i class="Hui-iconfont">&#xe665;</i> Search</button>
+        </div>
         <div class="mt-20">
             <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><!--a  href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> Delete Lessons</!--a--> <a href="javascript:;" onclick="Lessons_add('Add Lessons', 'admin_addLesson.html', '800', '500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>Add a Lesson</a></span> </div>
             <table id='LessonsList' align="center" border="1" class="table table-border table-bordered table-bg"></table>
