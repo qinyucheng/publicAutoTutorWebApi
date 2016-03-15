@@ -9,6 +9,7 @@ using MongoDB.Driver.Builders;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
+
 namespace publicAutoTutorWebApi.Models
 {
     public class MongoDB
@@ -59,6 +60,38 @@ namespace publicAutoTutorWebApi.Models
             mongoDatabase.GetCollection(LESSON_COLLECTION).CreateIndex("LessonID");
             mongoDatabase.GetCollection(CLASS_COLLECTION).CreateIndex("_id");
             mongoDatabase.GetCollection(CLASS_COLLECTION).CreateIndex("TeacherEmail");
+
+        }
+
+
+        public List<Users> getAllUsersInfo()
+        {
+
+            var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
+            var list = collect.FindAllAs<Users>().ToList();
+            return list;
+
+        }
+        public List<Users> searchUser(string searchKey)
+        {
+         
+            try {
+                var collect = this.mongoDatabase.GetCollection(USER_COLLECTION);
+                var query = Query.Or(Query.Matches("Email", searchKey), Query.Matches("FirstName", searchKey), Query.Matches("LastName", searchKey));
+                 var results = collect.FindAs<Users>(query).ToList();
+
+                return results;
+            
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                List<Users> aa = new List<Users>();
+                return aa;
+                
+
+            }
+          
 
         }
 
@@ -116,7 +149,7 @@ namespace publicAutoTutorWebApi.Models
                 var query = new QueryDocument { { "Email", userInfo.Email } };
                 var update = new UpdateDocument { 
                 { "$set", new QueryDocument { 
-                { "FristName", userInfo.FristName},
+                { "FirstName", userInfo.FirstName},
                 { "LastName", userInfo.LastName},
                 { "Address", userInfo.Address},
                 { "City", userInfo.City},
@@ -418,6 +451,17 @@ namespace publicAutoTutorWebApi.Models
            
             var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
             var list = collect.FindAs<Classes>(Query.EQ("TeacherEmail", teacherEmail)).ToList();       
+            return list;
+
+        }
+
+        //get all classes by classID  
+        public List<Classes> getClassInfoByClassName(string ClassName)
+        {
+
+
+            var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
+            var list = collect.FindAs<Classes>(Query.EQ("ClassName", ClassName)).ToList();
             return list;
 
         }

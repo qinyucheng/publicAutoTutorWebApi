@@ -1,0 +1,92 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<script type="text/javascript" src="lib/PIE_IE678.js"></script>
+<![endif]-->
+<link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+<link href="lib/Hui-iconfont/1.0.6/iconfont.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]--><title>User Info</title>
+</head>
+<body>
+<div class="cl pd-20" style=" background-color:#5bacb6">
+  <img class="avatar size-XL l" src="images/user.png">
+  <dl style="margin-left:80px; color:#fff">
+    <dt><span class="f-18" id="FirstName"></span> <span class="f-18" id="LastName"></span> 
+  </dl>
+</div>
+<div class="pd-20">
+  <table class="table">
+    <tbody>
+      <tr>
+        <th class="text-r" width="80">Phone：</th>
+        <td id="Phone"></td> 
+      </tr>
+      <tr>
+        <th class="text-r">Address：</th>
+          <td id="Address"></td>
+      </tr>
+      <tr>
+        <th class="text-r">City：</th>
+          <td id="City"></td>
+      </tr>
+      <tr>
+        <th class="text-r">State：</th>
+          <td id="State"></td>
+      </tr>
+      <tr>
+        <th class="text-r">Zip：</th>
+          <td id="Zip"></td>
+      </tr>
+      <tr>
+        <th class="text-r">Role：</th>
+          <td id="Role"></td>
+      </tr>
+    <tr>
+        <th class="text-r">Registration Date：</th>
+        <td id="RegistrationTime"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/H-ui.js"></script>
+<script type="text/javascript" src="js/H-ui.admin.js"></script>
+<script type="text/javascript" src="js/URI.js"></script>
+<script type="text/javascript">
+  
+    URLParams = URI.parseQuery(window.location.search);
+    var isEmptyObject = jQuery.isEmptyObject(URLParams);
+    if (isEmptyObject == false) {
+        if (URLParams["userEmail"] != undefined) {
+
+            var LessonObj = window.parent.getObjByUserEmail(URLParams["userEmail"]);
+            $("#FirstName").html(LessonObj.FirstName);
+            $("#LastName").html(LessonObj.LastName);
+            $("#Phone").html(LessonObj.Phone);
+            $("#Address").html(LessonObj.Address);
+            $("#City").html(LessonObj.City);
+            $("#State").html(LessonObj.State);
+            $("#Zip").html(LessonObj.Zip);
+            $("#Role").html(LessonObj.Role);
+            $("#RegistrationTime").html(LessonObj.RegistrationTime);
+
+        }
+
+    }
+
+
+</script>
+</body>
+</html>

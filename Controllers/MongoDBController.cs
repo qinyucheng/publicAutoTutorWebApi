@@ -22,6 +22,16 @@ namespace publicAutoTutorWebApi.Controllers
              Models.OprationMongo opm = new OprationMongo();
              string strconn = ConfigurationManager.AppSettings["connectionString"];
 
+             public List<Users> Get()
+             {
+                 opm.ConnDatabase(strconn);
+                 var list = opm.getAllUsersInfo();
+                 return list;
+             }
+
+
+        /*
+
         [HttpGet]
         [ActionName("SelectByEmail")]
        public bool Get(string Email)
@@ -38,6 +48,16 @@ namespace publicAutoTutorWebApi.Controllers
             {
                 return false;
             }
+        }
+        */
+        [HttpGet]
+        [ActionName("userSearch")]
+        public List<Users> Get(string searchKey)
+        {
+
+            opm.ConnDatabase(strconn);
+            var result = opm.searchUser(searchKey);
+            return result;
         }
 
         [HttpGet]

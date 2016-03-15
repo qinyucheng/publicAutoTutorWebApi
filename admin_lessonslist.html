@@ -57,7 +57,7 @@
         /*Lesson active*/
         function lesson_start(obj,id){
             layer.confirm('Whether you want to active this lesson?',function(index){
-                //此处请求后台程序，下方是成功后的前台处理……
+               
                 changeLessonStatus(obj,id, "active");
                 lessonStatusAction = "active";
                 StatusActionObj = obj;
@@ -66,7 +66,7 @@
         /*lesson delect*/
         function lesson_del(obj, id) {
             layer.confirm('Are you sure you want to delete this lesson？', function (index) {
-                //此处请求后台程序，下方是成功后的前台处理……
+               
                 deleteLessonById(obj, id);
               
             });
@@ -249,9 +249,8 @@
     <div class="pd-20">
 
         <div class="mt-20">
-            <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><!--a  href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> Delete Lessons</!--a--> <a href="javascript:;" onclick="    Lessons_add('Add Lessons', 'admin_addLesson.html', '800', '500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>Add a Lesson</a></span> </div>
+            <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><!--a  href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> Delete Lessons</!--a--> <a href="javascript:;" onclick="Lessons_add('Add Lessons', 'admin_addLesson.html', '800', '500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>Add a Lesson</a></span> </div>
             <table id='LessonsList' align="center" border="1" class="table table-border table-bordered table-bg"></table>
-
 
         </div>
 

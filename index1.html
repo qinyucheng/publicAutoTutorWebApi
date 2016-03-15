@@ -105,7 +105,7 @@
             var method = "POST";
             var email = document.UserInfo.Email.value;
 
-            var firstName = document.UserInfo.FristName.value;
+            var firstName = document.UserInfo.FirstName.value;
             var lastName = document.UserInfo.LastName.value;
             var email = document.UserInfo.Email.value;
             var password = document.UserInfo.Password.value;
@@ -116,7 +116,7 @@
             var Phone = document.UserInfo.Phone.value;
 
 
-            content = { FristName: firstName, LastName: lastName, Email: email, Password: password, Address: address, City: city, State: state, Zip: zip, Phone: Phone, Status: true, Role: 9 };
+            content = { FirstName: firstName, LastName: lastName, Email: email, Password: password, Address: address, City: city, State: state, Zip: zip, Phone: Phone, Status: true, Role: 9 };
             method = "POST";
             Url = '/api/MongoDB';
 
@@ -174,7 +174,7 @@
 
             var email = document.UserInfo.Email.value;
 
-            var firstName = document.UpdateUserInfo.FristName.value;
+            var firstName = document.UpdateUserInfo.FirstName.value;
             var lastName = document.UpdateUserInfo.LastName.value;
             var email = document.UpdateUserInfo.Email.value;
             var password = document.UpdateUserInfo.Password.value;
@@ -184,7 +184,7 @@
             var zip = document.UpdateUserInfo.ZIP.value;
             var Phone = document.UpdateUserInfo.Phone.value;
 
-            content = { FristName: firstName, LastName: lastName, Email: email, Password: password, Address: address, City: city, State: state, Zip: zip, Phone: Phone, Status: true, Role: 9 };
+            content = { FirstName: firstName, LastName: lastName, Email: email, Password: password, Address: address, City: city, State: state, Zip: zip, Phone: Phone, Status: true, Role: 9 };
             method = "PUT";
             // Url = '/api/MongoDB/' + email;
             Url = '/api/MongoDB/ModifyUserInfo';
@@ -437,7 +437,7 @@
     <p>validateUserEmail add user info to database</p>
     <form method="POST" id="UserInfo" name="UserInfo" onsubmit="return validateUserEmail();">
 
-        <input type="text" name="FristName" value="Qinyu"><br>
+        <input type="text" name="FirstName" value="Qinyu"><br>
         <input type="text" name="LastName" value="Cheng"><br>
         <input type="text" name="Email" value="Cheng@gmail.com"><br>
         <input type="text" name="Password" value="Password"><br>
@@ -452,7 +452,7 @@
     <p>UpdataUserInfo</p>
     <form method="POST" id="UpdateUserInfo" name="UpdateUserInfo" onsubmit="return updateUserInfo();">
 
-        <input type="text" name="FristName" value="yehui"><br>
+        <input type="text" name="FirstName" value="yehui"><br>
         <input type="text" name="LastName" value="liu"><br>
         <input type="text" name="Email" value="Cheng@gmail.com"><br>
         <input type="text" name="Password" value="Password"><br>

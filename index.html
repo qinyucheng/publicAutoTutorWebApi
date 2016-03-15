@@ -69,7 +69,7 @@
 			<dt><i class="Hui-iconfont">&#xe60d;</i> User Management<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a _href="member-list.html" data-title="User List" href="javascript:;">User List</a></li>
+					<li><a _href="admin_userList.html" data-title="User List" href="javascript:;">User List</a></li>
 					
 				</ul>
 			</dd>
@@ -78,9 +78,8 @@
 			<dt><i class="Hui-iconfont">&#xe62d;</i> Administrator<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a _href="admin-role.html" data-title="Role Management" href="javascript:void(0)">Role Management</a></li>
 					
-					<li><a _href="admin-list.html" data-title="Admin List" href="javascript:void(0)">Admin List</a></li>
+					<li><a _href="admin_adminList.html" data-title="Admin List" href="javascript:void(0)">Admin List</a></li>
                     <li><a _href="admin_lessonslist.html" data-title="Lessons Management" href="javascript:void(0)">Lessons Management</a></li>
 				</ul>
 			</dd>
@@ -132,7 +131,7 @@
         var PersonInfo =JSON.parse(PersonInfoObj);
         var isEmptyObject = jQuery.isEmptyObject(PersonInfo);
         if (isEmptyObject == false) {
-            $('#showUserFname').html(PersonInfo.FristName)
+            $('#showUserFname').html(PersonInfo.FirstName)
             if (PersonInfo.Role == "Teacher" && PersonInfo.Status == "active") {
               
                 
