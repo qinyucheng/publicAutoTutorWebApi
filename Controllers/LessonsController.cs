@@ -50,9 +50,24 @@ namespace publicAutoTutorWebApi.Controllers
 
         public List<Lessons> Get(string id, string status)
         {
+            List<Lessons> list =new List<Lessons> ();
             opm.ConnDatabase(strconn);
+            if (id == "status")
+            {
+                list = opm.getLessonsInfoByStatus(status);
+               
+            }
+            else if (id == "search")
+            {
+                list = opm.searchLessonsInfo(status);
+                          
+            }
+            else if (id == "advanceSearch")
+            {
+                list = opm.advanceSearchLessonsInfo(status);
+                          
+            }
           
-            var list = opm.getLessonsInfoByStatus(status);
             return list;
            
 

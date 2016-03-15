@@ -36,8 +36,28 @@ function setLessonGroup(data)
 }
 //lesson function
 function getAllLessonsInfoBystatus() {
-    method = "GET";
     content = { id: "status", status: "active" };
+    callAPI(content);
+}
+
+function search()
+{
+    var searchKey = $('#searchKey').val().trim();
+    if (searchKey == null || searchKey == "") {
+        content = { id: "status", status: "active" };
+
+    }
+    else {
+        content = { id: "search", status: searchKey };
+    }
+    callAPI(content);
+
+}
+
+function callAPI(content)
+{
+    method = "GET";
+
     Url = '/api/Lessons';
     $.ajax({
 
@@ -48,16 +68,20 @@ function getAllLessonsInfoBystatus() {
 
 
         success: function (data) {
+            $("#LessonsList tr").remove();
+            $("#LessonsList thead").remove();
+           // $("#LessonsList tbody").remove();
+
             console.log(".net Output:");
             LessonsList = $.map(data, function (el) { return el });
             if (lessonGroup == "All") {
-              
+
                 $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='15%'>Lesson Group</th><th width='75%'>Description</th></thead>");
             }
             else {
                 $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='75%'>Description</th></thead>");
             }
-            
+
             var countNO = 0;
             $.each(data, function (index, array) { //loop  items for display
                 if (array['LessonGroup'] == lessonGroup) {
@@ -65,7 +89,7 @@ function getAllLessonsInfoBystatus() {
                     $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['Description'] + "</td></tr>");
 
                 }
-                else if (lessonGroup=="All") {
+                else if (lessonGroup == "All") {
                     countNO++;
                     $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['LessonGroup'] + "</td><td>" + array['Description'] + "</td></tr>");
 
@@ -95,6 +119,8 @@ function getAllLessonsInfoBystatus() {
         },
 
     });
+
+
 }
 
 //lesson function
@@ -158,7 +184,11 @@ function Lock() {
     $('.btn-success').prop('disabled', true); //TO DISABLED
     //sets disabled mouse cursor
     $('.btn-success').css('cursor', 'not-allowed');
-
+    $('#btnSearch').prop('disabled', false);
+    $('#btnSearch').css('cursor', 'pointer');
+    $('#Refresh').prop('disabled', false);
+    $('#Refresh').css('cursor', 'pointer');
+   
 }
 function Unlock(getElementID) {
     $(getElementID).prop('disabled', false); //TO DISABLED
