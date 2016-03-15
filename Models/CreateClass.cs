@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Net.Http;
+using System.Net;
+using System.Web.Http;
 
 namespace publicAutoTutorWebApi.Models
 {
@@ -12,13 +15,22 @@ namespace publicAutoTutorWebApi.Models
         public string ClassName { get; set;}
         public string group{get;set;}      // using in student login to distingush classGroup
 
-        public bool generateLoginPage() {
+        public string generateLoginPage(string url) {
             string templateLoginHtml = HttpContext.Current.Server.MapPath("~/templateLogin.html");
             string newLoginHtml = HttpContext.Current.Server.MapPath("~/login" + ClassName.Replace(" ", "")+".html"); //new URL
-            System.IO.File.Copy(templateLoginHtml, newLoginHtml, true);
-            writeNameListToLoginPage(newLoginHtml);
-            generateNameList();
-            return true;
+            string newloginHtmlURL = url + "/"+ClassName.Replace(" ", "")+".html";
+            try
+            {
+                System.IO.File.Copy(templateLoginHtml, newLoginHtml, true);
+                writeNameListToLoginPage(newLoginHtml);
+                generateNameList();
+                return newloginHtmlURL;
+            }
+
+            catch (Exception e)
+            {
+                return "false";
+            }
         }
 
         public bool generateNameList()
@@ -28,6 +40,7 @@ namespace publicAutoTutorWebApi.Models
             string studentNameListString="";
             string studentUIDAndName = "";
             int length= StudentsName.Count;
+            try { 
             StreamWriter sr = File.CreateText(path);
             for (int i = 0; i < length; i++)
             {
@@ -47,16 +60,33 @@ namespace publicAutoTutorWebApi.Models
             sr.Write(data);
             sr.Flush();
             sr.Close();
-            return true;
+               
+            return true; }
+            catch (Exception e)
+            {
+                return false;       
+            }
         }
 
         public void writeNameListToLoginPage(string newLoginHtml)
         {
-            string line="<script type='text/javascript' src='js/login"+ClassName+".js'></script>";
-            string text = File.ReadAllText(newLoginHtml);
-            text = text.Replace("<script></script>", line);
-            File.WriteAllText(newLoginHtml, text);
-        
+            try
+            {
+                string line = "<script type='text/javascript' src='js/login" + ClassName + ".js'></script>";
+                string text = File.ReadAllText(newLoginHtml);
+                text = text.Replace("<script></script>", line);
+                File.WriteAllText(newLoginHtml, text);
+            }
+            catch (Exception e)
+            {
+                var resp = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                {
+                    Content = new StringContent(e.ToString()),
+                    ReasonPhrase = "error"
+                };
+                throw new HttpResponseException(resp);
+
+            }
         }
     }
 

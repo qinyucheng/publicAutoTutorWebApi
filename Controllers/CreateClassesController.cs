@@ -9,11 +9,11 @@ namespace publicAutoTutorWebApi.Controllers
 {
     public class CreateClassesController : ApiController
     {
-        public bool Post(Models.CreateClass names)
+        public string Post(Models.CreateClass names)
         {
-
-            names.generateLoginPage();
-            return true;
+            var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
+            var classURL = names.generateLoginPage(baseUrl);
+            return classURL;
         }
     }
 }
