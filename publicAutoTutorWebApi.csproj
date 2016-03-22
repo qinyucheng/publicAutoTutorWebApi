@@ -227,6 +227,7 @@
     <Content Include="student_Lessons.html" />
     <Content Include="teacher_buildClass.html" />
     <Content Include="templateLogin.html" />
+    <Content Include="user_updatePersonalInfo.html" />
     <Content Include="visitorTry.html" />
     <Content Include="js\nameList.js" />
     <Content Include="lessons-list.html" />
