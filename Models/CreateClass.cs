@@ -6,6 +6,7 @@ using System.Web;
 using System.Net.Http;
 using System.Net;
 using System.Web.Http;
+using System.Configuration;
 
 namespace publicAutoTutorWebApi.Models
 {
@@ -14,16 +15,21 @@ namespace publicAutoTutorWebApi.Models
         public List<string> StudentsName { get; set; }
         public string ClassName { get; set;}
         public string group{get;set;}      // using in student login to distingush classGroup
+        Models.OprationMongo opm = new OprationMongo();
+        string strconn = ConfigurationManager.AppSettings["connectionString"];
+
 
         public string generateLoginPage(string url) {
             string templateLoginHtml = HttpContext.Current.Server.MapPath("~/templateLogin.html");
-            string newLoginHtml = HttpContext.Current.Server.MapPath("~/login" + ClassName.Replace(" ", "")+".html"); //new URL
+            string newLoginHtml = HttpContext.Current.Server.MapPath("~/" + ClassName.Replace(" ", "")+".html"); //new URL
             string newloginHtmlURL = url + "/"+ClassName.Replace(" ", "")+".html";
             try
             {
                 System.IO.File.Copy(templateLoginHtml, newLoginHtml, true);
                 writeNameListToLoginPage(newLoginHtml);
                 generateNameList();
+                opm.ConnDatabase(strconn);
+                opm.UpdateClassStudyURLFromServer(newloginHtmlURL, ClassName);
                 return newloginHtmlURL;
             }
 
@@ -36,7 +42,7 @@ namespace publicAutoTutorWebApi.Models
         public bool generateNameList()
         {
             //string path = HttpContext.Current.Server.MapPath("~/js/xyz.js");
-            string path = HttpContext.Current.Server.MapPath("~/js/login"+ClassName+".js");
+            string path = HttpContext.Current.Server.MapPath("~/js/"+ClassName+".js");
             string studentNameListString="";
             string studentUIDAndName = "";
             int length= StudentsName.Count;
@@ -56,12 +62,13 @@ namespace publicAutoTutorWebApi.Models
                     studentUIDAndName += "\"" + StudentsName[i] + "\", ";
                 }
             }
-            string data = "var studentNames=[" + studentNameListString + "];" + "\r\n" + "var studentUID=[" + studentUIDAndName + "];" + "\r\n" + "var ClassName=\"" + group + "\";";
+            string data = "var studentNames=[" + studentNameListString + "];" + "\r\n" + "var studentUID=[" + studentUIDAndName + "];" + "\r\n" + "var ClassName=\"" + ClassName + "\";";
             sr.Write(data);
             sr.Flush();
             sr.Close();
                
-            return true; }
+            return true; 
+            }
             catch (Exception e)
             {
                 return false;       
@@ -72,7 +79,7 @@ namespace publicAutoTutorWebApi.Models
         {
             try
             {
-                string line = "<script type='text/javascript' src='js/login" + ClassName + ".js'></script>";
+                string line = "<script type='text/javascript' src='js/" + ClassName + ".js'></script>";
                 string text = File.ReadAllText(newLoginHtml);
                 text = text.Replace("<script></script>", line);
                 File.WriteAllText(newLoginHtml, text);

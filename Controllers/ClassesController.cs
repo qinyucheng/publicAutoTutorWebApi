@@ -48,11 +48,16 @@ namespace publicAutoTutorWebApi.Controllers
                 result = opm.getClassInfoByClassName(ClassName);
 
             }
-            else { 
-            
-             List<Classes> ls=new List<Classes>();
-              
-             result = ls;
+
+            else if (key == "advanceSearch") {
+                result = opm.advanceSearchClassInfo(searchKey);
+            }
+            else
+            {
+
+                List<Classes> ls = new List<Classes>();
+
+                result = ls;
             }
             return result;
             
@@ -103,6 +108,12 @@ namespace publicAutoTutorWebApi.Controllers
             {
                 ClassesObj.LastChangeTime = DateTime.Now;
                 var result = opm.updateClassInfo(ClassesObj);
+                return result;
+            }
+            else if (id == "ModifyClassStatus")
+            {
+                ClassesObj.LastChangeTime = DateTime.Now;
+                var result = opm.updateClassStatus(ClassesObj);
                 return result;
             }
             else

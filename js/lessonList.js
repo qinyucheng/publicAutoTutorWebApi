@@ -17,13 +17,7 @@ var count = 0;
 var classObj;
 $(document).ready(function () {
     Lock();
-    if (parent.URLParams.indexOf("student_Lessons") != -1) {
-        getStudentLessonList();
-    }
-    else
-    {
-        getAllLessonsInfoBystatus();
-    }
+    getAllLessonsInfoBystatus();
     getUserIp();
     checkLoginStatus();
 });

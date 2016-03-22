@@ -12,42 +12,44 @@
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 <link href="lib/Hui-iconfont/1.0.6/iconfont.css" rel="stylesheet" type="text/css" />
 
-<title>Lesson List</title>
+<title>Teacher My Class</title>
     <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="lib/layer/2.1/layer.js"></script>
     <script type="text/javascript" src="lib/My97DatePicker/WdatePicker.js"></script>
     <script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="js/H-ui.js"></script>
     <script type="text/javascript" src="js/H-ui.admin.js"></script>
-    <script type="text/javascript" src="js/lessonList.js"></script>
+    <script type="text/javascript" src="js/classList.js"></script>
     <script type="text/javascript" src="js/lessonGroupList.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            setLessonGroup("All");
-            groupOption();
+            getClassList();
         });
 
     </script> 
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> Lesson List  <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" id="Refresh" title="Refresh"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> Class List <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" id="Refresh" title="Refresh"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="pd-20">
     <div class="text-c">
-        <input type="text" class="input-text" style="width:250px" placeholder="Lesson Name/Lesson Group" id="searchKey" name="searchKey">
+        <input type="text" class="input-text" style="width:250px" placeholder="Class Name" id="searchKey" name="searchKey">
         <button type="submit" class="btn btn-success radius" id="btnSearch" name="btnSearch" onclick="search();"><i class="Hui-iconfont">&#xe665;</i> Search</button>
     </div>
 	<div class="mt-20">
-        <table id='LessonsList' align="center" border="1" class="table table-border table-bordered table-bg table-hover table-sort dataTable no-footer">
+        <table id='ClassList' align="center" border="1" class="table table-border table-bordered table-bg table-hover table-sort dataTable no-footer">
             <tbody></tbody>
         </table>
 	</div>
   
-    <div class="cl pd-5 bg-1 bk-gray mt-20">   
-        <span id="selectItemName">Please Select a Lesson first!</span><span id="selectedNickName">Please select a nick name!</span>
+   <!-- <div class="cl pd-5 bg-1 bk-gray mt-20">   
     <span class="r"> <button name="ShowNickName" id="ShowNickName" class="btn btn-success" type="submit" onclick="ShowNickNameList('Nick Names', 'NickNameList.html', '', '510')">Select A Name</button> 
         <button name="" id="StartLesson" class="btn btn-success" type="submit" onclick="startLesson()">Start Lesson</button></span>
-    </div>
+    </div>-->
 </div>
-
+    <div >
+        <div class="menu_dropdown bk_2">
+            <a _href="teacher_reviseClass.html" data-title='My Profile' href="javascript:void(0)">My Profile</a>
+        </div>
+    </div>
 </body>
 </html>
