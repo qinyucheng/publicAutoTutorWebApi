@@ -151,7 +151,7 @@
                 $('#menu-member').hide();
                 $('#menu-admin').hide();
            }
-           else if (PersonInfo.Role == "Admin")
+           else if (PersonInfo.Role == "Admin" && PersonInfo.Status == "active")
            {
                $('#menu-article').show();
                $('#menu-member').show();
@@ -159,7 +159,13 @@
                $('#menu-admin').show();
 
            }
-          
+           else if (PersonInfo.Role == "Admin" && PersonInfo.Status == "inactive") {
+               $('#menu-article').hide();
+               $('#menu-member').hide();
+               $('#menu-member').hide();
+               $('#menu-admin').hide();
+
+           }
         }
 
     });

@@ -256,20 +256,20 @@
                 myStorage = localStorage;
                 var isEmptyObject = jQuery.isEmptyObject(data);
                 if (isEmptyObject == false) {
-                    /*
-                    if (data.Status == "inactive") {
+                    
+                    if (data.Status == "inactive" && data.Role=="User") {
                         alert("Your account has locked. Please contect administrator to Unlock your account!");
                         return;
                     }
                     else {
-                        // window.location.replace("index.html");
-                    }*/
-                    $('#Email').val('');
-                    $('#Password').val('');
-                    localStorage.setItem('PersonInfo', JSON.stringify(data));
-                    localStorage.setItem('isLogin', true);
+                        $('#Email').val('');
+                        $('#Password').val('');
+                        localStorage.setItem('PersonInfo', JSON.stringify(data));
+                        localStorage.setItem('isLogin', true);
 
-                    window.location.href = "index.html";
+                        window.location.href = "index.html";
+                    }
+                  
                   
                 }
                 else {
@@ -288,7 +288,7 @@
         $(".errorMSG").empty();
         var FirstName = $('#fName').val();
         var LastName = $('#lName').val();
-        var Email = $('#regEmail').val();
+        var Email = $('#regEmail').val().toLowerCase();;
         var Phone = $('#regPhone').val();
         var Role = $('input[name="role"]:checked').val();
         var Password = $('#regPassword').val();
@@ -361,9 +361,10 @@
             data: content,
 
         }).success(function (data) {
-            console.log(".net Output:");
-            console.log(data);
+           
             if (data == true) {
+                localStorage.setItem('PersonInfo', JSON.stringify(content));
+                localStorage.setItem('isLogin', true);
                 window.location.href = "index.html";
             }
             else {

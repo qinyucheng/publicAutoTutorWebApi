@@ -80,7 +80,7 @@
                 <label class="form-label col-3">Status：</label>
                 <div class="formControls col-5 skin-minimal">
                     <div class="radio-box" >
-                        <input type="radio" name="Status" id="active" value="active" checked >
+                        <input type="radio" name="Status" id="active" value="active" >
                         <label>Active</label>
                     </div>
                     <div class="radio-box">
@@ -148,6 +148,23 @@
                 submitLessonsInfo();
             });
 
+            $(".radio-box input[name='Status']").click(function () {
+               
+                if ($(this).val() == "inactive") {
+                    $("#inactive").parent().attr("class", "iradio-blue checked");
+                    $("#active").parent().attr("class", "iradio-blue");
+                    $("#active").attr("checked", false);
+                    $("#inactive").prop("checked", true);
+                    //$('#select-table > .roomNumber').attr('enabled',false);
+                }
+                else if ($(this).val() == "active") {
+                    $("#active").parent().attr("class", "iradio-blue checked");
+                    $("#inactive").parent().attr("class", "iradio-blue");
+                    $("#active").prop("checked", true);
+                    $("#inactive").prop("checked", false);
+                }
+            });
+
         });
 
         function refillData(obj)
@@ -162,17 +179,12 @@
             if (obj["Status"] == "active")
             {
                 $("#active").parent().attr("class", "iradio-blue checked");
-                $("#inactive").parent().attr("class", "iradio-blue");
-                $("#active").prop("checked", true);
-                $("#inactive").prop("checked", false);
+            
             }
             else (obj["Status"] == "inactive")
             {
-                $("#active").parent().attr("class", "iradio-blue");
                 $("#inactive").parent().attr("class", "iradio-blue checked");
-                $("#inactive").prop("checked", true);
-                $("#active").prop("checked", false)
-
+            
             }
 
               
