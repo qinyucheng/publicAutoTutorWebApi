@@ -100,8 +100,10 @@ function callAPI(content) {
 
 }
 function getClassList() {
+    var lessonsInfo = JSON.parse(localStorage.getItem('PersonInfo'));
+    var TeacherEmail = lessonsInfo.Email;
     method = "GET";
-    content = {TeacherEmail:"Qinyucheng711@gmail.com"};                            //reset to teache eamil
+    content = { 'TeacherEmail': TeacherEmail };                            //reset to teache eamil
     Url = '/api/Classes';
     $.ajax({
 
