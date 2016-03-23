@@ -186,9 +186,7 @@ $(function(){
 	$(".Hui-aside").on("click",".menu_dropdown a",function(){
 		Hui_admin_tab(this);
 	});
-	$(".openClassTab").click(function () {
-	    Hui_admin_tab(this);
-	});
+	
 	
 	$(document).on("click","#min_title_list li",function(){
 		var bStopIndex=$(this).index();

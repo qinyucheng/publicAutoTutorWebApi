@@ -26,14 +26,14 @@
                 }
             );
             for (i = 0; i < length - 1; i = +2) {
-                $("#lessonsTable").append("<tr align='center' class='text-c'><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td><input type='checkbox' value='1' name=''></td><td>" + lessonInfo[i + 1]['LessonID'] + "</td><td id=" + lessonInfo[i + 1]['LessonID'] + " >" + lessonInfo[i + 1]['LessonName'] + "</td><td>" + lessonInfo[i + 1]['Description'] + "</td></tr>");
+                $("#lessonsTable").append("<tr align='center' class='text-c'><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td>" + lessonInfo[i + 1]['LessonID'] + "</td><td id=" + lessonInfo[i + 1]['LessonID'] + " >" + lessonInfo[i + 1]['LessonName'] + "</td><td>" + lessonInfo[i + 1]['Description'] + "</td></tr>");
             }
             if (length - 1 == i) {
-                $("#lessonsTable").append("<tr align='center' class='text-c'><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td></td><td></td><td></td><td></td></tr>");
+                $("#lessonsTable").append("<tr align='center' class='text-c'><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td></td><td></td><td></td></tr>");
             }
         }
     </script>
-<title>User Info</title>
+<title>Lesson and student info</title>
 </head>
 <body>
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Students and lessons information</nav>
@@ -44,7 +44,7 @@
                     <thead>
                         <tr><th scope='col' colspan='9'>Lesson List</th></tr>
                         <tr class='text-c'>
-                            <th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th><td width='25'></td><th width='25'></th><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th>
+                            <th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th><td width='25'></td><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th>
                         </tr>
                     </thead>
                 </table>

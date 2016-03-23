@@ -58,7 +58,7 @@
             <div class="row cl">
                 <label class="form-label col-3"><span class="c-red">*</span>Teacher Email:</label>
                 <div class="formControls col-5">
-                    <input type="text" class="input-text" placeholder="@" name="email" id="email" datatype="e" nullmsg="">
+                    <input type="text" class="input-text" placeholder="Email" name="email" id="email" datatype="e" nullmsg="">
                 </div>
                 <div class="col-4"> </div>
             </div>
@@ -66,7 +66,7 @@
             <div class="row cl">
                 <label class="form-label col-3"><span class="c-red">*</span>Class Name:</label>
                 <div class="formControls col-5">
-                    <input type="text" class="input-text" value="" placeholder="" id="className" name="user-name" datatype="*2-16" nullmsg="Student ID can not be null!">
+                    <input type="text" class="input-text" value="" placeholder="Unique name" id="className" name="user-name" datatype="*2-16" nullmsg="Student ID can not be null!">
                 </div>
                 <div class="col-4"> </div>
             </div>
@@ -145,7 +145,7 @@
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>Student ID:</label>
 			<div class="formControls col-5">
-                <input type="text" class="input-text" value="" placeholder="" id="studentID" name="studentID" datatype="*2-16" nullmsg="Student ID can not be null!">
+                <input type="text" class="input-text" value="" placeholder="Unique ID" id="studentID" name="studentID" datatype="*2-16" nullmsg="Student ID can not be null!">
 			</div>
 			<div class="col-4"> </div>
 		</div>
@@ -159,7 +159,7 @@
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>Student Email:</label>
 			<div class="formControls col-5">
-                <input type="text" class="input-text" placeholder="@" name="studentEmail" id="studentEmail" datatype="e" nullmsg="">
+                <input type="text" class="input-text" placeholder="Email" name="studentEmail" id="studentEmail" datatype="e" nullmsg="">
 			</div>
 			<div class="col-4"> </div>
 		</div>
@@ -238,7 +238,7 @@
 function admin_del(obj, id) {
     flag = 1;
     var studentID = $(obj).parents("tr").children("td")[0].innerHTML;
-	layer.confirm('delete it？',function(index){
+    layer.confirm('Do you want to delete this student？', function (index) {
 
 		$(obj).parents("tr").remove();
 		layer.msg('deleted!', { icon: 1, time: 1000 });
