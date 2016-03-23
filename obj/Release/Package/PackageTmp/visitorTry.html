@@ -46,7 +46,7 @@
         
 		<div class="show_iframe">
 			<div style="display:none" class="loading"></div>
-            <iframe scrolling="yes" frameborder="0" src="lessons-list.html"></iframe>
+            <iframe id="mainIframe" scrolling="yes" frameborder="0" src="lessons-list.html"></iframe>
 		</div>
 	</div>
 </section>
@@ -54,8 +54,9 @@
 <script type="text/javascript" src="lib/layer/2.1/layer.js"></script> 
 <script type="text/javascript" src="js/H-ui.js"></script> 
 <script type="text/javascript" src="js/H-ui.admin.js"></script> 
+<script type="text/javascript" src="js/URI.js"></script>
 <script type="text/javascript">
-
+    var URLParams = window.location.href;
     $(document).ready(function () {
         $("#login").bind("click", function () {
 
@@ -63,6 +64,24 @@
 
         });
     });
+
+  var pageName;
+  var pageURI;
+    window.onload = function () {
+        var URLParams = URI.parseQuery(window.location.search);
+        pageName = URLParams["lessonGroup"];
+        if (pageName === "ET") {
+            pageURI = "ET_lessons-list.html"
+        }
+        if (pageName === "CSAL") {
+            pageURI = "CSAL_lessons-list.html"
+        }
+        if (pageName === undefined) {
+            pageURI = "lessons-list.html";
+        }
+        $("#mainIframe").attr('src', pageURI);
+    }
+
 
 </script> 
 

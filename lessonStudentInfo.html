@@ -1,0 +1,79 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+<link href="lib/Hui-iconfont/1.0.6/iconfont.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="Scripts/jquery-1.10.2.js"></script> 
+    <script>
+        var classInformation = parent.selectedClassInformation;
+        var studentsInfo = classInformation.StudentGroup;
+        var lessonInfo = classInformation.SeletedLeassons;
+        $(function () {
+            genrateTable();
+        });
+        var length = lessonInfo.length;
+        function genrateTable() {
+            $.each(studentsInfo, function (index, array) {
+                $("#studentTable").append("<tr align='center' class='text-c'><td>" + array["StudentID"] + "</td><td>" + array["StudentName"] + "</td>" + "<td>" + array["StudentEmail"] + "</td></tr>");
+
+                }
+            );
+            for (i = 0; i < length - 1; i = +2) {
+                $("#lessonsTable").append("<tr align='center' class='text-c'><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td>" + lessonInfo[i + 1]['LessonID'] + "</td><td id=" + lessonInfo[i + 1]['LessonID'] + " >" + lessonInfo[i + 1]['LessonName'] + "</td><td>" + lessonInfo[i + 1]['Description'] + "</td></tr>");
+            }
+            if (length - 1 == i) {
+                $("#lessonsTable").append("<tr align='center' class='text-c'><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td></td><td></td><td></td></tr>");
+            }
+        }
+    </script>
+<title>Lesson and student info</title>
+</head>
+<body>
+    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Students and lessons information</nav>
+    <div class="pd-20">
+        <section id="lessonInfo" class="idealsteps-step">
+            <div class="pd-20">
+                <table class="table table-border table-bordered table-bg" id="lessonsTable" align="center">
+                    <thead>
+                        <tr><th scope='col' colspan='9'>Lesson List</th></tr>
+                        <tr class='text-c'>
+                            <th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th><td width='25'></td><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th>
+                        </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </section>
+
+        <!--section for add students-->
+        <section id="studentList" class="idealsteps-step">
+            <div class="pd-20">
+                <table class="table table-border table-bordered table-bg" id="studentTable">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="9">Student List</th>
+                        </tr>
+                        <tr class="text-c">
+                            <th width="40">Student ID</th>
+                            <th width="150">Student Name</th>
+                            <th width="90">Student Email</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+            <script type="text/javascript" src="js/H-ui.js"></script>
+            <script type="text/javascript" src="js/H-ui.admin.js"></script>
+            <script type="text/javascript" src="js/URI.js"></script>
+            <script type="text/javascript">
+            </script>
+</body>
+</html>

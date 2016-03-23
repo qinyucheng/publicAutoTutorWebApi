@@ -1,0 +1,796 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<LINK rel="Bookmark" href="/favicon.ico" >
+<LINK rel="Shortcut Icon" href="/favicon.ico" />
+
+<link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<link href="lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
+<link href="css/normalize.css" rel="stylesheet"/>
+<link href="css/jquery-ui.css" rel="stylesheet"/>
+<link href="css/jquery.idealforms.min.css" rel="stylesheet" media="screen"/>
+ <style>
+     .idealsteps-step {
+         display:none;
+     }
+     .ideal-wrap {
+         position:relative;
+         left:18%;
+         width:40%;
+     }
+     .ideal-tabs-wrap {    
+        width:100%;    
+        position: relative;
+     }
+     #reviseStudentInfo {
+         display:none;
+     }
+  </style>
+
+<title>Teacher add a class</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher revise class information <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="refresh" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+<div class="ideal-wrap ideal-tabs ideal-full-width" style="width:48%">
+	<ul class="ideal-tabs-wrap">
+        <li class="ideal-tabs-tab ideal-tabs-tab-active" id="step1"><span>step 1-Class information</span><i class="ideal-tabs-tab-counter">1</i></li>
+
+        <li class="ideal-tabs-tab" id="step2"><span>step 2-Select lessons</span><i class="ideal-tabs-tab-counter">2</i></li>
+
+        <li class="ideal-tabs-tab" id="step3"><span>step 3-Add students</span><i class="ideal-tabs-tab-counter">3</i></li>
+
+        <li class="ideal-tabs-tab" id="step4"><span>step 4-Confirm</span><i class="ideal-tabs-tab-counter">4</i></li>
+	</ul>
+</div>
+
+<!--fill class information-->
+<section id ="classInfo" name="step 1-Class information" class="idealsteps-step">
+    <div class="pd-20">
+        <div class="form form-horizontal">
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>Teacher Email:</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" placeholder="Email" name="email" id="email" datatype="e" nullmsg="">
+                </div>
+                <div class="col-4"> </div>
+            </div>
+
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>Class Name:</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" value="" placeholder="Unique name" id="className" name="user-name" datatype="*2-16" nullmsg="Student ID can not be null!">
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span> Class period:</label>
+                <div class="formControls col-5">
+                    <input type="text" onfocus="WdatePicker({ minDate: '#F{$dp.$D(\'datemin\')}', minDate: '%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
+                    ---
+                    <input type="text" onfocus="WdatePicker({minDate: '#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+                 
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>Lesson Group:</label>
+                <div class="formControls col-5">
+                    <select id="group">
+                    </select>
+                </div>
+                <div class="col-4"> </div>
+            </div>
+
+            <div class="cl pd-5 bg-1 bk-gray mt-20">
+                <span class="r">
+                    <!--<button class="btn btn-success" type="submit" id="createClass">Create a Class</button>-->
+                    <button class="btn btn-success" type="submit" id="first_next">Next</button>
+                </span>
+            </div>
+        </div>
+    </div>
+        <br /><br /><br />
+</section>
+
+<!--section for display and select lessons-->
+<section id ="lessonInfo" name="step 2-Select lessons" class="idealsteps-step">
+    <div class="pd-20">
+        <table class="table table-border table-bordered table-bg" id="lessonsTable" align="center">
+            
+        </table>
+        <div class="cl pd-5 bg-1 bk-gray mt-20">
+            <span class="r">
+                <button class="btn btn-success" type="submit" id="first_back">Previous</button>
+                <button class="btn btn-success" type="submit" id="second_next">Next</button>
+            </span>
+        </div>
+    </div>
+</section>
+
+<!--section for add students-->
+<section id="studentList" name="step 3-Add students" class="idealsteps-step">
+<div class="pd-20">
+	<table class="table table-border table-bordered table-bg" id="studentTable">
+		<thead>
+			<tr>
+				<th scope="col" colspan="9">Student List</th>
+			</tr>
+			<tr class="text-c">
+				<th width="40">Student ID</th>
+				<th width="150">Student Name</th>
+				<th width="90">Student Email</th>
+				<th width="100">Operations</th>
+			</tr>
+		</thead>
+        <!-- <tr align='center' class='text-c'>
+            <td>yehui</td>
+            <td>yehui</td>
+            <td>yehui</td>"
+            <td class="td-manage"><a style="text-decoration:none" onclick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> <a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','admin-add.html','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+        </tr> -->
+        <tbody>
+        </tbody>
+    </table>
+
+<br/><br/><br/>
+	<div class="form form-horizontal">
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>Student ID:</label>
+			<div class="formControls col-5">
+                <input type="text" class="input-text" value="" placeholder="Unique ID" id="studentID" name="studentID" datatype="*2-16" nullmsg="Student ID can not be null!">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>StudentName：</label>
+			<div class="formControls col-5">
+                <input type="text" placeholder="Name" autocomplete="off" value="" class="input-text" datatype="*6-20" nullmsg="" name="studentName" id="studentName">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>Student Email:</label>
+			<div class="formControls col-5">
+                <input type="text" class="input-text" placeholder="Email" name="studentEmail" id="studentEmail" datatype="e" nullmsg="">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;Add a new student&nbsp;&nbsp;" id="addStudent">
+			</div>
+		</div>
+        <div class="row cl">
+            <div class="col-9 col-offset-3">
+                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;revise student info&nbsp;&nbsp;" id="reviseStudentInfo">
+            </div>
+        </div>
+        <div class="cl pd-5 bg-1 bk-gray mt-20">
+            <span class="r">
+                <button class="btn btn-success" type="submit" id="second_back">Previous</button>
+                <button class="btn btn-success" type="submit" id="third_next">Next</button>
+            </span>
+        </div>
+	</div>
+</div>
+
+	<br/><br/><br/>
+	</section>
+
+	<!--section for review all information-->
+	<section id ="confirm" name="step 4-Confirm" class="idealsteps-step">
+        <div class="pd-20">
+        <table class="table table-border table-bordered table-bg" id="confirmClass" align="center">
+            <!--<thead>
+                <tr>
+                    <th scope="col" colspan="9">Confirm class information</th>
+                </tr>
+            </thead>-->
+        </table>
+		<br/>
+        <table class="table table-border table-bordered table-bg" id="confirmLesson" align="center">
+            <!--<thead>
+                <tr>
+                    <th scope="col" colspan="9">Confirm lessons information</th>
+                </tr>
+            </thead>-->
+        </table>
+		<br/>
+        <table class="table table-border table-bordered table-bg" id="confirmStudent" align="center">
+            <!-- <thead>
+                <tr>
+                    <th scope="col" colspan="9">Confirm Student List</th>
+                </tr>
+            </thead>-->
+        </table>
+        <div class="cl pd-5 bg-1 bk-gray mt-20">
+            <span class="r">
+                <button class="btn btn-success" type="submit" id="third_back">Previous</button>
+                <button class="btn btn-success" type="submit" id="confirmBT">Submit</button>
+            </span>
+        </div>
+    </div>
+	</section>
+
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>  
+<script type="text/javascript" src="lib/layer/2.1/layer.js"></script> 
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script> 
+<script type="text/javascript" src="lib/My97DatePicker/WdatePicker.js"></script> 
+<script type="text/javascript" src="js/H-ui.js"></script> 
+<script type="text/javascript" src="js/H-ui.admin.js"></script> 
+<script type="text/javascript" src="lib/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/jquery.idealforms.js"></script>
+<script type="text/javascript" src="js/lessonGroupList.js"></script>
+
+
+
+<script type="text/javascript">
+var count = 3;
+var tabId = "step1";
+var step = [true, false, false, false];
+var nameMap = { "step1": "#classInfo", "step2": "#lessonInfo", "step3": "#studentList", "step4": "#confirm" };
+var groupName;
+// instore all information to create a class
+var classInformation = {};
+var lessonInformation;
+var studentsList;
+var lessonObj;
+var selectStud;
+var studentsName;
+var flag = 0;
+var teacherName;
+
+
+
+    function admin_del(obj, id) {
+        flag = 1;
+        var studentID = $(obj).parents("tr").children("td")[0].innerHTML;
+        layer.confirm('Do you want to delete this student？',function(index){
+
+            $(obj).parents("tr").remove();
+            layer.msg('deleted!', { icon: 1, time: 1000 });
+            $.each(studentsList, function (index, student) {
+                if (studentID === student["StudentID"]) {
+                    studentsList.splice(index, 1);
+                    return false;
+                }
+            }
+    );
+        });
+    }
+
+
+
+    $("#step1").click(function () {
+        if (step[0] === true) {
+            $("#"+tabId).attr("class", "ideal-tabs-tab");
+            $("#step1").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
+            $(nameMap[tabId]).hide();
+            $(nameMap["step1"]).show();
+
+            tabId = $(this).attr("id");
+        }
+    });
+
+    $("#step2").click(function () {
+        if (step[1] === true) {
+            $("#"+tabId).attr("class", "ideal-tabs-tab");
+            $("#step2").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
+            $(nameMap[tabId]).hide();
+            $(nameMap["step2"]).show();
+
+            tabId = $(this).attr("id");   
+        }
+    });
+    $("#step3").click(function () {
+        if (step[2] === true) {
+            $("#" + tabId).attr("class", "ideal-tabs-tab");
+            $("#step3").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
+            $(nameMap[tabId]).hide();
+            $(nameMap["step3"]).show();
+       
+
+            tabId = $(this).attr("id");
+        }
+    });
+    $("#step4").click(function () {
+        if (step[3] === true) {
+            $("#" + tabId).attr("class", "ideal-tabs-tab");
+            $("#step4").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
+            $(nameMap[tabId]).hide();
+            $(nameMap["step4"]).show();
+
+            tabId = $(this).attr("id");
+            clearnConfirmTable();
+            confirmST();
+            confirmCS();
+            confirmLessonInfo();
+        }
+    });
+
+
+
+
+    //control sections hide or show
+
+    //$(".idealsteps-step").hide();
+    $("#classInfo").show();
+
+    $("#first_next").click(function(){
+        $("#classInfo").hide();
+        $("#lessonInfo").show();
+        $("#step1").attr("class","ideal-tabs-tab");
+        $("#step2").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
+        groupName = $("#group option:selected").text();
+        $("#lessonsTable thead").remove();
+        $("#lessonsTable tr").remove();
+        displayLessons();
+        step[1] = true;
+        tabId = "step2";
+        createClass();
+    });
+    $("#second_next").click(function(){
+        $("#lessonInfo").hide();
+        $("#studentList").show();
+        $("#step2").attr("class","ideal-tabs-tab");
+        $("#step3").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
+        step[2] = true;
+        tabId = "step3";
+        classInformation["SeletedLeassons"] = lessonInformation;
+        putLessonInfo();
+    });
+    $("#third_next").click(function(){
+        $("#studentList").hide();
+        $("#confirm").show();
+        $("#step3").attr("class","ideal-tabs-tab");
+        $("#step4").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
+        step[3] = true;
+        tabId = "step4";
+        classInformation["StudentGroup"] = studentsList;
+        putStudentInfo();        //put function
+        confirmST();
+        confirmCS();
+        confirmLessonInfo();
+    });
+    $("#third_back").click(function(){
+        $("#studentList").show();
+        $("#confirm").hide();
+        $("#step4").attr("class","ideal-tabs-tab");
+        $("#step3").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
+        tabId = "step3";
+        clearnConfirmTable();
+    });
+    $("#second_back").click(function(){
+        $("#studentList").hide();
+        $("#lessonInfo").show();
+        $("#step3").attr("class","ideal-tabs-tab");
+        $("#step2").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
+        tabId = "step2";
+    });
+    $("#first_back").click(function(){
+        $("#classInfo").show();
+        $("#lessonInfo").hide();
+        $("#step2").attr("class","ideal-tabs-tab");
+        $("#step1").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
+        tabId = "step1";
+    });
+
+    function clearnConfirmTable() {   
+        $("#confirmClass thead").remove();
+        $("#confirmClass tr").remove();
+        $("#confirmLesson thead").remove();
+        $("#confirmLesson tr").remove();
+        $("#confirmStudent thead").remove();
+        $("#confirmStudent tr").remove();
+    }
+
+    //$(function(){
+    //displayLessons();
+   
+    //});
+    //get lesson function
+    function displayLessons() {
+        method = "GET";
+        content = { id: "status", status: "active" };
+        Url = '/api/Lessons';
+        $.ajax({
+
+            url: Url,
+            type: method,
+            dataType: 'json',
+            data: content,
+
+
+
+            success: function (data) {
+                console.log(".net Output:");
+                $("#lessonsTable").append("<thead><tr><th scope='col' colspan='9'>Lesson List</th></tr><tr class='text-c'><th width='25'></th><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th><td width='25'></td><th width='25'></th><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th></tr></thead>");
+                var countNO = 0;            
+                var lessonArray=[];
+                var i;
+                lessonObj = data;
+                $.each(data, function (index, array) { //loop  items for display
+                    if (array['LessonGroup'] == groupName && array['Status'] === "active") {
+                        lessonArray.push(array);
+                    }
+                });
+                var length = lessonArray.length;
+
+                for (i=0; i <length-1; i=+ 2) {
+                    $("#lessonsTable").append("<tr align='center' class='text-c'><td><input type='checkbox' value='1' name=''></td><td>" + lessonArray[i]['LessonID'] + "</td><td id=" + lessonArray[i]['LessonID'] + " >" + lessonArray[i]['LessonName'] + "</td><td>" + lessonArray[i]['Description'] + "</td><td width='25'></td><td><input type='checkbox' value='1' name=''></td><td>" + lessonArray[i + 1]['LessonID'] + "</td><td id=" + lessonArray[i + 1]['LessonID'] + " >" + lessonArray[i + 1]['LessonName'] + "</td><td>" + lessonArray[i + 1]['Description'] + "</td></tr>");
+                }
+                if (length - 1 == i) {
+                    $("#lessonsTable").append("<tr align='center' class='text-c'><td><input type='checkbox' value='1' name=''></td><td>" + lessonArray[i]['LessonID'] + "</td><td id=" + lessonArray[i]['LessonID'] + " >" + lessonArray[i]['LessonName'] + "</td><td>" + lessonArray[i]['Description'] + "</td><td width='25'></td><td></td><td></td><td></td><td></td></tr>");
+                }
+            },
+
+
+            complete: function () { //
+                $('td > input', $('#lessonsTable')).click(function () {
+                    $('.selected').removeClass('selected');
+                    $(this).addClass('selected'); //this 
+                    //var $td = $(this).parents('tr').children('td')[1];
+                    var $td = $(this).parents('td').next();
+                    var LessonID = $td[0].innerHTML;
+                    selectedID = $td.id;
+                    //$('#selectItemName').html("You have selected  a lesson : " + $td.innerHTML + ".");
+                    //Unlock("#ShowNickName");
+                    if ($(this).is(":checked")) {
+                        $.each(lessonObj, function (index, array) {
+                            if (LessonID === array["LessonID"]) {
+                                var oneLesson = { "LessonID": array["LessonID"], "LessonName": array["LessonName"], "Description": array["Description"], "ScriptURL": array["ScriptURL"], "LessonURL": array["LessonURL"] };
+                                lessonInformation.push(oneLesson);
+                                return false;
+                            }
+                        }   
+                        );
+                    }
+                    else {
+                        $.each(lessonInformation, function (index, lesson) {
+                            if (LessonID === lesson["LessonID"]){
+                                lessonInformation.splice(index, 1);
+                                return false;
+                            }
+                        }
+                        );
+                    }
+
+                }).hover(		//
+                       function () {
+                           $(this).addClass('mouseOver');
+                       },
+                       function () {
+                           $(this).removeClass('mouseOver');
+                       }
+                   );
+                // add selection lessons
+                addSelectLessons();
+            },
+
+        });
+        
+    }
+
+
+    // reviseStudentInfo button click event
+    $('#reviseStudentInfo').click(function () {
+        $.each(studentsList, function (index, selectStudent) {
+            if (selectStud[0].innerHTML === selectStudent["StudentID"]) {
+                studentsList[index]["StudentID"] = document.getElementById("studentID").value;
+                studentsList[index]["StudentName"] = document.getElementById("studentName").value;
+                studentsList[index]["StudentEmail"] = document.getElementById("studentEmail").value;
+                return false;
+            }
+        }
+        );
+        selectStud[0].innerHTML = document.getElementById("studentID").value;
+        selectStud[1].innerHTML = document.getElementById("studentName").value;
+        selectStud[2].innerHTML = document.getElementById("studentEmail").value;
+        $('#studentID').val('');
+        $('#studentName').val('');
+        $('#studentEmail').val('');
+        $('#addStudent').show();
+        $('#reviseStudentInfo').hide();
+
+    });
+
+    //add new student in the student table
+    $("#addStudent").click(function () {
+        var student = {};
+        var studentID = student["StudentID"] = document.getElementById("studentID").value;
+        var studentName = student["StudentName"] = document.getElementById("studentName").value;
+        var studentEmail = student["StudentEmail"] = document.getElementById("studentEmail").value;
+        student["ID"] = teacherName + "-" + classInformation["ClassName"] + "-" + studentID;                          //ID 
+        $("#studentTable").append("<tr align='center' class='text-c'><td>" + studentID + "</td><td>" + studentName + "</td>" + "<td>" + studentEmail + "</td>" + "<td class='td-manage' id='delete'><a title='delete' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
+        studentsList.push(student);         //need to revise it.
+        $('#studentID').val('');
+        $('#studentName').val('');
+        $('#studentEmail').val('');
+        $('tbody > tr', $('#studentTable')).click(function () {
+            if (flag === 0) {
+                $('.selected').removeClass('selected');
+                $(this).addClass('selected'); //this 
+                //var $td = $(this).children('td')[1];
+                selectStud = $(this).children('td');
+                //selectedID = $td.id;
+                $('#studentID').val(selectStud[0].innerHTML);
+                $('#studentName').val(selectStud[1].innerHTML);
+                $('#studentEmail').val(selectStud[2].innerHTML);
+
+                $('#addStudent').hide();
+                $('#reviseStudentInfo').show();
+            }
+            else {
+                flag = 0;
+            }
+        }).hover(		//
+                       function () {
+                           $(this).addClass('mouseOver');
+                       },
+                       function () {
+                           $(this).removeClass('mouseOver');
+                       }
+                   );
+    });
+
+    //push();
+
+
+    // click createClass button
+    function createClass() {
+        var dt = new Date();
+        var time = dt.getFullYear().toString()+ (dt.getMonth()+1)+dt.getHours() + dt.getMinutes() + dt.getSeconds();
+        classInformation["_id"] = document.getElementById("className").value + time;
+        classInformation["ClassName"] = document.getElementById("className").value;
+        classInformation["TeacherEmail"] = document.getElementById("email").value;
+        classInformation["StudyStartTime"] = document.getElementById("datemin").value;
+        classInformation["StudyEndTime"] = document.getElementById("datemin").value;
+        //classInformation["ClassName"] = $("#group option:selected").text();
+        lessonPost();
+    }
+
+
+
+
+    //get studentList and studentname list
+    function studentsListName() {
+        studentsName=[];
+        $.each(studentsList, function (index, singleStudent){
+            studentsName.push(singleStudent["ID"] + ":" + singleStudent["StudentName"])
+        });
+    }
+
+
+
+    // display confirm information
+    function confirmST() {
+        $("#confirmStudent").append("<thead><tr><th scope='col' colspan='9'>Confirm Student List</th></tr><tr class='text-c'><th width='40'>Student ID</th><th width='150'>Student Name</th><th width='90'>Student Email</th></tr></thead>");
+        if (studentsList.length === 0) {
+        }
+        else { 
+            for(var array in studentsList){
+                $("#confirmStudent").append("<tr align='center' class='text-c'><td>" + studentsList[array]["StudentID"] + "</td><td>" + studentsList[array]["StudentEmail"] + "</td>" + "<td>" + studentsList[array]["StudentName"] + "</td></tr>");
+            }
+        }
+    }
+
+    function confirmCS() {
+        $("#confirmClass").append("<thead><tr><th scope='col' colspan='9'>Confirm Class Information</th></tr><tr class='text-c'><th width='40'>Class Name</th><th width='40'>Lesson Group</th><th width='150'>Study Start Time</th><th width='150'>Study End Time</th></tr></thead>");
+
+	
+        if (classInformation["ClassName"] === undefined) {
+        }
+        else {
+            $("#confirmClass").append("<tr align='center' class='text-c'><td>" + classInformation["_id"] + "</td>"+"<td>" + classInformation["ClassName"] + "</td>"+ "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td></tr>");
+        }
+    }
+
+    function confirmLessonInfo() {
+        $("#confirmLesson").append("<thead><tr><th scope='col' colspan='9'>Confirm Lesson List</th></tr><tr class='text-c'><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th></tr></thead>");
+        if (lessonInformation.length === 0) {
+        }
+        else {
+            for (var array in lessonInformation) {
+                $("#confirmLesson").append("<tr align='center' class='text-c'><td>" + lessonInformation[array]['LessonID'] + "</td><td id=" + lessonInformation[array]['LessonID'] + " >" + lessonInformation[array]['LessonName'] + "</td><td>" + lessonInformation[array]['Description'] + "</td></tr>");
+            }
+        }
+    }
+
+    $('#confirmBT').click(function () {
+        var flag = confirm("Are you sure all information is correct?");
+        studentsListName();
+        postStuName();
+        putClassInfor();
+        //if (flag === true) { location.replace(location.href); }
+    
+    });
+
+
+
+
+    function lessonPost() {
+        var method = "POST";
+    
+
+        content = classInformation;
+        method = "POST";
+        Url = '/api/Classes';
+
+        $.ajax({
+
+            url: Url,
+            type: method,
+            data: content,
+
+        }).success(function (data) {
+            console.log(".net Output:");
+            console.log(data);
+            if (data == true) {
+                //alert(data);
+            }
+            else {
+                //alert(data);
+            }
+
+        });
+
+    }
+
+    function putLessonInfo() {
+        var method = "PUT";
+
+        content = classInformation;
+    
+        // Url = '/api/MongoDB/' + email;
+        Url = '/api/Classes/ModifySelectedLessonsInfo';
+        $.ajax({
+
+            url: Url,
+            type: method,
+            data: content,
+
+        }).success(function (data) {
+            console.log(".net Output:");
+            console.log(data);
+            //alert(data);
+
+        });
+    }
+
+    function putStudentInfo() {
+        var method = "PUT";
+
+        content = classInformation;
+
+        // Url = '/api/MongoDB/' + email;
+        Url = '/api/Classes/ModifyClassStudents';
+        $.ajax({
+
+            url: Url,
+            type: method,
+            data: content,
+
+        }).success(function (data) {
+            console.log(".net Output:");
+            console.log(data);
+            //alert(data);
+
+        });
+    }
+
+    function putClassInfor() {
+        var method = "PUT";
+
+        content = classInformation;
+
+        // Url = '/api/MongoDB/' + email;
+        Url = '/api/Classes/ModifyUpdateClassInfo';
+        $.ajax({
+
+            url: Url,
+            type: method,
+            data: content,
+
+        }).success(function (data) {
+            console.log(".net Output:");
+            console.log(data);
+            alert(data);
+
+        });
+    }
+
+    //post funtion upload studentNames
+    function postStuName() {
+
+        var method = "POST";
+
+
+        //content = { "StudentsName": studentsName, "group": groupName, ClassName: classInformation["ClassName"], "teacherName": teacherName };
+        content = { "StudentsName": studentsName, "group": groupName, ClassName: classInformation["ClassName"]};
+        method = "POST";
+        Url = '/api/CreateClasses';
+
+        $.ajax({
+
+            url: Url,
+            type: method,
+            data: content,
+
+        }).success(function (data) {
+            console.log(".net Output:");
+            console.log(data);
+            if (data == true) {
+                //alert(data);
+                location.replace(location.href);
+            }
+            else {
+                alert(data);
+            }
+
+        });
+
+    }
+
+
+
+
+    $(document).ready(function () {
+        //unbindClick();
+        var isLogin = localStorage.getItem('isLogin');
+        var PersonInfoObj = localStorage.getItem('PersonInfo');
+        var PersonInfo = JSON.parse(PersonInfoObj);
+        var isEmptyObject = jQuery.isEmptyObject(PersonInfo);
+        if (isEmptyObject == false) {
+            var TeacherEmail = PersonInfo.Email;
+            $("#email").val(TeacherEmail);
+            $('#email').attr('disabled', true);
+            teacherName = PersonInfo.FirstName;
+        }
+        groupOption();
+        displayClassInfo();
+    });
+
+    var seletedClassInformation = localStorage.getItem('seletedClass');
+    var seletedClassInformation = JSON.parse(seletedClassInformation);
+    var selectLessons;
+    function displayClassInfo() {
+        var studentListOld = seletedClassInformation["StudentGroup"];
+
+        $('#className').val(seletedClassInformation["ClassName"]);
+        $('#datemin').val(seletedClassInformation["StudyStartTime"]);
+        $('#datemax').val(seletedClassInformation["StudyEndTime"]);
+
+        /**
+        set value for lesson table and
+        and student table
+        **/
+        lessonInformation = seletedClassInformation["SeletedLeassons"];
+        studentsList = studentListOld;
+        $.each(studentListOld, function (index, array) {
+            $("#studentTable").append("<tr align='center' class='text-c'><td>" + array["StudentID"] + "</td><td>" + array["StudentName"] + "</td>" + "<td>" + array["StudentEmail"] + "</td>" + "<td class='td-manage' id='delete'><a title='delete' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
+        }
+        );
+    }
+
+    function addSelectLessons(){
+        if (lessonInformation.length!= null) {
+            $.each(lessonInformation, function (index, array) { //loop  items for display
+                var id = array["LessonID"];
+                $("#lessonsTable #" + id).prev().prev().find('input').prop("checked", true);
+            });
+           
+        }
+        
+    }
+</script>
+</body>
+</html>

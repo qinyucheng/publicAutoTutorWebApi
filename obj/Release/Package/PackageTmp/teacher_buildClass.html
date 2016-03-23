@@ -58,7 +58,7 @@
             <div class="row cl">
                 <label class="form-label col-3"><span class="c-red">*</span>Teacher Email:</label>
                 <div class="formControls col-5">
-                    <input type="text" class="input-text" placeholder="Email" name="email" id="email" datatype="e" nullmsg="">
+                    <input type="text" class="input-text" placeholder="@" name="email" id="email" datatype="e" nullmsg="">
                 </div>
                 <div class="col-4"> </div>
             </div>
@@ -66,14 +66,14 @@
             <div class="row cl">
                 <label class="form-label col-3"><span class="c-red">*</span>Class Name:</label>
                 <div class="formControls col-5">
-                    <input type="text" class="input-text" value="" placeholder="Unique name" id="className" name="user-name" datatype="*2-16" nullmsg="Student ID can not be null!">
+                    <input type="text" class="input-text" value="" placeholder="" id="className" name="user-name" datatype="*2-16" nullmsg="Student ID can not be null!">
                 </div>
                 <div class="col-4"> </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-3"><span class="c-red">*</span> Class period:</label>
                 <div class="formControls col-5">
-                    <input type="text" onfocus="WdatePicker({ minDate: '#F{$dp.$D(\'datemin\')}', minDate: '%m-%d-%y' })" id="datemax" class="input-text Wdate" style="width:120px;">
+                    <input type="text" onfocus="WdatePicker({ minDate: '#F{$dp.$D(\'datemin\')}', minDate: '%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
                     ---
                     <input type="text" onfocus="WdatePicker({minDate: '#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
                  
@@ -124,9 +124,9 @@
 				<th scope="col" colspan="9">Student List</th>
 			</tr>
 			<tr class="text-c">
-				<th width="40">Student ID</th>
-				<th width="150">Student Name</th>
-				<th width="90">Student Email</th>
+				<th width="40">StudentID</th>
+				<th width="150">StudentName</th>
+				<th width="90">StudentEmail</th>
 				<th width="100">Operations</th>
 			</tr>
 		</thead>
@@ -143,23 +143,23 @@
 <br/><br/><br/>
 	<div class="form form-horizontal">
 		<div class="row cl">
-			<label class="form-label col-3"><span class="c-red">*</span>Student ID:</label>
+			<label class="form-label col-3"><span class="c-red">*</span>StudentID:</label>
 			<div class="formControls col-5">
-                <input type="text" class="input-text" value="" placeholder="Unique ID" id="studentID" name="studentID" datatype="*2-16" nullmsg="Student ID can not be null!">
+                <input type="text" class="input-text" value="" placeholder="" id="studentID" name="studentID" datatype="*2-16" nullmsg="Student ID can not be null!">
 			</div>
 			<div class="col-4"> </div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>StudentName：</label>
 			<div class="formControls col-5">
-                <input type="text" placeholder="Name" autocomplete="off" value="" class="input-text" datatype="*6-20" nullmsg="" name="studentName" id="studentName">
+                <input type="text" placeholder="Name" autocomplete="off" value="" class="input-text" datatype="*6-20" nullmsg="密码不能为空" name="studentName" id="studentName">
 			</div>
 			<div class="col-4"> </div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>Student Email:</label>
 			<div class="formControls col-5">
-                <input type="text" class="input-text" placeholder="Email" name="studentEmail" id="studentEmail" datatype="e" nullmsg="">
+                <input type="text" class="input-text" placeholder="@" name="studentEmail" id="studentEmail" datatype="e" nullmsg="请输入邮箱！">
 			</div>
 			<div class="col-4"> </div>
 		</div>
@@ -214,7 +214,7 @@
         <div class="cl pd-5 bg-1 bk-gray mt-20">
             <span class="r">
                 <button class="btn btn-success" type="submit" id="third_back">Previous</button>
-                <button class="btn btn-success" type="submit" id="confirmBT">Submit</button>
+                <button class="btn btn-success" type="submit" id="confirmBT">Confirm</button>
             </span>
         </div>
     </div>
@@ -234,11 +234,24 @@
 
 
 <script type="text/javascript">
-
+/*
+	参数解释：
+	title	标题
+	url		请求的url
+	id		需要操作的数据id
+	w		弹出层宽度（缺省调默认值）
+	h		弹出层高度（缺省调默认值）
+*/
+/*管理员-增加*/
+function admin_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+/*管理员-删除*/
 function admin_del(obj, id) {
     flag = 1;
     var studentID = $(obj).parents("tr").children("td")[0].innerHTML;
-    layer.confirm('Do you want to delete this student？', function (index) {
+	layer.confirm('delete it？',function(index){
+		//此处请求后台程序，下方是成功后的前台处理……
 
 		$(obj).parents("tr").remove();
 		layer.msg('deleted!', { icon: 1, time: 1000 });
@@ -251,6 +264,35 @@ function admin_del(obj, id) {
 );
 	});
 }
+/*管理员-编辑*/
+function admin_edit(title,url,id,w,h){
+	layer_show(title,url,w,h);
+}
+/*管理员-停用*/
+function admin_stop(obj,id){
+	layer.confirm('确认要停用吗？',function(index){
+		//此处请求后台程序，下方是成功后的前台处理……
+		
+		$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_start(this,id)" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
+		$(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已禁用</span>');
+		$(obj).remove();
+		layer.msg('已停用!',{icon: 5,time:1000});
+	});
+}
+
+/*管理员-启用*/
+function admin_start(obj,id){
+	layer.confirm('确认要启用吗？',function(index){
+		//此处请求后台程序，下方是成功后的前台处理……
+		
+		
+		$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_stop(this,id)" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
+		$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
+		$(obj).remove();
+		layer.msg('已启用!', {icon: 6,time:1000});
+	});
+}
+
 
 /*$(".form-horizontal").Validform({
 		tiptype:2,
@@ -411,7 +453,7 @@ function displayLessons() {
 
         success: function (data) {
             console.log(".net Output:");
-            $("#lessonsTable").append("<thead><tr><th scope='col' colspan='9'>Lesson List</th></tr><tr class='text-c'><th width='25'></th><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th><td width='25'></td><th width='25'></th><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th></tr></thead>");
+            $("#lessonsTable").append("<thead><tr><th scope='col' colspan='9'>Lesson List</th></tr><tr class='text-c'><th width='25'></th><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>description</th><td width='25'></td><th width='25'></th><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>description</th></tr></thead>");
             var countNO = 0;            
             var lessonArray=[];
             var i;
@@ -427,7 +469,7 @@ function displayLessons() {
                 $("#lessonsTable").append("<tr align='center' class='text-c'><td><input type='checkbox' value='1' name=''></td><td>" + lessonArray[i]['LessonID'] + "</td><td id=" + lessonArray[i]['LessonID'] + " >" + lessonArray[i]['LessonName'] + "</td><td>" + lessonArray[i]['Description'] + "</td><td width='25'></td><td><input type='checkbox' value='1' name=''></td><td>" + lessonArray[i + 1]['LessonID'] + "</td><td id=" + lessonArray[i + 1]['LessonID'] + " >" + lessonArray[i + 1]['LessonName'] + "</td><td>" + lessonArray[i + 1]['Description'] + "</td></tr>");
             }
             if (length - 1 == i) {
-                $("#lessonsTable").append("<tr align='center' class='text-c'><td><input type='checkbox' value='1' name=''></td><td>" + lessonArray[i]['LessonID'] + "</td><td id=" + lessonArray[i]['LessonID'] + " >" + lessonArray[i]['LessonName'] + "</td><td>" + lessonArray[i]['Description'] + "</td><td width='25'></td><td></td><td></td><td></td><td></td></tr>");
+                $("#lessonsTable").append("<tr align='center' class='text-c'><td><input type='checkbox' value='1' name=''></td><td>" + lessonArray[i]['LessonID'] + "</td><td id=" + lessonArray[i]['LessonID'] + " >" + lessonArray[i]['LessonName'] + "</td><td>" + lessonArray[i]['Description'] + "</td></tr>");
             }
         },
 
@@ -552,6 +594,7 @@ function createClass() {
     classInformation["TeacherEmail"] = document.getElementById("email").value;
     classInformation["StudyStartTime"] = document.getElementById("datemin").value;
     classInformation["StudyEndTime"] = document.getElementById("datemin").value;
+    //classInformation["ClassName"] = $("#group option:selected").text();
     lessonPost();
     }
 
@@ -570,7 +613,7 @@ function studentsListName() {
 
 // display confirm information
 function confirmST() {
-    $("#confirmStudent").append("<thead><tr><th scope='col' colspan='9'>Confirm Student List</th></tr><tr class='text-c'><th width='40'>Student ID</th><th width='150'>Student Name</th><th width='90'>Student Email</th></tr></thead>");
+    $("#confirmStudent").append("<thead><tr><th scope='col' colspan='9'>Confirm Student List</th></tr><tr class='text-c'><th width='40'>StudentID</th><th width='150'>StudentName</th><th width='90'>StudentEmail</th></tr></thead>");
     if (studentsList.length === 0) {
     }
     else { 
@@ -581,7 +624,7 @@ function confirmST() {
   }
 
 function confirmCS() {
-    $("#confirmClass").append("<thead><tr><th scope='col' colspan='9'>Confirm Class Information</th></tr><tr class='text-c'><th width='40'>Class Name</th><th width='40'>Lesson Group</th><th width='150'>Study Start Time</th><th width='150'>Study End Time</th></tr></thead>");
+    $("#confirmClass").append("<thead><tr><th scope='col' colspan='9'>Confirm class information</th></tr><tr class='text-c'><th width='40'>Class Name</th><th width='40'>Lesson Group</th><th width='150'>Study Start time</th><th width='150'>Study End time</th></tr></thead>");
 
 	
     if (classInformation["ClassName"] === undefined) {
@@ -592,7 +635,7 @@ function confirmCS() {
    }
 
 function confirmLessonInfo() {
-    $("#confirmLesson").append("<thead><tr><th scope='col' colspan='9'>Confirm Lesson List</th></tr><tr class='text-c'><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th></tr></thead>");
+    $("#confirmLesson").append("<thead><tr><th scope='col' colspan='9'>Confirm Lesson List</th></tr><tr class='text-c'><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>description</th></tr></thead>");
     if (lessonInformation.length === 0) {
     }
     else {
@@ -714,6 +757,24 @@ function putClassInfor() {
     });
 }
 
+    //unbind event
+/*function unbindClick() {
+    step = [false, false, false, false];
+    $('#second_back').attr("disabled", true);
+}
+
+function bindClick() {
+    step = [true, true, true, true];
+    //$('#step1').attr("disabled", false);
+    //$('#step2').attr("disabled", false);
+    //$('#step3').attr("disabled", false);
+    //$('#step4').attr("disabled", false);
+    $('#second_back').attr("disabled", false);
+
+}*/
+
+
+    //
 
 //post funtion upload studentNames
 function postStuName() {
@@ -749,8 +810,15 @@ function postStuName() {
 
 
 
+    //add option lessonGroup
+/*function groupOption() {
+    for (var i = 0; i <= lessonGroupList.length - 1;i++)
+        $("#group").append("<option value='" + lessonGroupList[i] + "'>" + lessonGroupList[i] + "</option>");
+}*/
+
 
 $(document).ready(function () {
+    //unbindClick();
     var isLogin = localStorage.getItem('isLogin');
     var PersonInfoObj = localStorage.getItem('PersonInfo');
     var PersonInfo = JSON.parse(PersonInfoObj);

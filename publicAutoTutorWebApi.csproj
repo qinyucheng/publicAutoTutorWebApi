@@ -151,9 +151,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="admin_adminEdit.html" />
     <Content Include="admin_addLesson.html" />
     <Content Include="admin_adminList.html" />
+    <Content Include="indexTest.html" />
+    <Content Include="lessonStudentInfo.html" />
+    <Content Include="admin_userInfo.html" />
     <Content Include="admin_userList.html" />
     <Content Include="change-password.html" />
     <Content Include="ET_lessons-list.html" />
@@ -183,17 +185,21 @@
     <Content Include="images\totop.png" />
     <Content Include="images\user.png" />
     <Content Include="index.html" />
+    <Content Include="js\classList.js" />
     <Content Include="js\html5.js" />
     <Content Include="js\jquery.cookie.js" />
     <Content Include="js\lessonGroupList.js" />
+    <Content Include="js\studentLessonList.js" />
     <Content Include="js\lessonList.js" />
     <Content Include="js\respond.min.js" />
     <Content Include="CSAL_lessons-list.html" />
     <Content Include="admin_lessonslist.html" />
+    <Content Include="teacher_reviseClass.html" />
+    <Content Include="teacher_MyClass.html" />
+    <Content Include="student_lessonslist.html" />
     <Content Include="lib\html5.js" />
     <Content Include="lib\respond.min.js" />
     <Content Include="login.html" />
-    <Content Include="admin_userInfo.html" />
     <Content Include="skin\blue\acrossTab-bg.png" />
     <Content Include="skin\blue\acrossTab.png" />
     <Content Include="skin\blue\icon_arrow.png" />
@@ -218,7 +224,9 @@
     <Content Include="skin\yellow\acrossTab.png" />
     <Content Include="skin\yellow\icon_arrow.png" />
     <Content Include="skin\yellow\skin.css" />
+    <Content Include="student_Lessons.html" />
     <Content Include="teacher_buildClass.html" />
+    <Content Include="templateLogin.html" />
     <Content Include="user_updatePersonalInfo.html" />
     <Content Include="visitorTry.html" />
     <Content Include="js\nameList.js" />

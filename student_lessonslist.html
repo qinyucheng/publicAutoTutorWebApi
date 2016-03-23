@@ -19,23 +19,18 @@
     <script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="js/H-ui.js"></script>
     <script type="text/javascript" src="js/H-ui.admin.js"></script>
-    <script type="text/javascript" src="js/lessonList.js"></script>
-    <script type="text/javascript" src="js/lessonGroupList.js"></script>
+    <script type="text/javascript" src="js/studentLessonList.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            setLessonGroup("All");
+            //setLessonGroup("All");
             groupOption();
         });
 
     </script> 
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> Lesson List  <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" id="Refresh" title="Refresh"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> Lesson List  <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="Refresh"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="pd-20">
-    <div class="text-c">
-        <input type="text" class="input-text" style="width:250px" placeholder="Lesson Name/Lesson Group" id="searchKey" name="searchKey">
-        <button type="submit" class="btn btn-success radius" id="btnSearch" name="btnSearch" onclick="search();"><i class="Hui-iconfont">&#xe665;</i> Search</button>
-    </div>
 	<div class="mt-20">
         <table id='LessonsList' align="center" border="1" class="table table-border table-bordered table-bg table-hover table-sort dataTable no-footer">
             <tbody></tbody>

@@ -15,119 +15,23 @@ var isLogin = false;
 var lessonGroup;
 var count = 0;
 var classObj;
+var classnames;
+
 $(document).ready(function () {
     Lock();
-    if (parent.URLParams.indexOf("student_Lessons") != -1) {
-        getStudentLessonList();
-    }
-    else
-    {
-        getAllLessonsInfoBystatus();
-    }
-    getUserIp();
-    checkLoginStatus();
+    classnames = localStorage.className;
+    getStudentLessonList();
+    parent.returnURL = localStorage.returnURL;
+    UID = localStorage.UID;
+    localStorage.clear; // remember clear the localStorage
+
 });
-function checkLoginStatus() {
-    isLogin = localStorage.getItem('isLogin');
-}
-function setLessonGroup(data)
-{
-    lessonGroup = data;
-}
-//lesson function
-function getAllLessonsInfoBystatus() {
-    content = { id: "status", status: "active" };
-    callAPI(content);
-}
-
-function search()
-{
-    var searchKey = $('#searchKey').val().trim();
-    if (searchKey == null || searchKey == "") {
-        content = { id: "status", status: "active" };
-
-    }
-    else {
-        content = { id: "search", status: searchKey };
-    }
-    callAPI(content);
-
-}
-
-function callAPI(content)
-{
-    method = "GET";
-
-    Url = '/api/Lessons';
-    $.ajax({
-
-        url: Url,
-        type: method,
-        dataType: 'json',
-        data: content,
-
-
-        success: function (data) {
-            $("#LessonsList tr").remove();
-            $("#LessonsList thead").remove();
-           // $("#LessonsList tbody").remove();
-
-            console.log(".net Output:");
-            LessonsList = $.map(data, function (el) { return el });
-            if (lessonGroup == "All") {
-
-                $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='15%'>Lesson Group</th><th width='75%'>Description</th></thead>");
-            }
-            else {
-                $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='75%'>Description</th></thead>");
-            }
-
-            var countNO = 0;
-            $.each(data, function (index, array) { //loop  items for display
-                if (array['LessonGroup'] == lessonGroup) {
-                    countNO++;
-                    $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['Description'] + "</td></tr>");
-
-                }
-                else if (lessonGroup == "All") {
-                    countNO++;
-                    $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['LessonGroup'] + "</td><td>" + array['Description'] + "</td></tr>");
-
-                }
-
-            });
-
-        },
-        complete: function () { //
-            $('tbody > tr', $('#LessonsList')).click(function () {
-                $('.selected').removeClass('selected');
-                $(this).addClass('selected'); //this 
-                var $td = $(this).children('td')[1];
-                selectedID = $td.id;
-                $('#selectItemName').html("You have selected  a lesson : " + $td.innerHTML + ".");
-                Unlock("#ShowNickName");
-
-            }).hover(		//
-                   function () {
-                       $(this).addClass('mouseOver');
-                   },
-                   function () {
-                       $(this).removeClass('mouseOver');
-                   }
-               );
-
-        },
-
-    });
-
-
-}
 
 //lesson function
 function getStudentLessonList() {
     method = "GET";
-    content = { id: "status", status: "active" };
-    Url = '/api/Classes/Qinyucheng711@gmail.com/';
+    content = { key: "getClassInfoByClassName", searchKey: classnames };
+    Url = "/api/Classes/";
     $.ajax({
 
         url: Url,
@@ -184,11 +88,7 @@ function Lock() {
     $('.btn-success').prop('disabled', true); //TO DISABLED
     //sets disabled mouse cursor
     $('.btn-success').css('cursor', 'not-allowed');
-    $('#btnSearch').prop('disabled', false);
-    $('#btnSearch').css('cursor', 'pointer');
-    $('#Refresh').prop('disabled', false);
-    $('#Refresh').css('cursor', 'pointer');
-   
+
 }
 function Unlock(getElementID) {
     $(getElementID).prop('disabled', false); //TO DISABLED
@@ -224,26 +124,7 @@ function startLesson() {
 }
 
 
-function getUserIp() {
-    $.get("http://ipinfo.io", function (response) {
-        getIpAddress = response.ip;
-        setSession(getIpAddress);
-    }, "jsonp");
 
-}
-//Get GUID
-function generateQuickGuid() {
-    return Math.random().toString(36).substring(2, 15) +
-        Math.random().toString(36).substring(2, 15);
-}
-function setSession() {
-    var GUID = generateQuickGuid();
-    sessionStorage.setItem("ip", getIpAddress);
-    var formartIp = getIpAddress.split('.').join("");
-    UID = "visitor-" + GUID + "-" + formartIp;
-    sessionStorage.setItem("visitorID", UID);
-
-}
 function getSession() {
     alert(sessionStorage.getItem("UserName"));
 
@@ -267,11 +148,11 @@ function PopUpLesson(LessonID, LessonName, LessonGroup, lessonURL) {
         document.getElementById(PopUpIframeID).onload = function () {
 
             var iframe = document.getElementById(PopUpIframeID);
-            //json["SID"] = SID;
-            json["SID"] = "C31";
+            json["SID"] = SID;
+            //json["SID"] = "C31";
             json["UID"] = UID;
             json["LessonActivity"] = LessonID;
-            json["VisiorIp"] = getIpAddress;
+            //json["VisiorIp"] = getIpAddress;
             json["ServerUrl"] = CSALServerURL;
             json["LessonURL"] = CSALServerURL + json["LessonURL"];
             json["ScriptURL"] = CSALServerURL + json["ScriptURL"];

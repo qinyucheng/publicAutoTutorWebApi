@@ -536,6 +536,40 @@ namespace publicAutoTutorWebApi.Models
 
         }
 
+        public List<Classes> advanceSearchClassInfo(string searchKey)
+        {
+
+            try
+            {
+
+                var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
+                if (searchKey.ToLower() == "inactive" || searchKey.ToLower() == "active")
+                {
+                    var query = (Query.EQ("ClassStatus", searchKey.ToLower()));
+                    var results = collect.FindAs<Classes>(query).ToList();
+                    return results;
+
+                }
+                else
+                {
+                    var query = Query.Or(Query.Matches("ClassName", new BsonRegularExpression(searchKey, "i")), Query.Matches("ClassStatus", new BsonRegularExpression(searchKey, "i")));
+                   
+                    var results = collect.FindAs<Classes>(query).ToList();
+                    return results;
+                }
+
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                List<Classes> aa = new List<Classes>();
+                return aa;
+
+
+            }
+
+        }
+
         public bool addClass(Classes ClassesIfo)
         {
             try
@@ -600,6 +634,53 @@ namespace publicAutoTutorWebApi.Models
 
             }
         }
+
+
+        //add by yehui after create nameList js, directly insert studyUrl into class.
+        public bool UpdateClassStudyURLFromServer(string studyUrl, string className)
+        {
+            try
+            {
+                var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
+                var query = new QueryDocument { { "ClassName", className } };
+                var update = new UpdateDocument { 
+                { "$set", new QueryDocument { 
+                { "StudyURL", studyUrl}
+                } } };
+                var result = collect.Update(query, update);
+                return true;
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                return false;
+
+            }
+        }
+
+        // update ClassStatus
+        public bool updateClassStatus(Classes ClassesInfo)
+        {
+            try
+            {
+                var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
+                var query = new QueryDocument { { "_id", ClassesInfo._id } };
+                var update = new UpdateDocument { 
+                { "$set", new QueryDocument { 
+                //{ "ClassName", ClassesInfo.ClassName},
+                { "ClassStatus", ClassesInfo.ClassStatus}              
+                } } };
+                var result = collect.Update(query, update);
+                return true;
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.ToString());
+                return false;
+
+            }
+        }
+
 
         public bool updateClassStudentsInfo(Classes ClassesInfo)
         {
