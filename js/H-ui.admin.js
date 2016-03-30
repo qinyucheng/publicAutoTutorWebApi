@@ -219,8 +219,8 @@ function closeTab(obj) {
         var getIframe = iframe_box.find(".show_iframe").eq(getMyClassIndex);
         IframeObj = getIframe.find('iframe');
         IframeObj.attr("id", "refreshTab")
-        var getIframe = topWindow.find('#refreshTab');
-        getIframe[0].contentWindow["refresh"]();
+        var refreshIframe = topWindow.find('#refreshTab');
+        refreshIframe[0].contentWindow["refresh"]();
 
         iframe_box.find('.show_iframe').eq(aCloseIndex).remove();
        
