@@ -54,7 +54,6 @@
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher revise class information <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="refresh" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher add a class <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="CloseThisTab();" title="refresh"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 
     <section id="displayUrl">
         <div class="pd-20">
@@ -180,7 +179,7 @@
                 </div>
                 <div class="row cl">
                     <label class="form-label col-3"><span class="c-red">*</span>Student Email:</label>
-                    <div class="formControls col-5" id="divStudnetID">
+                    <div class="formControls col-5" id="divStudentEmail">
                         <input type="text" class="input-text" placeholder="Email" name="studentEmail" id="studentEmail" datatype="e" nullmsg="">
                     </div>
                     <div class="col-4"> </div>
@@ -242,7 +241,7 @@
             </div>
             <div class="cl pd-5 bg-1 bk-gray mt-20" id="doneButton">
                 <span class="r">
-                    <button _href='teacher_MyClass.html' href='javascript:void(0)' data-title='My Classes' onclick='openClassTab(this,id)' class="btn btn-success" type="submit">Done!</button>
+                    <button _href='teacher_MyClass.html' href='javascript:void(0)' data-title='My Classes' onclick='CloseThisTab();' class="btn btn-success" type="submit">Done!</button>
                 </span>
             </div>
         </div>
@@ -369,7 +368,7 @@
             createClass();
         });
         $("#second_next").click(function () {
-            if (lessonInformation.length === 0) {
+            if (lessonInformation.length ===0) {
                 alert("Please select lessons");
                 return;
             }
@@ -521,25 +520,75 @@
 
         // reviseStudentInfo button click event
         $('#reviseStudentInfo').click(function () {
+
+            var studentID = document.getElementById("studentID").value;
+            var studentName = document.getElementById("studentName").value;
+            var studentEmail = document.getElementById("studentEmail").value;
+
+            if (studentID === "") {
+                $("#divStudnetID").find("span").remove();
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudnetID');
+                return;
+            }
+            $("#divStudnetID").find("span").remove();
+            if (studentName === "") {
+                $("#divStudnetName").find("span").remove();
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudnetName');
+                return;
+            }
+            $("#divStudnetName").find("span").remove();
+            if (studentEmail === "") {
+                $("#divStudentEmail").find("span").remove();
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudentEmail');
+                return;
+            }
+            $("#divStudentEmail").find("span").remove();
+
+            if (studentEmail != "") {
+                var result = isValidMail(studentEmail);
+                if (result == false) {
+                    $("#divStudentEmail").find("span").remove();
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("Email format is not correct!").appendTo('#divStudentEmail');
+                    return;
+                }
+                //alert("email address!")
+            }
+            else {
+                alert("You should fill this blank!")
+                return;
+            }
+
+            if (checkStudentIdExit(studentID, selectStud)) {
+
+            }
+            else {
+                $("#divStudnetID").find("span").remove();
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("studnetId is exit!").appendTo('#divStudnetID');
+                //alert("studnetId is exit!")
+            }
+
+            $("#divStudnetID").find("span").remove();
+            $("#divStudnetName").find("span").remove();
+            $("#divStudentEmail").find("span").remove();
+
             $.each(studentsList, function (index, selectStudent) {
                 if (selectStud[0].innerHTML === selectStudent["StudentID"]) {
-                    studentsList[index]["StudentID"] = document.getElementById("studentID").value;
-                    studentsList[index]["StudentName"] = document.getElementById("studentName").value;
-                    studentsList[index]["StudentEmail"] = document.getElementById("studentEmail").value;
+                    studentsList[index]["StudentID"] = studentID;
+                    studentsList[index]["StudentName"] = studentName;
+                    studentsList[index]["StudentEmail"] = studentEmail;
                     return false;
                 }
             }
             );
-            selectStud[0].innerHTML = document.getElementById("studentID").value;
-            selectStud[1].innerHTML = document.getElementById("studentName").value;
-            selectStud[2].innerHTML = document.getElementById("studentEmail").value;
+            selectStud[0].innerHTML = studentID;
+            selectStud[1].innerHTML = studentName;
+            selectStud[2].innerHTML = studentEmail;
             $('#studentID').val('');
             $('#studentName').val('');
             $('#studentEmail').val('');
             $('#addStudent').show();
             $('#reviseStudentInfo').hide();
             $('#cancelRevise').hide();
-
         });
 
         // cancel revise student infor
@@ -560,36 +609,38 @@
             var studentEmail = student["StudentEmail"] = document.getElementById("studentEmail").value;
 
             if (studentID === "") {
+                $("#divStudnetID").find("span").remove();
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudnetID');
                 return;
             }
+            $("#divStudnetID").find("span").remove();
             if (studentName === "") {
+                $("#divStudnetName").find("span").remove();
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudnetName');
                 return;
             }
+            $("#divStudnetName").find("span").remove();
             if (studentEmail === "") {
+                $("#divStudentEmail").find("span").remove();
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudentEmail');
                 return;
             }
+            $("#divStudentEmail").find("span").remove();
 
 
-
-            student["ID"] = teacherName + "-" + classInformation["ClassName"] + "-" + studentID;                          //ID
-            $('#studentID').val('');
-            $('#studentName').val('');
-            $('#studentEmail').val('');
+            student["ID"] = teacherName + "-" + classInformation["ClassName"] + "-" + studentID;
 
             if (studentEmail != "") {
                 var result = isValidMail(studentEmail);
                 if (result == false) {
-                    alert("email address is invalid")
+                    $("#divStudentEmail").find("span").remove();
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("Email format is not correct!").appendTo('#divStudentEmail');
                     return;
                 }
-                else
-                    alert("email address!")
+                //alert("email address!")
             }
             else {
-                alert("You should fill this blank!")
+                //alert("You should fill this blank!")
                 return;
             }
 
@@ -598,13 +649,21 @@
                 $("#studentTable").append("<tr align='center' class='text-c'><td>" + studentID + "</td><td>" + studentName + "</td>" + "<td>" + studentEmail + "</td>" + "<td class='td-manage' id='delete'><a title='delete' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
             }
             else {
-                alert("studnetId is exit!")
+                $("#divStudnetID").find("span").remove();
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("studnetId is exit!").appendTo('#divStudnetID');
+                //alert("studnetId is exit!")
             }
 
+            $("#divStudnetID").find("span").remove();
+            $("#divStudnetName").find("span").remove();
+            $("#divStudentEmail").find("span").remove();
+            $('#studentID').val('');
+            $('#studentName').val('');
+            $('#studentEmail').val('');
             $('tbody > tr', $('#studentTable')).click(function () {
                 if (flag === 0) {
                     $('.selected').removeClass('selected');
-                    $(this).addClass('selected'); //this
+                    $(this).addClass('selected'); //this 
                     //var $td = $(this).children('td')[1];
                     selectStud = $(this).children('td');
                     //selectedID = $td.id;
@@ -684,34 +743,34 @@
 
         // display confirm information
         function confirmST() {
-            $("#confirmStudent").append("<thead><tr><th scope='col' colspan='9'>Confirm Student List</th></tr><tr class='text-c'><th width='40'>Student ID</th><th width='150'>Student Name</th><th width='90'>Student Email</th></tr></thead>");
+            $("#confirmStudent").append("<thead><tr><th scope='col' colspan='9'>Confirm Student List</th></tr><tr><th width='40'>Student ID</th><th width='150'>Student Name</th><th width='90'>Student Email</th></tr></thead>");
             if (studentsList.length === 0) {
             }
             else {
                 for (var array in studentsList) {
-                    $("#confirmStudent").append("<tr align='center' class='text-c'><td>" + studentsList[array]["StudentID"] + "</td><td>" + studentsList[array]["StudentName"] + "</td>" + "<td>" + studentsList[array]["StudentEmail"] + "</td></tr>");
+                    $("#confirmStudent").append("<tr align='center'><td>" + studentsList[array]["StudentID"] + "</td><td>" + studentsList[array]["StudentName"] + "</td>" + "<td>" + studentsList[array]["StudentEmail"] + "</td></tr>");
                 }
             }
         }
 
         function confirmCS() {
-            $("#confirmClass").append("<thead><tr><th scope='col' colspan='9'>Confirm Class Information</th></tr><tr class='text-c'><th width='40'>Class Name</th><th width='40'>Lesson Group</th><th width='150'>Study Start Time</th><th width='150'>Study End Time</th></tr></thead>");
+            $("#confirmClass").append("<thead><tr><th scope='col' colspan='9'>Confirm Class Information</th></tr><tr><th width='40'>Class Name</th><th width='40'>Lesson Group</th><th width='150'>Study Start Time</th><th width='150'>Study End Time</th></tr></thead>");
 
 
             if (classInformation["ClassName"] === undefined) {
             }
             else {
-                $("#confirmClass").append("<tr align='center' class='text-c'><td>" + classInformation["ClassName"] + "</td>" + "<td>" + classInformation["ClassName"] + "</td>" + "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td></tr>");
+                $("#confirmClass").append("<tr align='center'><td>" + classInformation["ClassName"] + "</td>" + "<td>" + classInformation["LessonGroup"] + "</td>" + "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td></tr>");
             }
         }
 
         function confirmLessonInfo() {
-            $("#confirmLesson").append("<thead><tr><th scope='col' colspan='9'>Confirm Lesson List</th></tr><tr class='text-c'><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th></tr></thead>");
+            $("#confirmLesson").append("<thead><tr><th scope='col' colspan='9'>Confirm Lesson List</th></tr><tr ><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th></tr></thead>");
             if (lessonInformation.length === 0) {
             }
             else {
                 for (var array in lessonInformation) {
-                    $("#confirmLesson").append("<tr align='center' class='text-c'><td>" + lessonInformation[array]['LessonID'] + "</td><td id=" + lessonInformation[array]['LessonID'] + " >" + lessonInformation[array]['LessonName'] + "</td><td>" + lessonInformation[array]['Description'] + "</td></tr>");
+                    $("#confirmLesson").append("<tr align='center'><td>" + lessonInformation[array]['LessonID'] + "</td><td id=" + lessonInformation[array]['LessonID'] + " >" + lessonInformation[array]['LessonName'] + "</td><td>" + lessonInformation[array]['Description'] + "</td></tr>");
                 }
             }
         }
@@ -888,14 +947,22 @@
         and student table
         **/
         lessonInformation = seletedClassInformation["SeletedLeassons"];
-        studentsList = studentListOld;
-        $.each(studentListOld, function (index, array) {
-            $("#studentTable").append("<tr align='center' class='text-c'><td>" + array["StudentID"] + "</td><td>" + array["StudentName"] + "</td>" + "<td>" + array["StudentEmail"] + "</td>" + "<td class='td-manage' id='delete'><a title='delete' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
+        if (lessonInformation === null) {
+            lessonInformation = [];
         }
+        studentsList = studentListOld;
+        if (studentsList===null) {
+            studentsList = [];
+        }
+        if (studentsList.length != 0) {
+            $.each(studentsList, function (index, array) {
+            $("#studentTable").append("<tr align='center' class='text-c'><td>" + array["StudentID"] + "</td><td>" + array["StudentName"] + "</td>" + "<td>" + array["StudentEmail"] + "</td>" + "<td class='td-manage' id='delete'><a title='delete' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
+            }
         );
+        }
     }
         function addSelectLessons() {
-            if (lessonInformation.length != null) {
+            if (lessonInformation!=0) {
                 $.each(lessonInformation, function (index, array) { //loop  items for display
                     var id = array["LessonID"];
                     $("#lessonsTable #" + id).prev().prev().find('input').prop("checked", true);
@@ -903,6 +970,11 @@
 
             }
 
+        }
+
+        function isValidMail(email) {
+            var patten = new RegExp(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]+$/);
+            return patten.test(email);
         }
     </script>
 </body>

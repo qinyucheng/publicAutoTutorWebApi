@@ -50,7 +50,6 @@
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher add a class <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="refresh" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
-    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher add a class <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="CloseThisTab();" title="refresh"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 
 <section id="displayUrl">
     <div class="pd-20">
@@ -227,7 +226,7 @@
         </div>
             <div class="cl pd-5 bg-1 bk-gray mt-20" id="doneButton">
                 <span class="r">
-                    <button _href='teacher_MyClass.html' href='javascript:void(0)' data-title='My Classes' onclick='openClassTab(this,id)' class="btn btn-success" type="submit">Done!</button>
+                    <button _href='teacher_MyClass.html' href='javascript:void(0)' data-title='My Classes' onclick='CloseThisTab()' class="btn btn-success" type="submit">Done!</button>
                 </span>
             </div>
     </div>
@@ -595,7 +594,7 @@ $("#addStudent").click(function () {
             //alert("email address!")
     }
     else {
-        alert("You should fill this blank!")
+        //alert("You should fill this blank!")
         return;
     }
 
@@ -732,7 +731,7 @@ function confirmCS() {
     if (classInformation["ClassName"] === undefined) {
     }
     else {
-        $("#confirmClass").append("<tr align='center'><td>" + classInformation["ClassName"] + "</td>"+"<td>" + classInformation["ClassName"] + "</td>"+ "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td></tr>");
+        $("#confirmClass").append("<tr align='center'><td>" + classInformation["ClassName"] + "</td>" + "<td>" + classInformation["LessonGroup"] + "</td>" + "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td></tr>");
     }
    }
 
