@@ -50,6 +50,7 @@
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher add a class <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="refresh" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher add a class <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="CloseThisTab();" title="refresh"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 
 <section id="displayUrl">
     <div class="pd-20">
@@ -262,6 +263,10 @@ function admin_del(obj, id) {
 		}
 );
 	});
+}
+function CloseThisTab() {
+    closeTab("#buildClass");
+
 }
 
 

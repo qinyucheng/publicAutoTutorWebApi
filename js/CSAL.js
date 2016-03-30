@@ -1,3 +1,3 @@
-var studentNames=["undefined", "undefined"];
-var studentUID=["123:undefined", "1232:undefined"];
+var studentNames=["lijia", "lijia"];
+var studentUID=["123:lijia", "1232:lijia"];
 var ClassName="CSAL";

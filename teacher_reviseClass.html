@@ -53,7 +53,8 @@
     <title>Teacher add a class</title>
 </head>
 <body>
-    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher add a class <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="refresh"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher revise class information <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="refresh" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher add a class <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="CloseThisTab();" title="refresh"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 
     <section id="displayUrl">
         <div class="pd-20">
@@ -295,6 +296,9 @@
             });
         }
 
+        function CloseThisTab() {
+            closeTab("#"+ClassName);
+        }
 
 
         $("#step1").click(function () {
@@ -324,7 +328,6 @@
                 $("#step3").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
                 $(nameMap[tabId]).hide();
                 $(nameMap["step3"]).show();
-
 
                 tabId = $(this).attr("id");
             }
@@ -817,8 +820,6 @@
         function postStuName() {
 
             var method = "POST";
-
-
             //content = { "StudentsName": studentsName, "group": groupName, ClassName: classInformation["ClassName"], "teacherName": teacherName };
             content = { "StudentsName": studentsName, "group": groupName, ClassName: classInformation["ClassName"] };
             method = "POST";
@@ -849,54 +850,50 @@
 
             });
 
+    var ClassName;
+    $(document).ready(function () {
+        //unbindClick();
+        var isLogin = localStorage.getItem('isLogin');
+        var PersonInfoObj = localStorage.getItem('PersonInfo');
+        var PersonInfo = JSON.parse(PersonInfoObj);
+        var isEmptyObject = jQuery.isEmptyObject(PersonInfo);
+        if (isEmptyObject == false) {
+            var TeacherEmail = PersonInfo.Email;
+            $("#email").val(TeacherEmail);
+            $('#email').attr('disabled', true);
+            teacherName = PersonInfo.FirstName;
         }
+        groupOption();
+        displayClassInfo();
+    });
 
-
-
-
-        $(document).ready(function () {
-            //unbindClick();
-            var isLogin = localStorage.getItem('isLogin');
-            var PersonInfoObj = localStorage.getItem('PersonInfo');
-            var PersonInfo = JSON.parse(PersonInfoObj);
-            var isEmptyObject = jQuery.isEmptyObject(PersonInfo);
-            if (isEmptyObject == false) {
-                var TeacherEmail = PersonInfo.Email;
-                $("#email").val(TeacherEmail);
-                $('#email').attr('disabled', true);
-                teacherName = PersonInfo.FirstName;
-            }
-            groupOption();
-            displayClassInfo();
-        });
-
-        var seletedClassInformation = localStorage.getItem('seletedClass');
-        var seletedClassInformation = JSON.parse(seletedClassInformation);
-        var selectLessons;
-        var classId = seletedClassInformation['_id'];
-        function displayClassInfo() {
-            var studentListOld = seletedClassInformation["StudentGroup"];
-            var start = new Date(seletedClassInformation["StudyStartTime"]);
-            var end = new Date(seletedClassInformation["StudyEndTime"]);
-            var startTime = (start.getMonth() + 1).toString() + "-" + start.getDate() + "-" + start.getFullYear();
-            var endTime = (end.getMonth() + 1).toString() + "-" + end.getDate() + "-" + end.getFullYear();
-            $('#className').val(seletedClassInformation["ClassName"]);
-            $('#datemin').val(startTime);
-            $('#datemax').val(endTime);
-            $('#group').val(seletedClassInformation["LessonGroup"]);
-            $('#group').attr('disabled', 'disabled');
-            /**
-            set value for lesson table and
-            and student table
-            **/
-            lessonInformation = seletedClassInformation["SeletedLeassons"];
-            studentsList = studentListOld;
-            $.each(studentListOld, function (index, array) {
-                $("#studentTable").append("<tr align='center' class='text-c'><td>" + array["StudentID"] + "</td><td>" + array["StudentName"] + "</td>" + "<td>" + array["StudentEmail"] + "</td>" + "<td class='td-manage' id='delete'><a title='delete' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
-            }
-            );
+    var seletedClassInformation = localStorage.getItem('seletedClass');
+    var seletedClassInformation = JSON.parse(seletedClassInformation);
+    var selectLessons;
+    var classId = seletedClassInformation['_id'];
+    function displayClassInfo() {
+        var studentListOld = seletedClassInformation["StudentGroup"];
+        var start = new Date(seletedClassInformation["StudyStartTime"]);
+        var end = new Date(seletedClassInformation["StudyEndTime"]);
+        var startTime = (start.getMonth() + 1).toString() + "-" + start.getDate() + "-" + start.getFullYear();
+        var endTime = (end.getMonth() + 1).toString() + "-" + end.getDate() + "-" + end.getFullYear();
+        ClassName = seletedClassInformation["ClassName"];
+        $('#className').val(seletedClassInformation["ClassName"]);
+        $('#datemin').val(startTime);
+        $('#datemax').val(endTime);
+        $('#group').val(seletedClassInformation["LessonGroup"]);
+        $('#group').attr('disabled', 'disabled');
+        /**
+        set value for lesson table and
+        and student table
+        **/
+        lessonInformation = seletedClassInformation["SeletedLeassons"];
+        studentsList = studentListOld;
+        $.each(studentListOld, function (index, array) {
+            $("#studentTable").append("<tr align='center' class='text-c'><td>" + array["StudentID"] + "</td><td>" + array["StudentName"] + "</td>" + "<td>" + array["StudentEmail"] + "</td>" + "<td class='td-manage' id='delete'><a title='delete' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
         }
-
+        );
+    }
         function addSelectLessons() {
             if (lessonInformation.length != null) {
                 $.each(lessonInformation, function (index, array) { //loop  items for display

@@ -169,7 +169,7 @@ function openClassTab(obj,id) {
 );
 
     localStorage.setItem('seletedClass', JSON.stringify(selectedClassInformation));
-    Hui_admin_tab(obj);
+    Hui_admin_tab(obj, id);
 }
 
 //jump to build class
