@@ -167,7 +167,7 @@
     <script type="text/javascript" src="js/H-ui.admin.js"></script>
     <script type="text/javascript" src="js/URI.js"></script>
     <script type="text/javascript">
-
+        var status = false;  //false means email haven't registed , true means registed
         function isValidMail(email) {
 
             var patten = new RegExp(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]+$/);
@@ -196,6 +196,9 @@
                  
                     $('<span class="Validform_checktip Validform_wrong"></span>').html("Please Check your Email Format!").appendTo('#divregEmail');
                     $("#regEmail").focus();
+                    return;
+                }
+                if (uniqueUserEmail(Email) == true) {
                     return;
                 }
             }
@@ -268,6 +271,41 @@
             });
 
         }
+
+        function uniqueUserEmail(email) {
+            var status = false;
+            method = "GET";
+            Url = '/api/MongoDB';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                dataType: 'json',
+                data: "",
+
+            }).success(function (data) {
+                $.each(data, function (index, user) {
+                    if (user["Email"] === email) {
+                        $("#divregEmail").find("span").remove();
+                        $("#divregEmail").css("width", "+=100");
+                        $('<span class="Validform_checktip Validform_wrong"></span>').html("This email address already registed!").appendTo('#divregEmail');
+                        $("#regEmail").focus();
+                        //alert("This email already register!");
+                        status = true;
+                        return false;
+                    }
+
+                });
+                return false;
+            });
+
+        }
+
+
+
+
+
+
     </script>
 </body>
 </html>

@@ -22,16 +22,28 @@
      }
      .ideal-wrap {
          position:relative;
-         left:18%;
-         width:40%;
+
+         //left:18%;
      }
      .ideal-tabs-wrap {    
         width:100%;    
+       //width:675px;
         position: relative;
+        left:25%;
      }
      #reviseStudentInfo {
          display:none;
      }
+     #cancelRevise {
+         display:none;
+     }
+     #displayUrl {
+         display:none;
+     }
+     #doneButton {
+          display:none;
+     }
+
   </style>
 
 <title>Teacher add a class</title>
@@ -40,16 +52,31 @@
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher add a class <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="refresh" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher add a class <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="CloseThisTab();" title="refresh"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 
-<div class="ideal-wrap ideal-tabs ideal-full-width" style="width:48%">
-	<ul class="ideal-tabs-wrap">
-        <li class="ideal-tabs-tab ideal-tabs-tab-active" id="step1"><span>step 1-Class information</span><i class="ideal-tabs-tab-counter">1</i></li>
+<section id="displayUrl">
+    <div class="pd-20">
+        <table class="table table-border table-bordered table-bg" id="url" align="center">
+            <thead>
+                <tr>
+                    <th scope="col" colspan="9">Study URL</th>
+                </tr>
+            </thead>
 
-        <li class="ideal-tabs-tab" id="step2"><span>step 2-Select lessons</span><i class="ideal-tabs-tab-counter">2</i></li>
+        </table>
+    </div>
+</section>
 
-        <li class="ideal-tabs-tab" id="step3"><span>step 3-Add students</span><i class="ideal-tabs-tab-counter">3</i></li>
+<div class="ideal-wrap ideal-tabs ideal-full-width">
+    <div style="width:60%">
+        <ul class="ideal-tabs-wrap">
+            <li class="ideal-tabs-tab ideal-tabs-tab-active" id="step1"><span>step 1-Class information</span><i class="ideal-tabs-tab-counter">1</i></li>
 
-        <li class="ideal-tabs-tab" id="step4"><span>step 4-Confirm</span><i class="ideal-tabs-tab-counter">4</i></li>
-	</ul>
+            <li class="ideal-tabs-tab" id="step2"><span>step 2-Select lessons</span><i class="ideal-tabs-tab-counter">2</i></li>
+
+            <li class="ideal-tabs-tab" id="step3"><span>step 3-Add students</span><i class="ideal-tabs-tab-counter">3</i></li>
+
+            <li class="ideal-tabs-tab" id="step4"><span>step 4-Confirm</span><i class="ideal-tabs-tab-counter">4</i></li>
+        </ul>
+    </div>
 </div>
 
 <!--fill class information-->
@@ -66,17 +93,17 @@
 
             <div class="row cl">
                 <label class="form-label col-3"><span class="c-red">*</span>Class Name:</label>
-                <div class="formControls col-5">
+                <div class="formControls col-5" id="divClassname">
                     <input type="text" class="input-text" value="" placeholder="Unique name" id="className" name="user-name" datatype="*2-16" nullmsg="Student ID can not be null!">
                 </div>
                 <div class="col-4"> </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-3"><span class="c-red">*</span> Class period:</label>
-                <div class="formControls col-5">
-                    <input type="text" onfocus="WdatePicker({ minDate: '#F{$dp.$D(\'datemin\')}', minDate: '%m-%d-%y' })" id="datemax" class="input-text Wdate" style="width:120px;">
+                <div class="formControls col-5" id="dateTime">
+                    <input type="text" onfocus="WdatePicker({ minDate: '#F{$dp.$D(\'datemin\')}', minDate: '%M-%d-%y' })" id="datemax" class="input-text Wdate" style="width:120px;">
                     ---
-                    <input type="text" onfocus="WdatePicker({minDate: '#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+                    <input type="text" onfocus="WdatePicker({ minDate: '#F{$dp.$D(\'datemax\')||\'%M-%d-%y\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
                  
                 </div>
                 <div class="col-4"> </div>
@@ -131,12 +158,6 @@
 				<th width="100">Operations</th>
 			</tr>
 		</thead>
-        <!-- <tr align='center' class='text-c'>
-            <td>yehui</td>
-            <td>yehui</td>
-            <td>yehui</td>"
-            <td class="td-manage"><a style="text-decoration:none" onclick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> <a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','admin-add.html','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-        </tr> -->
         <tbody>
         </tbody>
     </table>
@@ -145,23 +166,23 @@
 	<div class="form form-horizontal">
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>Student ID:</label>
-			<div class="formControls col-5">
+            <div class="formControls col-5" id="divStudnetID">
                 <input type="text" class="input-text" value="" placeholder="Unique ID" id="studentID" name="studentID" datatype="*2-16" nullmsg="Student ID can not be null!">
-			</div>
+            </div>
 			<div class="col-4"> </div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>StudentName：</label>
-			<div class="formControls col-5">
+            <div class="formControls col-5" id="divStudnetName">
                 <input type="text" placeholder="Name" autocomplete="off" value="" class="input-text" datatype="*6-20" nullmsg="" name="studentName" id="studentName">
-			</div>
+            </div>
 			<div class="col-4"> </div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>Student Email:</label>
-			<div class="formControls col-5">
+            <div class="formControls col-5" id="divStudentEmail">
                 <input type="text" class="input-text" placeholder="Email" name="studentEmail" id="studentEmail" datatype="e" nullmsg="">
-			</div>
+            </div>
 			<div class="col-4"> </div>
 		</div>
 		<div class="row cl">
@@ -171,7 +192,8 @@
 		</div>
         <div class="row cl">
             <div class="col-9 col-offset-3">
-                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;revise student info&nbsp;&nbsp;" id="reviseStudentInfo">
+                <input class="btn btn-primary radius" type="submit" value="&nbsp;Cancel&nbsp;" id="cancelRevise">
+                <input class="btn btn-primary radius" type="submit" value="&nbsp;revise student info&nbsp;" id="reviseStudentInfo">
             </div>
         </div>
         <div class="cl pd-5 bg-1 bk-gray mt-20">
@@ -190,34 +212,24 @@
 	<section id ="confirm" name="step 4-Confirm" class="idealsteps-step">
         <div class="pd-20">
         <table class="table table-border table-bordered table-bg" id="confirmClass" align="center">
-            <!--<thead>
-                <tr>
-                    <th scope="col" colspan="9">Confirm class information</th>
-                </tr>
-            </thead>-->
         </table>
 		<br/>
         <table class="table table-border table-bordered table-bg" id="confirmLesson" align="center">
-            <!--<thead>
-                <tr>
-                    <th scope="col" colspan="9">Confirm lessons information</th>
-                </tr>
-            </thead>-->
         </table>
 		<br/>
         <table class="table table-border table-bordered table-bg" id="confirmStudent" align="center">
-            <!-- <thead>
-                <tr>
-                    <th scope="col" colspan="9">Confirm Student List</th>
-                </tr>
-            </thead>-->
         </table>
-        <div class="cl pd-5 bg-1 bk-gray mt-20">
+        <div class="cl pd-5 bg-1 bk-gray mt-20" id="submitBtn">
             <span class="r">
                 <button class="btn btn-success" type="submit" id="third_back">Previous</button>
                 <button class="btn btn-success" type="submit" id="confirmBT">Submit</button>
             </span>
         </div>
+            <div class="cl pd-5 bg-1 bk-gray mt-20" id="doneButton">
+                <span class="r">
+                    <button _href='teacher_MyClass.html' href='javascript:void(0)' data-title='My Classes' onclick='openClassTab(this,id)' class="btn btn-success" type="submit">Done!</button>
+                </span>
+            </div>
     </div>
 	</section>
 
@@ -243,8 +255,8 @@ function admin_del(obj, id) {
 
 		$(obj).parents("tr").remove();
 		layer.msg('deleted!', { icon: 1, time: 1000 });
-		$.each(studentsList, function (index, student) {
-		    if (studentID === student["studentID"]) {
+		$.each(student, function (index, student) {
+		    if (studentID === student["StudentID"]) {
 		        studentsList.splice(index, 1);
 		        return false;
 		    }
@@ -257,21 +269,6 @@ function CloseThisTab() {
 
 }
 
-/*$(".form-horizontal").Validform({
-		tiptype:2,
-		callback:function(form){
-			form[0].submit();
-			var index = parent.layer.getFrameIndex(window.name);
-			parent.$('.btn-refresh').click();
-			parent.layer.close(index);
-		}
-	});*/
-
-var count = 3;
-var tabId="step1";
-var step = [true, false, false, false];
-var nameMap = { "step1": "#classInfo", "step2": "#lessonInfo", "step3": "#studentList", "step4": "#confirm" };
-var groupName;
 
 $("#step1").click(function () {
     if (step[0] === true) {
@@ -329,19 +326,14 @@ $("#step4").click(function () {
 $("#classInfo").show();
 
 $("#first_next").click(function(){
-	$("#classInfo").hide();
-	$("#lessonInfo").show();
-	$("#step1").attr("class","ideal-tabs-tab");
-	$("#step2").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
-	groupName = $("#group option:selected").text();
-	$("#lessonsTable thead").remove();
-	$("#lessonsTable tr").remove();
-	displayLessons();
-	step[1] = true;
-	tabId = "step2";
-	createClass();
+    groupName = $("#group option:selected").text();
+    createClass();
 });
-$("#second_next").click(function(){
+$("#second_next").click(function () {
+    if (lessonInformation.length === 0) {
+        alert("Please select lessons");
+        return;
+    }
 	$("#lessonInfo").hide();
 	$("#studentList").show();
 	$("#step2").attr("class","ideal-tabs-tab");
@@ -351,7 +343,11 @@ $("#second_next").click(function(){
 	classInformation["SeletedLeassons"] = lessonInformation;
 	putLessonInfo();
 });
-$("#third_next").click(function(){
+$("#third_next").click(function () {
+    if (studentsList.length === 0) {
+       alert("You should add at least one student")
+       return;
+    }
 	$("#studentList").hide();
 	$("#confirm").show();
 	$("#step3").attr("class","ideal-tabs-tab");
@@ -412,8 +408,6 @@ function displayLessons() {
         dataType: 'json',
         data: content,
 
-
-
         success: function (data) {
             console.log(".net Output:");
             $("#lessonsTable").append("<thead><tr><th scope='col' colspan='9'>Lesson List</th></tr><tr class='text-c'><th width='25'></th><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th><td width='25'></td><th width='25'></th><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th></tr></thead>");
@@ -441,12 +435,9 @@ function displayLessons() {
             $('td > input', $('#lessonsTable')).click(function () {
                 $('.selected').removeClass('selected');
                 $(this).addClass('selected'); //this 
-               //var $td = $(this).parents('tr').children('td')[1];
                 var $td = $(this).parents('td').next();
                 var LessonID = $td[0].innerHTML;
                 selectedID = $td.id;
-                //$('#selectItemName').html("You have selected  a lesson : " + $td.innerHTML + ".");
-                //Unlock("#ShowNickName");
                 if ($(this).is(":checked")) {
                     $.each(lessonObj, function (index, array) {
                         if (LessonID === array["LessonID"]) {
@@ -484,37 +475,143 @@ function displayLessons() {
 
     // reviseStudentInfo button click event
 $('#reviseStudentInfo').click(function () {
+
+    var studentID  = document.getElementById("studentID").value;
+    var studentName = document.getElementById("studentName").value;
+    var studentEmail = document.getElementById("studentEmail").value;
+
+    if (studentID === "") {
+        $("#divStudnetID").find("span").remove();
+        $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudnetID');
+        return;
+    }
+    $("#divStudnetID").find("span").remove();
+    if (studentName === "") {
+        $("#divStudnetName").find("span").remove();
+        $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudnetName');
+        return;
+    }
+    $("#divStudnetName").find("span").remove();
+    if (studentEmail === "") {
+        $("#divStudentEmail").find("span").remove();
+        $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudentEmail');
+        return;
+    }
+    $("#divStudentEmail").find("span").remove();
+
+    if (studentEmail != "") {
+        var result = isValidMail(studentEmail);
+        if (result == false) {
+            $("#divStudentEmail").find("span").remove();
+            $('<span class="Validform_checktip Validform_wrong"></span>').html("Email format is not correct!").appendTo('#divStudentEmail');
+            return;
+        }
+        //alert("email address!")
+    }
+    else {
+        alert("You should fill this blank!")
+        return;
+    }
+
+    if (checkStudentIdExit(studentID, selectStud)) {
+        
+    }
+    else {
+        $("#divStudnetID").find("span").remove();
+        $('<span class="Validform_checktip Validform_wrong"></span>').html("studnetId is exit!").appendTo('#divStudnetID');
+        //alert("studnetId is exit!")
+    }
+
+    $("#divStudnetID").find("span").remove();
+    $("#divStudnetName").find("span").remove();
+    $("#divStudentEmail").find("span").remove();
+
     $.each(studentsList, function (index, selectStudent) {
-        if (selectStud[0].innerHTML === selectStudent["studentID"]) {
-            studentsList[index]["studentID"] = document.getElementById("studentID").value;
-            studentsList[index]["studentName"] = document.getElementById("studentName").value;
-            studentsList[index]["studentEmail"] = document.getElementById("studentEmail").value;
+        if (selectStud[0].innerHTML === selectStudent["StudentID"]) {
+            studentsList[index]["StudentID"] = studentID;
+            studentsList[index]["StudentName"] = studentName;
+            studentsList[index]["StudentEmail"] = studentEmail;
             return false;
             }
         }
     );
-    selectStud[0].innerHTML = document.getElementById("studentID").value;
-    selectStud[1].innerHTML = document.getElementById("studentName").value;
-    selectStud[2].innerHTML = document.getElementById("studentEmail").value;
+    selectStud[0].innerHTML = studentID;
+    selectStud[1].innerHTML = studentName;
+    selectStud[2].innerHTML = studentEmail;
     $('#studentID').val('');
     $('#studentName').val('');
     $('#studentEmail').val('');
     $('#addStudent').show();
     $('#reviseStudentInfo').hide();
-    //studentsList = [];
-    //studentsName = [];
-    //studentsListName();
+    $('#cancelRevise').hide();
+});
+
+    // cancel revise student infor
+$('#cancelRevise').click(function () {
+    $('#reviseStudentInfo').hide();
+    $('#cancelRevise').hide();
+    $('#addStudent').show();
+    $('#studentID').val('');
+    $('#studentName').val('');
+    $('#studentEmail').val('');  
 });
 
 //add new student in the student table
 $("#addStudent").click(function () {
     var student = {};
-    var studentID = student["studentID"] = document.getElementById("studentID").value;
-    var studentName = student["studentName"] = document.getElementById("studentName").value;
-    var studentEmail = student["studentEmail"] = document.getElementById("studentEmail").value;
-    student["ID"] = teacherName + "-" + classInformation["ClassName"] + "-" + studentID;                          //ID 
-    $("#studentTable").append("<tr align='center' class='text-c'><td>" + studentID + "</td><td>" + studentName + "</td>" + "<td>" + studentEmail + "</td>" + "<td class='td-manage' id='delete'><a title='delete' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
-    studentsList.push(student);         //need to revise it.
+    var studentID = student["StudentID"] = document.getElementById("studentID").value;
+    var studentName = student["StudentName"] = document.getElementById("studentName").value;
+    var studentEmail = student["StudentEmail"] = document.getElementById("studentEmail").value;
+
+    if (studentID === "") {
+        $("#divStudnetID").find("span").remove();
+        $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudnetID');
+        return;
+    }
+    $("#divStudnetID").find("span").remove();
+    if (studentName === "") {
+        $("#divStudnetName").find("span").remove();
+        $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudnetName');
+        return;
+    }
+    $("#divStudnetName").find("span").remove();
+    if (studentEmail === "") {
+        $("#divStudentEmail").find("span").remove();
+        $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudentEmail');
+        return;
+    }
+    $("#divStudentEmail").find("span").remove();
+
+  
+    student["ID"] = teacherName + "-" + classInformation["ClassName"] + "-" + studentID;                        
+
+    if (studentEmail != "") {
+        var result = isValidMail(studentEmail);
+        if (result == false) {
+            $("#divStudentEmail").find("span").remove();
+            $('<span class="Validform_checktip Validform_wrong"></span>').html("Email format is not correct!").appendTo('#divStudentEmail');
+            return;
+        }
+            //alert("email address!")
+    }
+    else {
+        alert("You should fill this blank!")
+        return;
+    }
+
+    if (checkStudentIdExit(studentID)) {
+        studentsList.push(student);
+        $("#studentTable").append("<tr align='center' class='text-c'><td>" + studentID + "</td><td>" + studentName + "</td>" + "<td>" + studentEmail + "</td>" + "<td class='td-manage' id='delete'><a title='delete' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
+    }
+    else {
+        $("#divStudnetID").find("span").remove();
+        $('<span class="Validform_checktip Validform_wrong"></span>').html("studnetId is exit!").appendTo('#divStudnetID');
+           //alert("studnetId is exit!")
+    }
+
+    $("#divStudnetID").find("span").remove();
+    $("#divStudnetName").find("span").remove();
+    $("#divStudentEmail").find("span").remove();
     $('#studentID').val('');
     $('#studentName').val('');
     $('#studentEmail').val('');
@@ -531,6 +628,7 @@ $("#addStudent").click(function () {
 
             $('#addStudent').hide();
             $('#reviseStudentInfo').show();
+            $('#cancelRevise').show();
         }
         else {
             flag = 0;
@@ -545,19 +643,61 @@ $("#addStudent").click(function () {
                );
 });
 
-//push();
+function checkStudentIdExit(studentID) {
+    var bool=true;
+    $.each(studentsList, function (index, student) {
+        if (student["StudentID"] === studentID){
+            bool=false
+            return false
+        }
+    });
+    return bool;
+}
+
+
+
+function checkStudentIdExit(studentID,reviseBTN) {
+    var bool = true;
+    $.each(studentsList, function (index, student) {
+        if (student["StudentID"] === reviseBTN[0].innerHTML) {
+            return true;
+        }
+        if (student["StudentID"] === studentID) {
+            bool = false
+            return false
+        }
+    });
+    return bool;
+}
 
 
     // click createClass button
 function createClass() {
     var dt = new Date();
-    var time = dt.getFullYear().toString()+ (dt.getMonth()+1)+dt.getHours() + dt.getMinutes() + dt.getSeconds();
-    classInformation["_id"] = document.getElementById("className").value + time;
+    var time = dt.getFullYear().toString() + (dt.getMonth() + 1) + dt.getDate() + dt.getHours() + dt.getMinutes() + dt.getSeconds();
+    if (signForPut != true){
+        classInformation["_id"] = document.getElementById("className").value+"_" + time;
+    }
     classInformation["ClassName"] = document.getElementById("className").value;
     classInformation["TeacherEmail"] = document.getElementById("email").value;
-    classInformation["StudyStartTime"] = document.getElementById("datemin").value;
+    classInformation["StudyStartTime"] = document.getElementById("datemax").value;
     classInformation["StudyEndTime"] = document.getElementById("datemin").value;
-    lessonPost();
+    classInformation["LessonGroup"] = groupName;
+    
+    if (document.getElementById("className").value === "") {
+        $("#divClassname").find("span").remove();
+        $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divClassname');
+        return;
+    }
+    $("#divClassname").find("span").remove();
+
+    if (document.getElementById("datemax").value === "" || document.getElementById("datemin").value === "") {
+        $("#dateTime").find("span").remove();
+        $('<span class="Validform_checktip Validform_wrong"></span>').html("You must select the date").appendTo('#dateTime');
+        return;
+    }
+    $("#dateTime").find("span").remove();
+    uniqueClassName();
     }
 
 
@@ -575,34 +715,34 @@ function studentsListName() {
 
 // display confirm information
 function confirmST() {
-    $("#confirmStudent").append("<thead><tr><th scope='col' colspan='9'>Confirm Student List</th></tr><tr class='text-c'><th width='40'>Student ID</th><th width='150'>Student Name</th><th width='90'>Student Email</th></tr></thead>");
+    $("#confirmStudent").append("<thead><tr><th scope='col' colspan='9'>Confirm Student List</th></tr><tr><th width='40'>Student ID</th><th width='150'>Student Name</th><th width='90'>Student Email</th></tr></thead>");
     if (studentsList.length === 0) {
     }
     else { 
       for(var array in studentsList){
-          $("#confirmStudent").append("<tr align='center' class='text-c'><td>" + studentsList[array]["studentID"] + "</td><td>" + studentsList[array]["studentEmail"] + "</td>" + "<td>" + studentsList[array]["studentName"] + "</td></tr>");
+          $("#confirmStudent").append("<tr align='center'><td>" + studentsList[array]["StudentID"] + "</td><td>" + studentsList[array]["StudentName"] + "</td>" + "<td>" + studentsList[array]["StudentEmail"] + "</td></tr>");
       }
     }
   }
 
 function confirmCS() {
-    $("#confirmClass").append("<thead><tr><th scope='col' colspan='9'>Confirm Class Information</th></tr><tr class='text-c'><th width='40'>Class Name</th><th width='40'>Lesson Group</th><th width='150'>Study Start Time</th><th width='150'>Study End Time</th></tr></thead>");
+    $("#confirmClass").append("<thead><tr><th scope='col' colspan='9'>Confirm Class Information</th></tr><tr><th width='40'>Class Name</th><th width='40'>Lesson Group</th><th width='150'>Study Start Time</th><th width='150'>Study End Time</th></tr></thead>");
 
 	
     if (classInformation["ClassName"] === undefined) {
     }
     else {
-        $("#confirmClass").append("<tr align='center' class='text-c'><td>" + classInformation["_id"] + "</td>"+"<td>" + classInformation["ClassName"] + "</td>"+ "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td></tr>");
+        $("#confirmClass").append("<tr align='center'><td>" + classInformation["ClassName"] + "</td>"+"<td>" + classInformation["ClassName"] + "</td>"+ "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td></tr>");
     }
    }
 
 function confirmLessonInfo() {
-    $("#confirmLesson").append("<thead><tr><th scope='col' colspan='9'>Confirm Lesson List</th></tr><tr class='text-c'><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th></tr></thead>");
+    $("#confirmLesson").append("<thead><tr><th scope='col' colspan='9'>Confirm Lesson List</th></tr><tr><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th></tr></thead>");
     if (lessonInformation.length === 0) {
     }
     else {
         for (var array in lessonInformation) {
-            $("#confirmLesson").append("<tr align='center' class='text-c'><td>" + lessonInformation[array]['LessonID'] + "</td><td id=" + lessonInformation[array]['LessonID'] + " >" + lessonInformation[array]['LessonName'] + "</td><td>" + lessonInformation[array]['Description'] + "</td></tr>");
+            $("#confirmLesson").append("<tr align='center'><td>" + lessonInformation[array]['LessonID'] + "</td><td id=" + lessonInformation[array]['LessonID'] + " >" + lessonInformation[array]['LessonName'] + "</td><td>" + lessonInformation[array]['Description'] + "</td></tr>");
         }
     }
 }
@@ -626,15 +766,28 @@ var selectStud;
 var studentsName;
 var flag = 0;
 var teacherName;
+var TeacherEmail;
+var count = 3;
+var tabId = "step1";
+var step = [true, false, false, false];
+var nameMap = { "step1": "#classInfo", "step2": "#lessonInfo", "step3": "#studentList", "step4": "#confirm" };
+var groupName;
+var signForPut = false;   // equal false post lesson if equal true use put method
 
 
 function lessonPost() {
-    var method = "POST";
-    
-
+    var method;
+    var Url;
+    if (signForPut == false) {
+        method = "POST";
+        Url = '/api/Classes';
+    }
+    else {
+        method = "Put";
+        Url = '/api/Classes/ModifyClassBasicInfo';
+    }
     content = classInformation;
-    method = "POST";
-    Url = '/api/Classes';
+   
 
     $.ajax({
 
@@ -651,17 +804,14 @@ function lessonPost() {
         else {
             //alert(data);
         }
-
+        signForPut = true;
     });
 
 }
 
 function putLessonInfo() {
     var method = "PUT";
-
     content = classInformation;
-    
-    // Url = '/api/MongoDB/' + email;
     Url = '/api/Classes/ModifySelectedLessonsInfo';
     $.ajax({
 
@@ -672,12 +822,12 @@ function putLessonInfo() {
     }).success(function (data) {
         console.log(".net Output:");
         console.log(data);
-        //alert(data);
 
     });
 }
 
 function putStudentInfo() {
+
     var method = "PUT";
 
     content = classInformation;
@@ -700,10 +850,7 @@ function putStudentInfo() {
 
 function putClassInfor() {
     var method = "PUT";
-
     content = classInformation;
-
-    // Url = '/api/MongoDB/' + email;
     Url = '/api/Classes/ModifyUpdateClassInfo';
     $.ajax({
 
@@ -712,21 +859,14 @@ function putClassInfor() {
         data: content,
 
     }).success(function (data) {
-        console.log(".net Output:");
-        console.log(data);
-        alert(data);
-
+        console.log(data);    
     });
 }
 
 
 //post funtion upload studentNames
 function postStuName() {
-
     var method = "POST";
-
-
-    //content = { "StudentsName": studentsName, "group": groupName, ClassName: classInformation["ClassName"], "teacherName": teacherName };
     content = { "StudentsName": studentsName, "group": groupName, ClassName: classInformation["ClassName"]};
     method = "POST";
     Url = '/api/CreateClasses';
@@ -741,10 +881,14 @@ function postStuName() {
         console.log(".net Output:");
         console.log(data);
         if (data == true) {
-            //alert(data);
-            location.replace(location.href);
+            //location.replace(location.href);
         }
         else {
+            $("#url").append("<td>" + data + "</td>");
+            $("#displayUrl").show();
+            $(".ideal-wrap").hide();
+            $("#doneButton").show();
+            $("#submitBtn").hide();
             alert(data);
         }
 
@@ -753,7 +897,50 @@ function postStuName() {
 }
 
 
+function uniqueClassName() {
+    method = "GET";
+    content = { "key": "getClassInfoByClassName", "searchKey": classInformation["ClassName"]};
+    Url = '/api/Classes';
+    $.ajax({
 
+        url: Url,
+        type: method,
+        dataType: 'json',
+        data: content,
+
+    }).success(function (data) {
+        if (data.length ===0||signForPut ===true) {
+            $("#divClassname").find("span").remove();
+            $("#dateTime").find("span").remove();
+            lessonPost();
+            $("#classInfo").hide();
+            $("#lessonInfo").show();
+            $("#step1").attr("class", "ideal-tabs-tab");
+            $("#step2").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
+            $("#lessonsTable thead").remove();
+            $("#lessonsTable tr").remove();
+            displayLessons();
+            step[1] = true;
+            tabId = "step2";
+        }
+        else {
+            $("#divClassname").find("span").remove();
+            $('<span class="Validform_checktip Validform_wrong"></span>').html("This class name already exist!").appendTo('#divClassname');
+        }
+
+        });
+
+}
+
+
+function isValidMail(email) {
+    var patten = new RegExp(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]+$/);
+    return patten.test(email);
+}
+
+function openClassTab(obj, id) {
+    Hui_admin_tab(obj);
+}
 
 $(document).ready(function () {
     var isLogin = localStorage.getItem('isLogin');
@@ -761,7 +948,7 @@ $(document).ready(function () {
     var PersonInfo = JSON.parse(PersonInfoObj);
     var isEmptyObject = jQuery.isEmptyObject(PersonInfo);
     if (isEmptyObject == false) {
-        var TeacherEmail = PersonInfo.Email;
+        TeacherEmail = PersonInfo.Email;
         $("#email").val(TeacherEmail);
         $('#email').attr('disabled', true);
         teacherName = PersonInfo.FirstName;

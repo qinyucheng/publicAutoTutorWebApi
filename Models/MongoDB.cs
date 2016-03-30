@@ -531,7 +531,8 @@ namespace publicAutoTutorWebApi.Models
 
 
             var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
-            var list = collect.FindAs<Classes>(Query.EQ("ClassName", ClassName)).ToList();
+            //var list = collect.FindAs<Classes>( Query.And(Query.EQ("ClassName", ClassName),Query.EQ("TeacherEmail", TeacherEmail))).ToList();new BsonRegularExpression(searchKey, "i")
+            var list = collect.FindAs<Classes>(Query.EQ("ClassName", new BsonRegularExpression(ClassName, "i"))).ToList();
             return list;
 
         }
@@ -552,7 +553,8 @@ namespace publicAutoTutorWebApi.Models
                 }
                 else
                 {
-                    var query = Query.Or(Query.Matches("ClassName", new BsonRegularExpression(searchKey, "i")), Query.Matches("ClassStatus", new BsonRegularExpression(searchKey, "i")));
+                    var query = Query.Or(Query.Matches("ClassName", new BsonRegularExpression(searchKey, "i")), Query.Matches("ClassStatus", new BsonRegularExpression(searchKey, "i")),
+                                Query.Matches("TeacherEmail", new BsonRegularExpression(searchKey, "i")));
                    
                     var results = collect.FindAs<Classes>(query).ToList();
                     return results;
@@ -597,7 +599,7 @@ namespace publicAutoTutorWebApi.Models
                 var query = new QueryDocument { { "_id", ClassesInfo._id } };
                 var update = new UpdateDocument { 
                 { "$set", new QueryDocument { 
-                //{ "ClassName", ClassesInfo.ClassName},
+                { "ClassName", ClassesInfo.ClassName},
                 { "StudyStartTime", ClassesInfo.StudyStartTime},
                 { "StudyEndTime", ClassesInfo.StudyEndTime},
                 { "LastChangeTime", ClassesInfo.LastChangeTime}
@@ -664,10 +666,9 @@ namespace publicAutoTutorWebApi.Models
             try
             {
                 var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
-                var query = new QueryDocument { { "_id", ClassesInfo._id } };
+                var query = new QueryDocument { { "ClassName", ClassesInfo.ClassName } };
                 var update = new UpdateDocument { 
                 { "$set", new QueryDocument { 
-                //{ "ClassName", ClassesInfo.ClassName},
                 { "ClassStatus", ClassesInfo.ClassStatus}              
                 } } };
                 var result = collect.Update(query, update);
@@ -712,6 +713,7 @@ namespace publicAutoTutorWebApi.Models
                             .Set(i => i.StudyStartTime, ClassesInfo.StudyStartTime)
                             .Set(i => i.StudyEndTime, ClassesInfo.StudyEndTime)
                             .Set(i => i.LastChangeTime, ClassesInfo.LastChangeTime)
+                            .Set(i => i.ClassStatus, "active")
                             .Set(i => i.StudyURL, ClassesInfo.StudyURL);
                 collect.Update(query, update);
                 return true;

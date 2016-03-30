@@ -70,7 +70,7 @@ namespace publicAutoTutorWebApi.Controllers
             //ClassesObj._id = ClassesObj.ClassName;
             ClassesObj.LastChangeTime = DateTime.Now;
             ClassesObj.CreatedTime = DateTime.Now;
-            ClassesObj.ClassStatus = "active";
+            ClassesObj.ClassStatus = "inactive";
             opm.ConnDatabase(strconn);
             var result = opm.addClass(ClassesObj);
             return result;
