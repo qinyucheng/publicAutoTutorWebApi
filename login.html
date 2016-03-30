@@ -238,7 +238,7 @@
                 if (user["Email"] === email) {
                     $("#divregEmail").find("span").remove();
                     $("#divregEmail").css("width", "+=100");
-                    $('<span class="Validform_checktip Validform_wrong"></span>').html("Please Check your Email Format!").appendTo('#divregEmail');
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("This email address already registed!").appendTo('#divregEmail');
                     $("#regEmail").focus();
                     //alert("This email already register!");
                     status = true;
