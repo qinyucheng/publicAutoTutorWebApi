@@ -10,7 +10,7 @@ var selectedClassInformation;
 var TeacherEmail;
 
 $(document).ready(function () {
-
+   
 });
 
 

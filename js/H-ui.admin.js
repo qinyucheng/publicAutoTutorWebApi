@@ -190,7 +190,9 @@ function buildClassOpen(obj) {
     Hui_admin_tab(obj, "buildClass");
 }
 
+
 function closeTab(obj) {
+   
     var topWindow = $(window.parent.document);
     var show_nav = topWindow.find(obj);
     var aCloseIndex = show_nav.parents("li").index();
@@ -205,9 +207,24 @@ function closeTab(obj) {
 
     }
     else {
+     
+        
         ul.removeClass("active").eq(getMyClassIndex).addClass("active");
+        
         iframe_box.find(".show_iframe").hide().eq(getMyClassIndex).show();
+        //refreshTab tab
+       
+        var topWindow = $(window.parent.document);
+        var iframe_box = topWindow.find('#iframe_box');
+        var getIframe = iframe_box.find(".show_iframe").eq(getMyClassIndex);
+        IframeObj = getIframe.find('iframe');
+        IframeObj.attr("id", "refreshTab")
+        var getIframe = topWindow.find('#refreshTab');
+        getIframe[0].contentWindow["refresh"]();
+
         iframe_box.find('.show_iframe').eq(aCloseIndex).remove();
+       
+       
     }
     
 }
