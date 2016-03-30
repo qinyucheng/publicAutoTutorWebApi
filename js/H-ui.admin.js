@@ -70,8 +70,14 @@ function Hui_admin_tab(obj, setid) {
 		}
 		else {
 		    show_navLi.removeClass("active").eq(bStopIndex).addClass("active");
+		   
 		    if (setid !== undefined) {
-		        show_navLi.eq(bStopIndex).attr('id', setid);
+		        var myClassIndex=topWindow.find("#myClass").index();
+		        if (myClassIndex == -1)
+		        {
+		            show_navLi.eq(bStopIndex).attr('id', setid);
+		        }
+		       
 		    }
 
 			var iframe_box=topWindow.find("#iframe_box");
