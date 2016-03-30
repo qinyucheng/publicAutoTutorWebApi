@@ -30,7 +30,7 @@ $(document).ready(function () {
 //lesson function
 function getStudentLessonList() {
     method = "GET";
-    content = { key: "getClassInfoByClassName", searchKey: classnames };
+    content = { key: "getClassInfoByClassName", searchKey: classnames, TeacherEmail: "fsdf" };
     Url = "/api/Classes/";
     $.ajax({
 

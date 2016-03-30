@@ -15,35 +15,77 @@
         var classInformation = parent.selectedClassInformation;
         var studentsInfo = classInformation.StudentGroup;
         var lessonInfo = classInformation.SeletedLeassons;
+        var classUrl = classInformation.StudyURL;
+        
+        var length;
+        if (lessonInfo == null) length = 0;
+        else  length= lessonInfo.length;
         $(function () {
+            formatTime();
             genrateTable();
         });
-        var length = lessonInfo.length;
+       
         function genrateTable() {
+            if(studentsInfo!=null){
             $.each(studentsInfo, function (index, array) {
-                $("#studentTable").append("<tr align='center' class='text-c'><td>" + array["StudentID"] + "</td><td>" + array["StudentName"] + "</td>" + "<td>" + array["StudentEmail"] + "</td></tr>");
-
-                }
-            );
+                $("#studentTable").append("<tr align='center'><td>" + array["StudentID"] + "</td><td>" + array["StudentName"] + "</td>" + "<td>" + array["StudentEmail"] + "</td></tr>");
+                    }
+                );
+            }
             for (i = 0; i < length - 1; i = +2) {
-                $("#lessonsTable").append("<tr align='center' class='text-c'><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td>" + lessonInfo[i + 1]['LessonID'] + "</td><td id=" + lessonInfo[i + 1]['LessonID'] + " >" + lessonInfo[i + 1]['LessonName'] + "</td><td>" + lessonInfo[i + 1]['Description'] + "</td></tr>");
+                $("#lessonsTable").append("<tr align='center'><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td>" + lessonInfo[i + 1]['LessonID'] + "</td><td id=" + lessonInfo[i + 1]['LessonID'] + " >" + lessonInfo[i + 1]['LessonName'] + "</td><td>" + lessonInfo[i + 1]['Description'] + "</td></tr>");
             }
             if (length - 1 == i) {
-                $("#lessonsTable").append("<tr align='center' class='text-c'><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td></td><td></td><td></td></tr>");
+                $("#lessonsTable").append("<tr align='center' ><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td></td><td></td><td></td></tr>");
             }
+            $("#ClassInfo").append("<tr align='center'><td>" + classInformation["ClassName"] + "</td>" + "<td>" + classInformation["LessonGroup"] + "</td>" + "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td></tr>");
+            if (classUrl === null) {
+                classUrl="You did't finish building class!"
+            }
+            $("#url").append("<td>" + classUrl + "</td>");
+        }
+
+        function formatTime() {
+            var start = new Date(classInformation["StudyStartTime"]);
+            var end = new Date(classInformation["StudyEndTime"]);
+            classInformation["StudyStartTime"] = (start.getMonth() + 1).toString() + "-" + start.getDate() + "-" + start.getFullYear();
+            classInformation["StudyEndTime"] = (end.getMonth() + 1).toString() + "-" + end.getDate() + "-" + end.getFullYear();
         }
     </script>
 <title>Lesson and student info</title>
 </head>
 <body>
-    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Students and lessons information</nav>
+    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Class information</nav>
     <div class="pd-20">
+        <table class="table table-border table-bordered table-bg" id="url" align="center">
+            <thead>
+                <tr>
+                    <th scope="col" colspan="9">Study URL</th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+
+
+    <div class="pd-20">
+        <table class="table table-border table-bordered table-bg" id="ClassInfo" align="center">
+            <thead>
+                <tr><th scope='col' colspan='9'>Class Information</th></tr>
+                <tr><th width='40'>Class Name</th>
+                <th width='40'>Lesson Group</th>
+                <th width='150'>Study Start Time</th>
+                <th width='150'>Study End Time</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
         <section id="lessonInfo" class="idealsteps-step">
             <div class="pd-20">
                 <table class="table table-border table-bordered table-bg" id="lessonsTable" align="center">
                     <thead>
                         <tr><th scope='col' colspan='9'>Lesson List</th></tr>
-                        <tr class='text-c'>
+                        <tr>
                             <th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th><td width='25'></td><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th>
                         </tr>
                     </thead>
@@ -60,7 +102,7 @@
                         <tr>
                             <th scope="col" colspan="9">Student List</th>
                         </tr>
-                        <tr class="text-c">
+                        <tr>
                             <th width="40">Student ID</th>
                             <th width="150">Student Name</th>
                             <th width="90">Student Email</th>

@@ -18,11 +18,10 @@ namespace publicAutoTutorWebApi.Models
       
         public string StudyURL { get; set; }
         public string ClassStatus { get; set; }
+        public string LessonGroup { get; set; }
 
         public List<SeletedLessons> SeletedLeassons { get; set; }
-        public List<SeletedStudent> StudentGroup { get; set; }
-
-      
+        public List<SeletedStudent> StudentGroup { get; set; }  
     }
     public class SeletedLessons 
     {

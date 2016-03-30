@@ -7,7 +7,7 @@ var classStatusAction;
 var pagePath = "teacher_reviseClass.html";
 var allClassInformation;
 var selectedClassInformation;
-
+var TeacherEmail;
 
 $(document).ready(function () {
 
@@ -15,20 +15,14 @@ $(document).ready(function () {
 
 
 
-//lesson function
-function getAllLessonsInfoBystatus() {
-    content = { id: "status", status: "active" };
-    callAPI(content);
-}
-
 function search() {
     var searchKey = $('#searchKey').val().trim();
     if (searchKey == null || searchKey == "") {
-        content = { id: "status", status: "active" };
+        content = "";
 
     }
     else {
-        content = { id: "search", status: searchKey };
+        content = { "key": "advanceSearch", "searchKey": $('#searchKey').val().trim()};
     }
     callAPI(content);
 
@@ -36,7 +30,7 @@ function search() {
 
 function callAPI(content) {
     method = "GET";
-    content = { key: "advanceSearch", searchKey: $('#searchKey').val().trim() };
+    //content = { "key": "advanceSearch", "searchKey": $('#searchKey').val().trim(),"TeacherEmail":"" };
     Url = '/api/Classes';
     $.ajax({
 
@@ -59,19 +53,20 @@ function callAPI(content) {
                 $("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"900\",\"700\")'>  " + array['ClassName'] + "</u></td><td>" + array['StudyStartTime'] + "</td><td>" + array['ClassStatus'] + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['LessonID'] + " onclick='lesson_stop(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe631;</i></a> <a title='Edit' id=" + array['LessonID'] + " href='javascript:;' onclick= 'class_edit(id,\"Edit\",\"admin_addLesson.html\",\"800\",\"500\")'; class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6df;</i></a></td></tr>");
             });*/
             $.each(data, function (index, array) { //loop  items for display  
-                if(array['TeacherEmail']=="Qinyucheng711@gmail.com"){
+                if (array['TeacherEmail'] == TeacherEmail) {
                     countNO++;
                     var pageName = array['ClassName'];
                     pagePath = pagePath + "?ClassName=" + pageName;
-                    var time = array['StudyStartTime'].match(/^\d{4}-\d\d-\d\d/);
+                    var dt = new Date(array['StudyStartTime']);
+                    var time = (dt.getMonth() + 1).toString() + "-" + dt.getDate() + "-" + dt.getFullYear();
                     if (array['ClassStatus'] == "active") {                  
                         //$("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"900\",\"600\")'>  " + array['ClassName'] + "</u></td><td>" + array['StudyStartTime'] + "</td><td class='td-status'>" + '<span class="label label-success radius">Active</span>' + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['ClassName'] + " onclick='class_stop(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe631;</i></a> <a _href=\"teacher_reviseClass.html\" data-title='My Profile' href=\"javascript:void(0)\">My Profile</a></td></tr>");
                         //$("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"600\",\"700\")'>  " + array['ClassName'] + "</u></td><td>" + array['StudyStartTime'] + "</td><td  class='td-status'>" + '<span class="label label-success radius">Active</span>' + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['ClassName'] + " onclick='class_stop(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe631;</i></a> <a title='Edit' id=" + array['ClassName'] + " href='javascript:void(0)' _href='teacher_reviseClass.html' data-title='My Report' onclick= 'class_edit(id,\"Edit\",\"teacher_reviseClass.html\",\"800\",\"500\")'; class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6df;</i></a></td></tr>");
-                        $("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"900\",\"600\")'>  " + array['ClassName'] + "</u></td><td>" + time + "</td><td class='td-status'>" + '<span class="label label-success radius">Active</span>' + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['ClassName'] + " onclick='class_stop(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe631;</i></a>&nbsp;<a _href='" + pagePath + "' data-title='" + pageName + "' href='javascript:void(0)'  id=" + array['ClassName'] + " class='openClassTab' onClick='openClassTab(this,id)'><i class='Hui-iconfont'>&#xe6df;</i></a></td></tr>");
+                        $("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"900\",\"600\")'>  " + array['ClassName'] + "</u></td><td>" + time + "</td><td class='td-status'>" + '<span class="label label-success radius">Active</span>' + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['ClassName'] + " onclick='class_stop(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe631;</i></a>&nbsp;&nbsp;&nbsp;&nbsp;</span><a _href='" + pagePath + "' data-title='" + pageName + "' href='javascript:void(0)'  id=" + array['ClassName'] + " class='openClassTab' onClick='openClassTab(this,id)'><i class='Hui-iconfont'>&#xe6df;</i></a></td></tr>");
                     }
                     else
                         //$("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"900\",\"600\")'>  " + array['ClassName'] + "</u></td><td>" + array['StudyStartTime'] + "</td><td class='td-status'>" + '<span class="label  radius">Inactive</span>' + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['ClassName'] + " onclick='class_start(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe615;</i></a> <a title='Edit' id=" + array['ClassName'] + " href='javascript:;' onclick= 'class_edit(id,\"Edit\",\"admin_addLesson.html\",\"800\",\"500\")'; class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6df;</i></a></td></tr>");
-                        $("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"900\",\"600\")'>  " + array['ClassName'] + "</u></td><td>" + time + "</td><td class='td-status'>" + '<span class="label  radius">Inactive</span>' + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['ClassName'] + " onclick='class_stop(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe631;</i></a><a _href='" + pagePath + "' data-title='" + pageName + "' href='javascript:void(0)'  id=" + array['ClassName'] + " class='openClassTab' onClick='openClassTab(this,id)'><i class='Hui-iconfont'>&#xe6df;</i></a></td></tr>");
+                        $("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"900\",\"600\")'>  " + array['ClassName'] + "</u></td><td>" + time + "</td><td class='td-status'>" + '<span class="label  radius">Inactive</span>' + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['ClassName'] + " onclick='class_start(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe615;</i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a _href='" + pagePath + "' data-title='" + pageName + "' href='javascript:void(0)'  id=" + array['ClassName'] + " class='openClassTab' onClick='openClassTab(this,id)'><i class='Hui-iconfont'>&#xe6df;</i></a></td></tr>");
                     }
                 });
         },
@@ -100,8 +95,10 @@ function callAPI(content) {
 
 }
 function getClassList() {
+    var lessonsInfo = JSON.parse(localStorage.getItem('PersonInfo'));
+    TeacherEmail = lessonsInfo.Email;
     method = "GET";
-    content = {TeacherEmail:"Qinyucheng711@gmail.com"};                            //reset to teache eamil
+    content = { "TeacherEmail":TeacherEmail };                            //reset to teache eamil
     Url = '/api/Classes';
     $.ajax({
 
@@ -123,15 +120,18 @@ function getClassList() {
                 countNO++;
                 var pageName = array['ClassName'];
                 pagePath = pagePath + "?ClassName=" + pageName;
-                var time = array['StudyStartTime'].match(/^\d{4}-\d\d-\d\d/);
+                var dt = new Date(array['StudyStartTime']);
+                var time = (dt.getMonth() + 1).toString() + "-" + dt.getDate() + "-" + dt.getFullYear();
+
+                //var time = array['StudyStartTime'].match(/^\d{4}-\d\d-\d\d/);
                 if (array['ClassStatus'] == "active") {
                     //$("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"900\",\"700\")'>  " + array['ClassName'] + "</u></td><td>" + array['StudyStartTime'] + "</td><td class='td-status'>" + '<span class="label label-success radius">Active</span>' + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['ClassName'] + " onclick='class_stop(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe631;</i></a> <a title='Edit' id=" + array['ClassName'] + " href='javascript:;' onclick= 'class_edit(id,\"Edit\",\"admin_addLesson.html\",\"800\",\"500\")'; class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6df;</i></a></td></tr>");
                     //$("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"600\",\"700\")'>  " + array['ClassName'] + "</u></td><td>" + array['StudyStartTime'] + "</td><td>" + '<span class="label label-success radius">Active</span>' + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['ClassName'] + " onclick='class_stop(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe631;</i></a> <a title='Edit' id=" + array['ClassName'] + " href='javascript:void(0)' _href='teacher_reviseClass.html' data-title='My Report' onclick= 'class_edit(id,\"Edit\",\"teacher_reviseClass.html\",\"800\",\"500\")'; class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6df;</i></a></td></tr>");
-                    $("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"900\",\"600\")'>  " + array['ClassName'] + "</u></td><td>" + time + "</td><td class='td-status'>" + '<span class="label label-success radius">Active</span>' + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['ClassName'] + " onclick='class_stop(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe631;</i></a>&nbsp;<a _href='" + pagePath + "' data-title='" + pageName + "' href='javascript:void(0)'  id=" + array['ClassName'] + " class='openClassTab' onClick='openClassTab(this,id)'><i class='Hui-iconfont'>&#xe6df;</i></a></td></tr>");
+                    $("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"900\",\"600\")'>  " + array['ClassName'] + "</u></td><td>" + time + "</td><td class='td-status'>" + '<span class="label label-success radius">Active</span>' + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['ClassName'] + " onclick='class_stop(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe631;</i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a _href='" + pagePath + "' data-title='" + pageName + "' href='javascript:void(0)'  id=" + array['ClassName'] + " class='openClassTab' onClick='openClassTab(this,id)'><i class='Hui-iconfont'>&#xe6df;</i></a></td></tr>");
                     
                 }
                 else
-                    $("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"900\",\"600\")'>  " + array['ClassName'] + "</u></td><td>" + time + "</td><td class='td-status'>" + '<span class="label  radius">Inactive</span>' + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['ClassName'] + " onclick='class_stop(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe631;</i></a><a _href='" + pagePath + "' data-title='" + pageName + "' href='javascript:void(0)'  id=" + array['ClassName'] + " class='openClassTab' onClick='openClassTab(this,id)'><i class='Hui-iconfont'>&#xe6df;</i></a></td></tr>");
+                    $("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"900\",\"600\")'>  " + array['ClassName'] + "</u></td><td>" + time + "</td><td class='td-status'>" + '<span class="label  radius">Inactive</span>' + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['ClassName'] + " onclick='class_start(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe615;</i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a _href='" + pagePath + "' data-title='" + pageName + "' href='javascript:void(0)'  id=" + array['ClassName'] + " class='openClassTab' onClick='openClassTab(this,id)'><i class='Hui-iconfont'>&#xe6df;</i></a></td></tr>");
                     //$("#ClassList").append("<tr class='text-c'><td>" + countNO + "</td><td><u id=" + array['ClassName'] + " style='cursor:pointer' class='text-primary' onclick='lessonAndStudent(id,\"lessonStudentInfo.html\",id,\"600\",\"700\")'>  " + array['ClassName'] + "</u></td><td>" + array['StudyStartTime'] + "</td><td>" + '<span class="label  radius">Inactive</span>' + "</td>" + "</td><td class='td-manage'><a style='text-decoration:none' id=" + array['ClassName'] + " onclick='class_stop(this,id)' href='javascript:;' title='Inactive'><i class='Hui-iconfont'>&#xe631;</i></a><a _href='teacher_MyClass.html' data-title='My Classes' href='javascript:void(0)'>My Classes</a></td></tr>");
                 });
         },

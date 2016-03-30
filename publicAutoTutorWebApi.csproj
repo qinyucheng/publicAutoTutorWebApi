@@ -152,8 +152,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="admin_addLesson.html" />
+    <Content Include="admin_adminEdit.html" />
     <Content Include="admin_adminList.html" />
+    <Content Include="admin_allClasses.html" />
     <Content Include="indexTest.html" />
+    <Content Include="js\addminClasses.js" />
     <Content Include="lessonStudentInfo.html" />
     <Content Include="admin_userInfo.html" />
     <Content Include="admin_userList.html" />

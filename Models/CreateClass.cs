@@ -17,12 +17,12 @@ namespace publicAutoTutorWebApi.Models
         public string group{get;set;}      // using in student login to distingush classGroup
         Models.OprationMongo opm = new OprationMongo();
         string strconn = ConfigurationManager.AppSettings["connectionString"];
-
+        string folderName = ConfigurationManager.AppSettings["folderName"];
 
         public string generateLoginPage(string url) {
             string templateLoginHtml = HttpContext.Current.Server.MapPath("~/templateLogin.html");
             string newLoginHtml = HttpContext.Current.Server.MapPath("~/" + ClassName.Replace(" ", "")+".html"); //new URL
-            string newloginHtmlURL = url + "/"+ClassName.Replace(" ", "")+".html";
+            string newloginHtmlURL = url + "/" + folderName+"/"+ClassName.Replace(" ", "") + ".html";
             try
             {
                 System.IO.File.Copy(templateLoginHtml, newLoginHtml, true);
@@ -45,9 +45,16 @@ namespace publicAutoTutorWebApi.Models
             string path = HttpContext.Current.Server.MapPath("~/js/"+ClassName+".js");
             string studentNameListString="";
             string studentUIDAndName = "";
+            StreamWriter sr = File.CreateText(path);
+            if (StudentsName == null) {
+                string data = "var studentNames=[" + "" + "];" + "\r\n" + "var studentUID=[" + "" + "];" + "\r\n" + "var ClassName=\"" + ClassName + "\";";
+                sr.Write(data);
+                sr.Flush();
+                sr.Close();
+                return false;
+            }
             int length= StudentsName.Count;
             try { 
-            StreamWriter sr = File.CreateText(path);
             for (int i = 0; i < length; i++)
             {
                 var studentInfor = StudentsName[i].Split(':');

@@ -117,56 +117,6 @@ function callAPI(content)
 
 }
 
-//lesson function
-function getStudentLessonList() {
-    method = "GET";
-    content = { id: "status", status: "active" };
-    Url = '/api/Classes/Qinyucheng711@gmail.com/';
-    $.ajax({
-
-        url: Url,
-        type: method,
-        dataType: 'json',
-        data: content,
-
-
-        success: function (data) {
-            classObj=data;
-            $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='75%'>Description</th></thead>");
-            console.log(".net Output:");
-            LessonsList = $.map(data[0]["SeletedLeassons"], function (el) { return el });
-            var countNO = 0;
-            $.each(data[0]["SeletedLeassons"], function (index, array) { //loop  items for display
-                countNO++;
-                //$("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['Description'] + "</td></tr>");
-                $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['Description'] + "</td></tr>");
-
-            });
-
-        },
-        complete: function () { //
-            $('tbody > tr', $('#LessonsList')).click(function () {
-                $('.selected').removeClass('selected');
-                $(this).addClass('selected'); //this 
-                var $td = $(this).children('td')[1];
-                selectedID = $td.id;
-                $('#selectItemName').html("You have selected  a lesson : " + $td.innerHTML + ".");
-                Unlock("#ShowNickName");
-
-            }).hover(		//
-                   function () {
-                       $(this).addClass('mouseOver');
-                   },
-                   function () {
-                       $(this).removeClass('mouseOver');
-                   }
-               );
-
-        },
-
-    });
-}
-
 
 function ShowNickNameList(title, url, w, h) {
     countPopupTimes++;
