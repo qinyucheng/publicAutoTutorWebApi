@@ -75,7 +75,7 @@
                 <label class="form-label col-3"><i class="Hui-iconfont">&#xe60d;</i></label>
                 <div class="formControls col-8 ">
                     <input name="fName" id="fName" type="text" placeholder="First Name" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divfName"></div>
+                    <div class="col-4 errorMSG" id="divfName" style="width:300px"></div>
                 </div>
                
             </div>
@@ -83,21 +83,21 @@
                 <label class="form-label col-3"><i class="Hui-iconfont"></i></label>
                 <div class="formControls col-8">
                     <input name="lName" id="lName" type="text" placeholder="Last Name" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divlName"></div>
+                    <div class="col-4 errorMSG" id="divlName" style="width:300px"></div>
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-3"><i class="Hui-iconfont">&#xe63b;</i></label>
                 <div class="formControls col-8">
                     <input name="regEmail" id="regEmail" type="text" placeholder="Email" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divregEmail"></div>
+                    <div class="col-4 errorMSG" id="divregEmail" style="width:300px"></div>
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-3"><i class="Hui-iconfont">&#xe696;</i></label>
                 <div class="formControls col-8">
                     <input name="regPhone" id="regPhone" type="text" placeholder="Phone Nomber" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divregPhone"></div>
+                    <div class="col-4 errorMSG" id="divregPhone" style="width:300px"></div>
                 </div>
                 
             </div>
@@ -112,7 +112,7 @@
                 <label class="form-label col-3"><i class="Hui-iconfont"></i></label>
                 <div class="formControls col-8">
                     <input name="regRePassword" id="regRePassword" type="password" placeholder="Re-enter password" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divregRePassword"></div>
+                    <div class="col-4 errorMSG" id="divregRePassword" style="width:300px"></div>
                 </div>
             </div>
             <div class="row cl">
@@ -238,7 +238,7 @@
                 if (user["Email"] === email) {
                     $("#divregEmail").find("span").remove();
                     $("#divregEmail").css("width", "+=100");
-                    $('<span class="Validform_checktip Validform_wrong"></span>').html("Please Check your Email Format!").appendTo('#divregEmail');
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("This email address already registed!").appendTo('#divregEmail');
                     $("#regEmail").focus();
                     //alert("This email already register!");
                     status = true;
@@ -324,15 +324,13 @@
             var Role = $('input[name="role"]:checked').val();
             var Password = $('#regPassword').val();
             var rePassword = $('#regRePassword').val();
-            if (FirstName == "") {
-                $("#divfName").css("width", "+=100");
+            if (FirstName == "") {             
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divfName');
 
                 $("#fName").focus();
                 return;
             }
             if (LastName == "") {
-                $("#divlName").css("width", "+=100");
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divlName');
 
                 $("#lName").focus();
@@ -341,7 +339,6 @@
             if (Email != "") {
                 var result = isValidMail(Email);
                 if (result == false) {   
-                    $("#divregEmail").css("width", "+=100");
                     $('<span class="Validform_checktip Validform_wrong"></span>').html("Please Check your Email Format!").appendTo('#divregEmail');
                     $("#regEmail").focus();
                     return;
@@ -351,30 +348,48 @@
                 }
             }
             else {
-                $("#divregEmail").css("width", "+=100");
+                var divregEmail=$("#divregEmail");
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregEmail');
                 $("#regEmail").focus();
                 return;
             }
             if (Phone == "") {
-                $("#divregPhone").css("width", "+=100");
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregPhone');
                 $("#regPhone").focus();
                 return;
             }
-            if (Password == "") {
-           
-                $("#divregPassword").css("width", "+=100");
+            else {
+                var phoneRe = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
+                if (Phone.match(phoneRe)===null) {
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("Phone number format is not correct!").appendTo('#divregPhone');
+                    return;
+                }
+            }
+
+
+            if (Password == "") {         
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregPassword');
                 $("#regPassword").focus();
                 return;
             }
+
+            if (Password.length < 6 || Password.length > 12) {
+                $("#divregPassword").find("span").remove();
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("Password should be in 6 to 12 characters").appendTo('#divregPassword');
+                //alert("password should be in 6 to 12 characters")
+                validPassWord = false;
+            }
+            else {
+                $("#divregPassword").find("span").remove();
+                validPassWord = true;
+            }
+
+
             if (!validPassWord) {
                 return;
             }
             if (Password != rePassword)
             {
-                $("#divregRePassword").css("width", "+=100");
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("Your password do not march!").appendTo('#divregRePassword');
                 $("#regRePassword").focus();
                 return;
@@ -427,17 +442,7 @@
                    validPassWord = true;
                }
            });
-          /* $("#regRePassword").blur(function () {
-               var val = $(this).val();
-               var prev = $("#regPassword").val();
-               if (val != prev) {
-                   alert("password should be the same!")
-                   validPassWord = false;
-               }
-               else {
-                   validPassWord = true;
-               }
-           });*/
+
       
 
 
