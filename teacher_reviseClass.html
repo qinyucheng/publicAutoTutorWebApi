@@ -38,6 +38,7 @@
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher revise class information <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="refresh" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher add a class <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="CloseThisTab();" title="refresh"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 
 <div class="ideal-wrap ideal-tabs ideal-full-width" style="width:48%">
 	<ul class="ideal-tabs-wrap">
@@ -268,7 +269,10 @@ var teacherName;
         });
     }
 
+    function CloseThisTab() {
+        closeTab("#"+ClassName);
 
+    }
 
     $("#step1").click(function () {
         if (step[0] === true) {
@@ -741,7 +745,7 @@ var teacherName;
     }
 
 
-
+    var ClassName;
 
     $(document).ready(function () {
         //unbindClick();
@@ -764,7 +768,7 @@ var teacherName;
     var selectLessons;
     function displayClassInfo() {
         var studentListOld = seletedClassInformation["StudentGroup"];
-
+        ClassName = seletedClassInformation["ClassName"];
         $('#className').val(seletedClassInformation["ClassName"]);
         $('#datemin').val(seletedClassInformation["StudyStartTime"]);
         $('#datemax').val(seletedClassInformation["StudyEndTime"]);
