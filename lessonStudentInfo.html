@@ -27,7 +27,11 @@
        
         function genrateTable() {
             if(studentsInfo!=null){
-            $.each(studentsInfo, function (index, array) {
+                $.each(studentsInfo, function (index, array) {
+                    if (array["StudentEmail"] == null)
+                    {
+                        array["StudentEmail"] = "";
+                    }
                 $("#studentTable").append("<tr align='center'><td>" + array["StudentID"] + "</td><td>" + array["StudentName"] + "</td>" + "<td>" + array["StudentEmail"] + "</td></tr>");
                     }
                 );
@@ -42,7 +46,7 @@
             if (classUrl === null) {
                 classUrl="You did't finish building class!"
             }
-            $("#url").append("<td>" + classUrl + "</td>");
+            $("#url").append("<td><a href="+classUrl+" target='_blank'>" + classUrl + "</a></td>");
         }
 
         function formatTime() {

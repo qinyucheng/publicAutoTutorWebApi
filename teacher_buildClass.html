@@ -49,7 +49,8 @@
 <title>Teacher add a class</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher add a class <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="refresh" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<!--<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher add a class <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="refresh" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>-->
+    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher add a class </nav>
 
 <section id="displayUrl">
     <div class="pd-20">
@@ -740,9 +741,14 @@ function confirmLessonInfo() {
 
 $('#confirmBT').click(function () {
     var flag = confirm("Are you sure all information is correct?");
-    studentsListName();
-    postStuName();
-    putClassInfor();
+    if (flag === true) {
+        studentsListName();
+        postStuName();
+        putClassInfor();
+    }
+    else
+        return;
+
     //if (flag === true) { location.replace(location.href); }
     
 });

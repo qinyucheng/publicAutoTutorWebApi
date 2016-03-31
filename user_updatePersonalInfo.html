@@ -28,14 +28,14 @@
                 <label class="form-label col-4"><i class="Hui-iconfont">&#xe63b;</i></label>
                 <div class="form-label col-4">
                     <input name="regEmail" id="regEmail" type="text" placeholder="Email" class="input-text size-L" autocomplete="off" >
-                    <div class="col-4 errorMSG" id="divregEmail"></div>
+                    <div class="col-4 errorMSG" id="divregEmail" style="width:300px"></div>
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-4"><i class="Hui-iconfont">&#xe60d;</i></label>
                 <div class="formControls col-4 ">
                     <input name="fName" id="fName" type="text" placeholder="First Name" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divfName"></div>
+                    <div class="col-4 errorMSG" id="divfName" style="width:300px"></div>
                 </div>
 
             </div>
@@ -43,7 +43,7 @@
                 <label class="form-label  col-4"><i class="Hui-iconfont"></i></label>
                 <div class="formControls col-4">
                     <input name="lName" id="lName" type="text" placeholder="Last Name" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divlName"></div>
+                    <div class="col-4 errorMSG" id="divlName" style="width:300px"></div>
                 </div>
             </div>
           
@@ -51,7 +51,7 @@
                 <label class="form-label col-4"><i class="Hui-iconfont">&#xe696;</i></label>
                 <div class="form-label col-4">
                     <input name="regPhone" id="regPhone" type="text" placeholder="Phone Nomber" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divregPhone"></div>
+                    <div class="col-4 errorMSG" id="divregPhone" style="width:300px"></div>
                 </div>
 
             </div>
@@ -59,7 +59,7 @@
                 <label class="form-label col-4"><i class="Hui-iconfont">&#xe6c9;</i></label>
                 <div class="form-label col-4">
                     <input name="regAddress" id="regAddress" type="text" placeholder="Address" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divregAddress"></div>
+                    <div class="col-4 errorMSG" id="divregAddress" style="width:300px"></div>
                 </div>
 
             </div>
@@ -67,7 +67,7 @@
                 <label class="form-label col-4"><i class="Hui-iconfont"></i></label>
                 <div class="form-label col-4">
                     <input name="regAddress" id="regCity" type="text" placeholder="City" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divregCity"></div>
+                    <div class="col-4 errorMSG" id="divregCity" style="width:300px"></div>
                 </div>
 
             </div>
@@ -76,7 +76,7 @@
 
                 <div class="form-label col-4">
                     <input name="regZip" id="regZip" type="text" placeholder="ZIP" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divregPhone">
+                    <div class="col-4 errorMSG" id="divregZip" style="width:300px">
                     </div>
                 </div>
 
@@ -160,6 +160,7 @@
 <script type="text/javascript" src="lib/My97DatePicker/WdatePicker.js"></script> 
 <script type="text/javascript" src="js/H-ui.js"></script> 
 <script type="text/javascript" src="js/H-ui.admin.js"></script> 
+<script type="text/javascript" src="js/jquery.md5.js"></script>
 <script type="text/javascript">
     var PersonInfo;
     $(document).ready(function () {
@@ -251,7 +252,13 @@
             $("#regPhone").focus();
             return;
         }
-      
+        else {
+            var phoneRe = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
+            if (Phone.match(phoneRe) === null) {
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("Phone number format is not correct!").appendTo('#divregPhone');
+                return;
+            }
+        }
     
 
 

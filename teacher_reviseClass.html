@@ -53,7 +53,8 @@
     <title>Teacher add a class</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher revise class information <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="refresh" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<!--nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher revise class information <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="refresh" ><i class="Hui-iconfont">&#xe68f;</i></a></!--nav>-->
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Teacher revise class information </nav>
 
     <section id="displayUrl">
         <div class="pd-20">
@@ -104,9 +105,9 @@
                 <div class="row cl">
                     <label class="form-label col-3"><span class="c-red">*</span> Class period:</label>
                     <div class="formControls col-5">
-                        <input type="text" onfocus="WdatePicker({ minDate: '#F{$dp.$D(\'datemin\')}', minDate: '%M-%d-%y' })" id="datemax" class="input-text Wdate" style="width:120px;">
+                        <input type="text" onfocus="WdatePicker({ minDate: '#F{$dp.$D(\'datemin\')}', minDate: '%M-%d-%y' })" id="datemin" class="input-text Wdate" style="width:120px;">
                         ---
-                        <input type="text" onfocus="WdatePicker({ minDate: '#F{$dp.$D(\'datemax\')||\'%M-%d-%y\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+                        <input type="text" onfocus="WdatePicker({ minDate: '#F{$dp.$D(\'datemax\')||\'%M-%d-%y\'}' })" id="datemax" class="input-text Wdate" style="width:120px;">
 
                     </div>
                     <div class="col-4"> </div>
@@ -355,16 +356,7 @@
         $("#classInfo").show();
 
         $("#first_next").click(function () {
-            $("#classInfo").hide();
-            $("#lessonInfo").show();
-            $("#step1").attr("class", "ideal-tabs-tab");
-            $("#step2").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
             groupName = $("#group option:selected").text();
-            $("#lessonsTable thead").remove();
-            $("#lessonsTable tr").remove();
-            displayLessons();
-            step[1] = true;
-            tabId = "step2";
             createClass();
         });
         $("#second_next").click(function () {
@@ -705,6 +697,7 @@
             //var dt = new Date();
             //var time = dt.getFullYear().toString()+ (dt.getMonth()+1)+dt.getHours() + dt.getMinutes() + dt.getSeconds();
             if (document.getElementById("className").value === "") {
+                $("#divClassname").find("span").remove();
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divClassname');
                 //alert("please input the class name!")
                 return;
@@ -722,10 +715,19 @@
             classInformation["_id"] = classId;
             classInformation["ClassName"] = document.getElementById("className").value;
             classInformation["TeacherEmail"] = document.getElementById("email").value;
-            classInformation["StudyStartTime"] = document.getElementById("datemax").value;
-            classInformation["StudyEndTime"] = document.getElementById("datemin").value;
+            classInformation["StudyStartTime"] = document.getElementById("datemin").value;
+            classInformation["StudyEndTime"] = document.getElementById("datemax").value;
             //classInformation["ClassName"] = $("#group option:selected").text();
             lessonPut();
+            $("#classInfo").hide();
+            $("#lessonInfo").show();
+            $("#step1").attr("class", "ideal-tabs-tab");
+            $("#step2").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
+            $("#lessonsTable thead").remove();
+            $("#lessonsTable tr").remove();
+            displayLessons();
+            step[1] = true;
+            tabId = "step2";
         }
 
 
@@ -777,9 +779,14 @@
 
         $('#confirmBT').click(function () {
             var flag = confirm("Are you sure all information is correct?");
-            studentsListName();
-            postStuName();
-            putClassInfor();
+            if (flag === true) {
+                studentsListName();
+                postStuName();
+                putClassInfor();
+            }
+            else
+                return;
+
             //if (flag === true) { location.replace(location.href); }
 
         });
@@ -957,6 +964,9 @@
         }
         if (studentsList.length != 0) {
             $.each(studentsList, function (index, array) {
+                if (array["StudentEmail"] == null) {
+                    array["StudentEmail"] = "";
+                }
             $("#studentTable").append("<tr align='center' class='text-c'><td>" + array["StudentID"] + "</td><td>" + array["StudentName"] + "</td>" + "<td>" + array["StudentEmail"] + "</td>" + "<td class='td-manage' id='delete'><a title='delete' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
             }
 

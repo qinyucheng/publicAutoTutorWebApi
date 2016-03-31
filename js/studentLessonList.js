@@ -43,8 +43,13 @@ function getStudentLessonList() {
             classObj = data;
             var today = new Date();
             var startTime = new Date(data[0]["StudyStartTime"]);
-            if (today.getTime() < startTime.getTime()) {
-                alert("experiment doesn't start")
+            if (today.getTime() < startTime.getTime() || data[0]["ClassStatus"].toLowerCase() === "inactive") {
+                $(".pd-20").hide();
+                $("#alert").append("<p><strong>You don't have class now. Please contact your teacher!</strong></p>");
+                $("#alert").css("color", "red");
+                $("#alert").css('margin-left', 100 + 'px');
+                $("#alert").css('margin-top', 50 + 'px');
+                //alert("")
                 return;
             }
             $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='75%'>Description</th></thead>");
@@ -57,7 +62,6 @@ function getStudentLessonList() {
                 $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['Description'] + "</td></tr>");
 
             });
-
         },
         complete: function () { //
             $('tbody > tr', $('#LessonsList')).click(function () {
