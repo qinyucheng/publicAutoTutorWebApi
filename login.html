@@ -148,7 +148,8 @@
 <div class="footer"></div>
 <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="js/H-ui.js"></script> 
-    <script type="text/javascript" src="js/jquery.cookie.js"></script> 
+<script type="text/javascript" src="js/jquery.cookie.js"></script> 
+<script type="text/javascript" src="js/jquery.md5.js"></script>
 <script>
 
     $(document).ready(function () {
@@ -255,7 +256,7 @@
     function login()
     {
         var email = $('#Email').val();
-        var password = $('#Password').val();
+        var password =$('#Password').val();
         if (email != "") {
             var result = isValidMail(email);
             if (result == false) {
@@ -273,7 +274,7 @@
             alert("Password cannot be blank!")
             return;
         }	
-
+        password = $.md5(password);
         method = "GET";
         Url = '/api/MongoDB';
         content = { Email: email, Password: password };
@@ -323,7 +324,7 @@
             var Phone = $('#regPhone').val();
             var Role = $('input[name="role"]:checked').val();
             var Password = $('#regPassword').val();
-            var rePassword = $('#regRePassword').val();
+            var rePassword =$('#regRePassword').val();
             if (FirstName == "") {             
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divfName');
 
@@ -402,6 +403,8 @@
             {
                 Status = "active";
             }
+            Password = $.md5(Password);
+            
             content = { 'FirstName': FirstName, 'LastName': LastName, 'Email': Email, 'Phone':Phone, 'Password': Password, 'Status': Status, 'Role': Role };
             method = "POST";
             Url = '/api/MongoDB';
