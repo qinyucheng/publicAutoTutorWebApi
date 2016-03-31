@@ -157,6 +157,7 @@
     <Content Include="admin_allClasses.html" />
     <Content Include="indexTest.html" />
     <Content Include="js\addminClasses.js" />
+    <Content Include="js\jquery.md5.js" />
     <Content Include="lessonStudentInfo.html" />
     <Content Include="admin_userInfo.html" />
     <Content Include="admin_userList.html" />
