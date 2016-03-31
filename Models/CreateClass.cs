@@ -17,14 +17,21 @@ namespace publicAutoTutorWebApi.Models
         public string group{get;set;}      // using in student login to distingush classGroup
         Models.OprationMongo opm = new OprationMongo();
         string strconn = ConfigurationManager.AppSettings["connectionString"];
-        string folderName = ConfigurationManager.AppSettings["folderName"];
+        string apiFolderName = ConfigurationManager.AppSettings["webApiFolder"];
+        string loginPageFold = ConfigurationManager.AppSettings["loginPageFolder"];
 
         public string generateLoginPage(string url) {
-            string templateLoginHtml = HttpContext.Current.Server.MapPath("~/templateLogin.html");
-            string newLoginHtml = HttpContext.Current.Server.MapPath("~/" + ClassName.Replace(" ", "")+".html"); //new URL
-            string newloginHtmlURL = url + "/" + folderName+"/"+ClassName.Replace(" ", "") + ".html";
+            string templateLoginHtml = HttpContext.Current.Server.MapPath("~/"+loginPageFold+"/templateLogin.html");
+            string folderStoreLoginPage = HttpContext.Current.Server.MapPath("~/" + loginPageFold);
+            string newLoginHtml = folderStoreLoginPage+"/"+ClassName.Replace(" ", "")+".html"; //new URL
+            string newloginHtmlURL = url + "/" + apiFolderName + "/" + loginPageFold + "/" + ClassName.Replace(" ", "") + ".html";
             try
             {
+                if (!Directory.Exists(folderStoreLoginPage))
+                {
+                    Directory.CreateDirectory(folderStoreLoginPage);
+                }
+
                 System.IO.File.Copy(templateLoginHtml, newLoginHtml, true);
                 writeNameListToLoginPage(newLoginHtml);
                 generateNameList();
@@ -41,11 +48,19 @@ namespace publicAutoTutorWebApi.Models
 
         public bool generateNameList()
         {
-            //string path = HttpContext.Current.Server.MapPath("~/js/xyz.js");
-            string path = HttpContext.Current.Server.MapPath("~/js/"+ClassName+".js");
+            string jsFolder = HttpContext.Current.Server.MapPath("~/" + loginPageFold + "/" + "js");
+            string path = jsFolder+"/"+ClassName+".js";
             string studentNameListString="";
             string studentUIDAndName = "";
+
+            if (!Directory.Exists(jsFolder))
+            {
+                Directory.CreateDirectory(jsFolder);
+            }
+
             StreamWriter sr = File.CreateText(path);
+
+            // there are no students in studentList
             if (StudentsName == null) {
                 string data = "var studentNames=[" + "" + "];" + "\r\n" + "var studentUID=[" + "" + "];" + "\r\n" + "var ClassName=\"" + ClassName + "\";";
                 sr.Write(data);

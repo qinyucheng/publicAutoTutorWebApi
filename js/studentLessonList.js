@@ -23,14 +23,13 @@ $(document).ready(function () {
     getStudentLessonList();
     parent.returnURL = localStorage.returnURL;
     UID = localStorage.UID;
-    localStorage.clear; // remember clear the localStorage
-
+    //localStorage.clear;  // remember clear the localStorage
 });
 
 //lesson function
 function getStudentLessonList() {
     method = "GET";
-    content = { key: "getClassInfoByClassName", searchKey: classnames, TeacherEmail: "fsdf" };
+    content = { key: "getClassInfoByClassName", searchKey: classnames};
     Url = "/api/Classes/";
     $.ajax({
 
@@ -41,7 +40,13 @@ function getStudentLessonList() {
 
 
         success: function (data) {
-            classObj=data;
+            classObj = data;
+            var today = new Date();
+            var startTime = new Date(data[0]["StudyStartTime"]);
+            if (today.getTime() < startTime.getTime()) {
+                alert("experiment doesn't start")
+                return;
+            }
             $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='75%'>Description</th></thead>");
             console.log(".net Output:");
             LessonsList = $.map(data[0]["SeletedLeassons"], function (el) { return el });
@@ -97,10 +102,6 @@ function Unlock(getElementID) {
 
 function startLesson() {
     count++;
-    if (isTried == true) {
-        alert("Please Login to try more lessons!")
-        return;
-    }
 
     for (i = 0; i < LessonsList.length; i++) {
         var LessonID = LessonsList[i]["LessonID"];
@@ -113,10 +114,6 @@ function startLesson() {
         if (LessonID == selectedID) {
             json = LessonsList[i];
             PopUpLesson(LessonID, LessonName, LessonGroup, LessonURL);
-            if (isLogin == false && count>2) {
-                isTried = true;
-            }
-
             return;
         }
 

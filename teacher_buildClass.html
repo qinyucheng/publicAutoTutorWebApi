@@ -165,21 +165,21 @@
 	<div class="form form-horizontal">
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>Student ID:</label>
-            <div class="formControls col-5" id="divStudnetID">
+            <div class="formControls col-4" id="divStudnetID">
                 <input type="text" class="input-text" value="" placeholder="Unique ID" id="studentID" name="studentID" datatype="*2-16" nullmsg="Student ID can not be null!">
             </div>
 			<div class="col-4"> </div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>StudentName：</label>
-            <div class="formControls col-5" id="divStudnetName">
+            <div class="formControls col-4" id="divStudnetName">
                 <input type="text" placeholder="Name" autocomplete="off" value="" class="input-text" datatype="*6-20" nullmsg="" name="studentName" id="studentName">
             </div>
 			<div class="col-4"> </div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-3"><span class="c-red">*</span>Student Email:</label>
-            <div class="formControls col-5" id="divStudentEmail">
+			<label class="form-label col-3">Student Email:</label>
+            <div class="formControls col-4" id="divStudentEmail">
                 <input type="text" class="input-text" placeholder="Email" name="studentEmail" id="studentEmail" datatype="e" nullmsg="">
             </div>
 			<div class="col-4"> </div>
@@ -491,12 +491,7 @@ $('#reviseStudentInfo').click(function () {
         return;
     }
     $("#divStudnetName").find("span").remove();
-    if (studentEmail === "") {
-        $("#divStudentEmail").find("span").remove();
-        $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudentEmail');
-        return;
-    }
-    $("#divStudentEmail").find("span").remove();
+
 
     if (studentEmail != "") {
         var result = isValidMail(studentEmail);
@@ -508,17 +503,18 @@ $('#reviseStudentInfo').click(function () {
         //alert("email address!")
     }
     else {
-        alert("You should fill this blank!")
-        return;
+
     }
 
-    if (checkStudentIdExit(studentID, selectStud)) {
+    $("#divStudentEmail").find("span").remove();
+
+    if (checkStudentIdExitExcept(studentID, selectStud)) {
         
     }
     else {
         $("#divStudnetID").find("span").remove();
         $('<span class="Validform_checktip Validform_wrong"></span>').html("studnetId is exit!").appendTo('#divStudnetID');
-        //alert("studnetId is exit!")
+        return;
     }
 
     $("#divStudnetID").find("span").remove();
@@ -568,21 +564,13 @@ $("#addStudent").click(function () {
         return;
     }
     $("#divStudnetID").find("span").remove();
+
     if (studentName === "") {
         $("#divStudnetName").find("span").remove();
         $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudnetName');
         return;
     }
     $("#divStudnetName").find("span").remove();
-    if (studentEmail === "") {
-        $("#divStudentEmail").find("span").remove();
-        $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudentEmail');
-        return;
-    }
-    $("#divStudentEmail").find("span").remove();
-
-  
-    student["ID"] = teacherName + "-" + classInformation["ClassName"] + "-" + studentID;                        
 
     if (studentEmail != "") {
         var result = isValidMail(studentEmail);
@@ -591,12 +579,15 @@ $("#addStudent").click(function () {
             $('<span class="Validform_checktip Validform_wrong"></span>').html("Email format is not correct!").appendTo('#divStudentEmail');
             return;
         }
-            //alert("email address!")
+        //alert("email address!")
     }
-    else {
-        //alert("You should fill this blank!")
-        return;
+    else {//email equal empty
+
     }
+    $("#divStudentEmail").find("span").remove();
+
+  
+    student["ID"] = teacherName + "-" + classInformation["ClassName"] + "-" + studentID;                        
 
     if (checkStudentIdExit(studentID)) {
         studentsList.push(student);
@@ -605,7 +596,7 @@ $("#addStudent").click(function () {
     else {
         $("#divStudnetID").find("span").remove();
         $('<span class="Validform_checktip Validform_wrong"></span>').html("studnetId is exit!").appendTo('#divStudnetID');
-           //alert("studnetId is exit!")
+        return;
     }
 
     $("#divStudnetID").find("span").remove();
@@ -655,7 +646,7 @@ function checkStudentIdExit(studentID) {
 
 
 
-function checkStudentIdExit(studentID,reviseBTN) {
+function checkStudentIdExitExcept(studentID, reviseBTN) {
     var bool = true;
     $.each(studentsList, function (index, student) {
         if (student["StudentID"] === reviseBTN[0].innerHTML) {
@@ -706,7 +697,7 @@ function createClass() {
 function studentsListName() {
     studentsName=[];
     $.each(studentsList, function (index, singleStudent){
-        studentsName.push(singleStudent["ID"] + ":" + singleStudent["studentName"])
+        studentsName.push(singleStudent["ID"] + ":" + singleStudent["StudentName"])
     });
    }
 
@@ -731,7 +722,7 @@ function confirmCS() {
     if (classInformation["ClassName"] === undefined) {
     }
     else {
-        $("#confirmClass").append("<tr align='center'><td>" + classInformation["ClassName"] + "</td>" + "<td>" + classInformation["LessonGroup"] + "</td>" + "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td></tr>");
+        $("#confirmClass").append("<tr align='center'><td>" + classInformation["ClassName"] + "</td>"+"<td>" + classInformation["LessonGroup"] + "</td>"+ "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td></tr>");
     }
    }
 
@@ -888,7 +879,7 @@ function postStuName() {
             $(".ideal-wrap").hide();
             $("#doneButton").show();
             $("#submitBtn").hide();
-            alert(data);
+            //alert(data);
         }
 
     });

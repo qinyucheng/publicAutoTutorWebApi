@@ -165,21 +165,21 @@
             <div class="form form-horizontal">
                 <div class="row cl">
                     <label class="form-label col-3"><span class="c-red">*</span>Student ID:</label>
-                    <div class="formControls col-5" id="divStudnetID">
+                    <div class="formControls col-4" id="divStudnetID">
                         <input type="text" class="input-text" value="" placeholder="Unique ID" id="studentID" name="studentID" datatype="*2-16" nullmsg="Student ID can not be null!">
                     </div>
                     <div class="col-4"> </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-3"><span class="c-red">*</span>StudentName：</label>
-                    <div class="formControls col-5" id="divStudnetName">
+                    <div class="formControls col-4" id="divStudnetName">
                         <input type="text" placeholder="Name" autocomplete="off" value="" class="input-text" datatype="*6-20" nullmsg="" name="studentName" id="studentName">
                     </div>
                     <div class="col-4"> </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-3"><span class="c-red">*</span>Student Email:</label>
-                    <div class="formControls col-5" id="divStudentEmail">
+                    <label class="form-label col-3">Student Email:</label>
+                    <div class="formControls col-4" id="divStudentEmail">
                         <input type="text" class="input-text" placeholder="Email" name="studentEmail" id="studentEmail" datatype="e" nullmsg="">
                     </div>
                     <div class="col-4"> </div>
@@ -537,12 +537,6 @@
                 return;
             }
             $("#divStudnetName").find("span").remove();
-            if (studentEmail === "") {
-                $("#divStudentEmail").find("span").remove();
-                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudentEmail');
-                return;
-            }
-            $("#divStudentEmail").find("span").remove();
 
             if (studentEmail != "") {
                 var result = isValidMail(studentEmail);
@@ -553,18 +547,18 @@
                 }
                 //alert("email address!")
             }
-            else {
-                alert("You should fill this blank!")
-                return;
-            }
+            else {  //email equal empty
 
-            if (checkStudentIdExit(studentID, selectStud)) {
+            }
+            $("#divStudentEmail").find("span").remove();
+
+            if (checkStudentIdExitExcept(studentID, selectStud)) {
 
             }
             else {
                 $("#divStudnetID").find("span").remove();
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("studnetId is exit!").appendTo('#divStudnetID');
-                //alert("studnetId is exit!")
+                return;
             }
 
             $("#divStudnetID").find("span").remove();
@@ -620,16 +614,6 @@
                 return;
             }
             $("#divStudnetName").find("span").remove();
-            if (studentEmail === "") {
-                $("#divStudentEmail").find("span").remove();
-                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divStudentEmail');
-                return;
-            }
-            $("#divStudentEmail").find("span").remove();
-
-
-            student["ID"] = teacherName + "-" + classInformation["ClassName"] + "-" + studentID;
-
             if (studentEmail != "") {
                 var result = isValidMail(studentEmail);
                 if (result == false) {
@@ -639,10 +623,12 @@
                 }
                 //alert("email address!")
             }
-            else {
-                //alert("You should fill this blank!")
-                return;
+            else {  //email equal empty
+
             }
+            $("#divStudentEmail").find("span").remove();
+
+            student["ID"] = teacherName + "-" + classInformation["ClassName"] + "-" + studentID;
 
             if (checkStudentIdExit(studentID)) {
                 studentsList.push(student);
@@ -652,6 +638,7 @@
                 $("#divStudnetID").find("span").remove();
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("studnetId is exit!").appendTo('#divStudnetID');
                 //alert("studnetId is exit!")
+                return;
             }
 
             $("#divStudnetID").find("span").remove();
@@ -664,7 +651,6 @@
                 if (flag === 0) {
                     $('.selected').removeClass('selected');
                     $(this).addClass('selected'); //this 
-                    //var $td = $(this).children('td')[1];
                     selectStud = $(this).children('td');
                     //selectedID = $td.id;
                     $('#studentID').val(selectStud[0].innerHTML);
@@ -691,6 +677,20 @@
         function checkStudentIdExit(studentID) {
             var bool = true;
             $.each(studentsList, function (index, student) {
+                if (student["StudentID"] === studentID) {
+                    bool = false
+                    return false
+                }
+            });
+            return bool;
+        }
+
+        function checkStudentIdExitExcept(studentID, reviseBTN) {
+            var bool = true;
+            $.each(studentsList, function (index, student) {
+                if (student["StudentID"] === reviseBTN[0].innerHTML) {
+                    return true;
+                }
                 if (student["StudentID"] === studentID) {
                     bool = false
                     return false
@@ -895,7 +895,7 @@
                 console.log(data);
                 if (data == true) {
                     //alert(data);
-                    location.replace(location.href);
+                    //location.replace(location.href);
                 }
                 else {
                     $("#url").append("<td>" + data + "</td>");
@@ -903,8 +903,7 @@
                     $(".ideal-wrap").hide();
                     $("#doneButton").show();
                     $("#submitBtn").hide();
-                    alert(data);
-                    alert(data);
+                    //alert(data);
                 }
 
             });
@@ -928,6 +927,7 @@
 
     var seletedClassInformation = localStorage.getItem('seletedClass');
     var seletedClassInformation = JSON.parse(seletedClassInformation);
+    localStorage.removeItem('seletedClass');
     var selectLessons;
     var classId = seletedClassInformation['_id'];
     function displayClassInfo() {
@@ -959,7 +959,33 @@
             $.each(studentsList, function (index, array) {
             $("#studentTable").append("<tr align='center' class='text-c'><td>" + array["StudentID"] + "</td><td>" + array["StudentName"] + "</td>" + "<td>" + array["StudentEmail"] + "</td>" + "<td class='td-manage' id='delete'><a title='delete' href='javascript:;' " + "onclick=\"admin_del(this,'1')\"" + "class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>" + "</tr>");
             }
+
         );
+            $('tbody > tr', $('#studentTable')).click(function () {
+                if (flag === 0) {
+                    $('.selected').removeClass('selected');
+                    $(this).addClass('selected'); //this 
+                    selectStud = $(this).children('td');
+                    //selectedID = $td.id;
+                    $('#studentID').val(selectStud[0].innerHTML);
+                    $('#studentName').val(selectStud[1].innerHTML);
+                    $('#studentEmail').val(selectStud[2].innerHTML);
+
+                    $('#addStudent').hide();
+                    $('#reviseStudentInfo').show();
+                    $('#cancelRevise').show();
+                }
+                else {
+                    flag = 0;
+                }
+            }).hover(		//
+               function () {
+                   $(this).addClass('mouseOver');
+               },
+               function () {
+                   $(this).removeClass('mouseOver');
+               }
+           );
         }
     }
         function addSelectLessons() {

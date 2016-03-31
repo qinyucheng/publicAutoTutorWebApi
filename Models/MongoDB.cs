@@ -529,10 +529,9 @@ namespace publicAutoTutorWebApi.Models
         public List<Classes> getClassInfoByClassName(string ClassName)
         {
 
-
             var collect = this.mongoDatabase.GetCollection(CLASS_COLLECTION);
             //var list = collect.FindAs<Classes>( Query.And(Query.EQ("ClassName", ClassName),Query.EQ("TeacherEmail", TeacherEmail))).ToList();new BsonRegularExpression(searchKey, "i")
-            var list = collect.FindAs<Classes>(Query.EQ("ClassName", new BsonRegularExpression(ClassName, "i"))).ToList();
+            var list = collect.FindAs<Classes>(Query.Matches("ClassName", new BsonRegularExpression("^"+ClassName+"$", "i"))).ToList();
             return list;
 
         }
