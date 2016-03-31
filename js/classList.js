@@ -114,7 +114,9 @@ function getClassList() {
             console.log(".net Output:");
             allClassInformation = $.map(data, function (el) { return el });
             $("#ClassList").append(" <thead><tr class='text-c'><th width='5%'>NO.</th><th width='15%'>Class Name</th><th width='25%'>Study StartTime</th><th width='25%'>Class Status</th><th width='25%'>Operations</th></tr></thead>");
-
+            if (data.length == 0) {
+                
+            }
             var countNO = 0;
             $.each(data, function (index, array) { //loop  items for display  
                 countNO++;
