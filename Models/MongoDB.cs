@@ -601,7 +601,8 @@ namespace publicAutoTutorWebApi.Models
                 { "ClassName", ClassesInfo.ClassName},
                 { "StudyStartTime", ClassesInfo.StudyStartTime},
                 { "StudyEndTime", ClassesInfo.StudyEndTime},
-                { "LastChangeTime", ClassesInfo.LastChangeTime}
+                { "LastChangeTime", ClassesInfo.LastChangeTime},
+                { "LessonGroup", ClassesInfo.LessonGroup}
                
                 } } };
                 var result = collect.Update(query, update);
