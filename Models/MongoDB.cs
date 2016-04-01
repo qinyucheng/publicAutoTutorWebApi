@@ -714,7 +714,8 @@ namespace publicAutoTutorWebApi.Models
                             .Set(i => i.StudyEndTime, ClassesInfo.StudyEndTime)
                             .Set(i => i.LastChangeTime, ClassesInfo.LastChangeTime)
                             .Set(i => i.ClassStatus, "active")
-                            .Set(i => i.StudyURL, ClassesInfo.StudyURL);
+                            .Set(i => i.StudyURL, ClassesInfo.StudyURL)
+                            .Set(i => i.LessonGroup, ClassesInfo.LessonGroup);
                 collect.Update(query, update);
                 return true;
 
