@@ -45,7 +45,9 @@ function getskincookie(){
 	}
 	$("#skin").attr("href","skin/"+v+"/skin.css");
 }
-function Hui_admin_tab(obj){
+
+function Hui_admin_tab(obj, setid) {
+    
 	if($(obj).attr('_href')){
 		var bStop=false;
 		var bStopIndex=0;
@@ -60,12 +62,24 @@ function Hui_admin_tab(obj){
 				return false;
 			}
 		});
-		if(!bStop){
-			creatIframe(_href,_titleName);
+		if (!bStop) {
+		   
+		    creatIframe(_href, _titleName, setid);
+		  
 			min_titleList();
 		}
-		else{
-			show_navLi.removeClass("active").eq(bStopIndex).addClass("active");
+		else {
+		    show_navLi.removeClass("active").eq(bStopIndex).addClass("active");
+		   
+		    if (setid !== undefined) {
+		        var myClassIndex=topWindow.find("#myClass").index();
+		        if (myClassIndex == -1)
+		        {
+		            show_navLi.eq(bStopIndex).attr('id', setid);
+		        }
+		       
+		    }
+
 			var iframe_box=topWindow.find("#iframe_box");
 			iframe_box.find(".show_iframe").hide().eq(bStopIndex).show().find("iframe").attr("src",_href);
 		}
@@ -77,12 +91,21 @@ function min_titleList(){
 	var show_nav=topWindow.find("#min_title_list");
 	var aLi=show_nav.find("li");
 };
-function creatIframe(href,titleName){
+function creatIframe(href,titleName,setid){
 	var topWindow=$(window.parent.document);
 	var show_nav=topWindow.find('#min_title_list');
 	show_nav.find('li').removeClass("active");
-	var iframe_box=topWindow.find('#iframe_box');
-	show_nav.append('<li class="active"><span data-href="'+href+'">'+titleName+'</span><i></i><em></em></li>');
+	var iframe_box = topWindow.find('#iframe_box');
+
+	if (setid !== undefined) {
+	    show_nav.append('<li class="active"><span data-href="' + href + '">' + titleName + '</span><i id="' + setid + '"></i><em></em></li>');
+	}
+	else {
+	    show_nav.append('<li class="active"><span data-href="' + href + '">' + titleName + '</span><i></i><em></em></li>');
+
+	}
+
+	
 	var taballwidth=0,
 		$tabNav = topWindow.find(".acrossTab"),
 		$tabNavWp = topWindow.find(".Hui-tabNav-wp"),
@@ -159,6 +182,52 @@ function layer_close(id,Name){
 	parent.layer.close(index);
 	
 }
+//cheng add 3/30/2016
+function myClassOpen(obj) {
+    Hui_admin_tab(obj, "myClass");
+}
+function buildClassOpen(obj) {
+    Hui_admin_tab(obj, "buildClass");
+}
+
+
+function closeTab(obj) {
+   
+    var topWindow = $(window.parent.document);
+    var show_nav = topWindow.find(obj);
+    var aCloseIndex = show_nav.parents("li").index();
+    var iframe_box = topWindow.find('#iframe_box');
+    var ul = topWindow.find('#min_title_list li');
+    var getMyClassIndex = topWindow.find("#myClass").parent().index();
+    show_nav.parent().remove();
+    if (getMyClassIndex == -1) {
+        ul.removeClass("active").eq(aCloseIndex - 1).addClass("active");
+        iframe_box.find(".show_iframe").hide().eq(aCloseIndex - 1).show();
+        iframe_box.find('.show_iframe').eq(aCloseIndex).remove();
+
+    }
+    else {
+     
+        
+        ul.removeClass("active").eq(getMyClassIndex).addClass("active");
+        
+        iframe_box.find(".show_iframe").hide().eq(getMyClassIndex).show();
+        //refreshTab tab
+       
+        var topWindow = $(window.parent.document);
+        var iframe_box = topWindow.find('#iframe_box');
+        var getIframe = iframe_box.find(".show_iframe").eq(getMyClassIndex);
+        IframeObj = getIframe.find('iframe');
+        IframeObj.attr("id", "refreshTab")
+        var refreshIframe = topWindow.find('#refreshTab');
+        refreshIframe[0].contentWindow["refresh"]();
+
+        iframe_box.find('.show_iframe').eq(aCloseIndex).remove();
+       
+       
+    }
+    
+}
 $(function(){
 	getskincookie();
 	//layer.config({extend: 'extend/layer.ext.js'});
@@ -187,6 +256,7 @@ $(function(){
 		Hui_admin_tab(this);
 	});
 	
+	
 	$(document).on("click","#min_title_list li",function(){
 		var bStopIndex=$(this).index();
 		var iframe_box=$("#iframe_box");
@@ -194,12 +264,13 @@ $(function(){
 		iframe_box.find(".show_iframe").hide().eq(bStopIndex).show();
 	});
 	$(document).on("click","#min_title_list li i",function(){
-		var aCloseIndex=$(this).parents("li").index();
-		$(this).parent().remove();
-		$('#iframe_box').find('.show_iframe').eq(aCloseIndex).remove();	
-		num==0?num=0:num--;
-		tabNavallwidth();
+	    var aCloseIndex = $(this).parents("li").index();
+	    $(this).parent().remove();
+	    $('#iframe_box').find('.show_iframe').eq(aCloseIndex).remove();
+	    num == 0 ? num = 0 : num--;
+	    tabNavallwidth();
 	});
+	
 	$(document).on("dblclick","#min_title_list li",function(){
 		var aCloseIndex=$(this).index();
 		var iframe_box=$("#iframe_box");

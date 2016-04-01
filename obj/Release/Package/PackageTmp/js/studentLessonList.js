@@ -23,14 +23,13 @@ $(document).ready(function () {
     getStudentLessonList();
     parent.returnURL = localStorage.returnURL;
     UID = localStorage.UID;
-    localStorage.clear; // remember clear the localStorage
-
+    //localStorage.clear;  // remember clear the localStorage
 });
 
 //lesson function
 function getStudentLessonList() {
     method = "GET";
-    content = { key: "getClassInfoByClassName", searchKey: classnames };
+    content = { key: "getClassInfoByClassName", searchKey: classnames};
     Url = "/api/Classes/";
     $.ajax({
 
@@ -41,7 +40,18 @@ function getStudentLessonList() {
 
 
         success: function (data) {
-            classObj=data;
+            classObj = data;
+            var today = new Date();
+            var startTime = new Date(data[0]["StudyStartTime"]);
+            if (today.getTime() < startTime.getTime() || data[0]["ClassStatus"].toLowerCase() === "inactive") {
+                $(".pd-20").hide();
+                $("#alert").append("<p><strong>You don't have class now. Please contact your teacher!</strong></p>");
+                $("#alert").css("color", "red");
+                $("#alert").css('margin-left', 100 + 'px');
+                $("#alert").css('margin-top', 50 + 'px');
+                //alert("")
+                return;
+            }
             $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='75%'>Description</th></thead>");
             console.log(".net Output:");
             LessonsList = $.map(data[0]["SeletedLeassons"], function (el) { return el });
@@ -52,7 +62,6 @@ function getStudentLessonList() {
                 $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['Description'] + "</td></tr>");
 
             });
-
         },
         complete: function () { //
             $('tbody > tr', $('#LessonsList')).click(function () {
@@ -97,10 +106,6 @@ function Unlock(getElementID) {
 
 function startLesson() {
     count++;
-    if (isTried == true) {
-        alert("Please Login to try more lessons!")
-        return;
-    }
 
     for (i = 0; i < LessonsList.length; i++) {
         var LessonID = LessonsList[i]["LessonID"];
@@ -113,10 +118,6 @@ function startLesson() {
         if (LessonID == selectedID) {
             json = LessonsList[i];
             PopUpLesson(LessonID, LessonName, LessonGroup, LessonURL);
-            if (isLogin == false && count>2) {
-                isTried = true;
-            }
-
             return;
         }
 

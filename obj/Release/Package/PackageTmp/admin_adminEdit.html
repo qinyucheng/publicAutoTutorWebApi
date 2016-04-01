@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+  
+    <link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+    <link href="lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
+    <link href="lib/Hui-iconfont/1.0.6/iconfont.css" rel="stylesheet" type="text/css" />
+  
+    <title>Add Lesson</title>
+</head>
+<body>
+    <div class="pd-20">
+        <div class="form form-horizontal" >
+            <div class="row cl">
+                <label class="form-label col-4"><i class="Hui-iconfont">&#xe63b;</i></label>
+                <div class="form-label col-4">
+                    <input name="regEmail" id="regEmail" type="text" placeholder="Email" class="input-text size-L" autocomplete="off">
+                    <div class="col-4 errorMSG" id="divregEmail" style="width: 160px"></div>
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-4"><i class="Hui-iconfont">&#xe60d;</i></label>
+                <div class="formControls col-4 ">
+                    <input name="fName" id="fName" type="text" placeholder="First Name" class="input-text size-L" autocomplete="off">
+                    <div class="col-4 errorMSG" id="divfName" style="width:300px"></div>
+                </div>
+
+            </div>
+            <div class="row cl">
+                <label class="form-label  col-4"><i class="Hui-iconfont"></i></label>
+                <div class="formControls col-4">
+                    <input name="lName" id="lName" type="text" placeholder="Last Name" class="input-text size-L" autocomplete="off">
+                    <div class="col-4 errorMSG" id="divlName" style="width:300px"></div>
+                </div>
+            </div>
+
+            <div class="row cl">
+                <label class="form-label col-4"><i class="Hui-iconfont">&#xe696;</i></label>
+                <div class="form-label col-4">
+                    <input name="regPhone" id="regPhone" type="text" placeholder="Phone Nomber" class="input-text size-L" autocomplete="off">
+                    <div class="col-4 errorMSG" id="divregPhone" style="width: 240px"></div>
+                </div>
+
+            </div>
+            <div class="row cl">
+                <label class="form-label col-4"><i class="Hui-iconfont">&#xe60e;</i></label>
+                <div class="formControls col-4">
+                    <input name="regPassword" id="regPassword" type="password" placeholder="Password" class="input-text size-L" autocomplete="off">
+                    <div class="col-4 errorMSG" id="divregPassword" style="width:300px"></div>
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-4"><i class="Hui-iconfont"></i></label>
+                <div class="formControls col-4">
+                    <input name="regRePassword" id="regRePassword" type="password" placeholder="Re-enter password" class="input-text size-L" autocomplete="off">
+                    <div class="col-4 errorMSG" id="divregRePassword" style="width:300px"></div>
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-4"><i class="Hui-iconfont">&#xe6c9;</i></label>
+                <div class="form-label col-4">
+                    <input name="regAddress" id="regAddress" type="text" placeholder="Address" class="input-text size-L" autocomplete="off">
+                    <div class="col-4 errorMSG" id="divregAddress" style="width:300px"></div>
+                </div>
+
+            </div>
+            <div class="row cl">
+                <label class="form-label col-4"><i class="Hui-iconfont"></i></label>
+                <div class="form-label col-4">
+                    <input name="regCity" id="regCity" type="text" placeholder="City" class="input-text size-L" autocomplete="off">
+                    <div class="col-4 errorMSG" id="divregCity" style="width:300px"></div>
+                </div>
+
+            </div>
+            <div class="row cl">
+                <label class="form-label col-4"><i class="Hui-iconfont"></i></label>
+
+                <div class="form-label col-4">
+                    <input name="regZip" id="regZip" type="text" placeholder="ZIP" class="input-text size-L" autocomplete="off">
+                    <div class="col-4 errorMSG" id="divregPhone" style="width:300px">
+                    </div>
+                </div>
+
+            </div>
+            <div class="row cl">
+                <label class="form-label col-4"><i class="Hui-iconfont"></i></label>
+                <div class="form-label col-4" id="divSelectState">
+                    <select class="select" size="1" name="state" id="State">
+                        <option value="State">State</option>
+                        <option value="AL">AL</option>
+                        <option value="AK">AK</option>
+                        <option value="AZ">AZ</option>
+                        <option value="AR">AR</option>
+                        <option value="CA">CA</option>
+                        <option value="CO">CO</option>
+                        <option value="CT">CT</option>
+                        <option value="DE">DE</option>
+                        <option value="DC">DC</option>
+                        <option value="FL">FL</option>
+                        <option value="GA">GA</option>
+                        <option value="HI">HI</option>
+                        <option value="ID">ID</option>
+                        <option value="IL">IL</option>
+                        <option value="IN">IN</option>
+                        <option value="IA">IA</option>
+                        <option value="KS">KS</option>
+                        <option value="KY">KY</option>
+                        <option value="LA">LA</option>
+                        <option value="ME">ME</option>
+                        <option value="MD">MD</option>
+                        <option value="MA">MA</option>
+                        <option value="MI">MI</option>
+                        <option value="MN">MN</option>
+                        <option value="MS">MS</option>
+                        <option value="MO">MO</option>
+                        <option value="MT">MT</option>
+                        <option value="NE">NE</option>
+                        <option value="NV">NV</option>
+                        <option value="NH">NH</option>
+                        <option value="NJ">NJ</option>
+                        <option value="NM">NM</option>
+                        <option value="NY">NY</option>
+                        <option value="NC">NC</option>
+                        <option value="ND">ND</option>
+                        <option value="OH">OH</option>
+                        <option value="OK">OK</option>
+                        <option value="OR">OR</option>
+                        <option value="PA">PA</option>
+                        <option value="RI">RI</option>
+                        <option value="SC">SC</option>
+                        <option value="SD">SD</option>
+                        <option value="TN">TN</option>
+                        <option value="TX">TX</option>
+                        <option value="UT">UT</option>
+                        <option value="VT">VT</option>
+                        <option value="VA">VA</option>
+                        <option value="WA">WA</option>
+                        <option value="WV">WV</option>
+                        <option value="WI">WI</option>
+                        <option value="WY">WY</option>
+                    </select>
+                    <div class="col-4 errorMSG" id="divregPhone">
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row cl">
+                <div class="col-8 col-offset-4">
+                    <input class="btn btn-primary radius" type="submit" onclick="save()" value="&nbsp;&nbsp;Save&nbsp;&nbsp;">
+                </div>
+            </div>
+            </div>
+        </div>
+    <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/icheck/jquery.icheck.min.js"></script>
+    <script type="text/javascript" src="lib/Validform/5.3.2/Validform.js"></script>
+    <script type="text/javascript" src="lib/layer/2.1/layer.js"></script>
+    <script type="text/javascript" src="js/H-ui.js"></script>
+    <script type="text/javascript" src="js/H-ui.admin.js"></script>
+    <script type="text/javascript" src="js/URI.js"></script>
+    <script type="text/javascript" src="js/jquery.md5.js"></script>
+    <script type="text/javascript">
+        var status = false;  //false means email haven't registed , true means registed
+        function isValidMail(email) {
+
+            var patten = new RegExp(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]+$/);
+
+            return patten.test(email);
+
+        }
+  
+
+        function save() {
+            $(".errorMSG").empty();
+            var Email = $('#regEmail').val().toLowerCase();
+            var FirstName = $('#fName').val();
+            var LastName = $('#lName').val();
+            var Phone = $('#regPhone').val();
+            var Role = "Admin";
+            var Password = $('#regPassword').val();
+            var rePassword = $('#regRePassword').val();
+            var regAddress = $('#regAddress').val();
+            var regCity = $('#regCity').val();
+            var regZip = $('#regZip').val();
+            var reState = $('#State option:selected').text();
+            if (Email != "") {
+                var result = isValidMail(Email);
+                if (result == false) {
+                 
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("Please Check your Email Format!").appendTo('#divregEmail');
+                    $("#regEmail").focus();
+                    return;
+                }
+                if (uniqueUserEmail(Email) == true) {
+                    return;
+                }
+            }
+            else {
+             
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregEmail');
+                $("#regEmail").focus();
+                return;
+            }
+            if (FirstName == "") {
+              
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divfName');
+
+                $("#fName").focus();
+                return;
+            }
+            if (LastName == "") {
+              
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divlName');
+
+                $("#lName").focus();
+                return;
+            }
+            
+                var phoneRe = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
+                if (Phone.match(phoneRe) === null) {
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("Phone number format is not correct!").appendTo('#divregPhone');
+                    return;
+                }
+
+            if (Password == "") {
+
+                
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregPassword');
+                $("#regPassword").focus();
+                return;
+            }
+            if (Password != rePassword) {
+              
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("Your password do not march!").appendTo('#divregRePassword');
+                $("#regRePassword").focus();
+                return;
+            }
+            var regAddress = $('#regAddress').val();
+            var regCity = $('#regCity').val();
+            var regZip = $('#regZip').val();
+            var reState = $('#State option:selected').text();
+
+            Password = $.md5(Password);
+            content = { 'FirstName': FirstName, 'LastName': LastName, 'Email': Email, 'Phone': Phone, 'Password': Password, 'Address': regAddress, 'City': regCity, 'Zip': regZip, 'State': reState, 'Status': "active", 'Role': Role };
+            method = "POST";
+            Url = '/api/MongoDB';
+
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                if (data == true) {
+
+                    layer_close();
+                }
+                else {
+                    alert("User addition failed!");
+                }
+
+            });
+
+        }
+
+        function uniqueUserEmail(email) {
+            var status = false;
+            method = "GET";
+            Url = '/api/MongoDB';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                dataType: 'json',
+                data: "",
+
+            }).success(function (data) {
+                $.each(data, function (index, user) {
+                    if (user["Email"] === email) {
+                        $("#divregEmail").find("span").remove();
+                        //$("#divregEmail").css("width", "+=100");
+                        $('<span class="Validform_checktip Validform_wrong"></span>').html("This email address already registed!").appendTo('#divregEmail');
+                        $("#regEmail").focus();
+                        //alert("This email already register!");
+                        status = true;
+                        return false;
+                    }
+
+                });
+                return false;
+            });
+
+        }
+
+
+
+
+
+
+    </script>
+</body>
+</html>

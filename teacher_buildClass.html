@@ -326,7 +326,13 @@ $("#step4").click(function () {
 //$(".idealsteps-step").hide();
 $("#classInfo").show();
 
-$("#first_next").click(function(){
+$("#first_next").click(function () {
+    if ($("#group option:selected").text() == groupName) {
+    }
+    else
+    {
+        lessonInformation = [];
+    }
     groupName = $("#group option:selected").text();
     createClass();
 });
@@ -744,7 +750,7 @@ $('#confirmBT').click(function () {
     if (flag === true) {
         studentsListName();
         postStuName();
-        putClassInfor();
+       // putClassInfor();
     }
     else
         return;
@@ -881,12 +887,15 @@ function postStuName() {
             //location.replace(location.href);
         }
         else {
-            $("#url").append("<td>" + data + "</td>");
+            $("#url").append("<td><a href=" + data + " target='_blank'>" + data + "</a></td>");
+            //$("#url").append("<td>" + data + "</td>");
             $("#displayUrl").show();
             $(".ideal-wrap").hide();
             $("#doneButton").show();
             $("#submitBtn").hide();
             //alert(data);
+            classInformation["StudyURL"] = data;
+            putClassInfor();
         }
 
     });

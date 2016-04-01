@@ -75,7 +75,7 @@
                 <label class="form-label col-3"><i class="Hui-iconfont">&#xe60d;</i></label>
                 <div class="formControls col-8 ">
                     <input name="fName" id="fName" type="text" placeholder="First Name" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divfName"></div>
+                    <div class="col-4 errorMSG" id="divfName" style="width:300px"></div>
                 </div>
                
             </div>
@@ -83,21 +83,21 @@
                 <label class="form-label col-3"><i class="Hui-iconfont"></i></label>
                 <div class="formControls col-8">
                     <input name="lName" id="lName" type="text" placeholder="Last Name" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divlName"></div>
+                    <div class="col-4 errorMSG" id="divlName" style="width:300px"></div>
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-3"><i class="Hui-iconfont">&#xe63b;</i></label>
                 <div class="formControls col-8">
                     <input name="regEmail" id="regEmail" type="text" placeholder="Email" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divregEmail"></div>
+                    <div class="col-4 errorMSG" id="divregEmail" style="width:300px"></div>
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-3"><i class="Hui-iconfont">&#xe696;</i></label>
                 <div class="formControls col-8">
                     <input name="regPhone" id="regPhone" type="text" placeholder="Phone Nomber" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divregPhone"></div>
+                    <div class="col-4 errorMSG" id="divregPhone" style="width:300px"></div>
                 </div>
                 
             </div>
@@ -105,14 +105,14 @@
                 <label class="form-label col-3"><i class="Hui-iconfont">&#xe60e;</i></label>
                 <div class="formControls col-8">
                     <input name="regPassword" id="regPassword" type="password" placeholder="Password" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divregPassword"></div>
+                    <div class="col-4 errorMSG" id="divregPassword" style="width:300px"></div>
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-3"><i class="Hui-iconfont"></i></label>
                 <div class="formControls col-8">
                     <input name="regRePassword" id="regRePassword" type="password" placeholder="Re-enter password" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divregRePassword"></div>
+                    <div class="col-4 errorMSG" id="divregRePassword" style="width:300px"></div>
                 </div>
             </div>
             <div class="row cl">
@@ -148,7 +148,8 @@
 <div class="footer"></div>
 <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="js/H-ui.js"></script> 
-    <script type="text/javascript" src="js/jquery.cookie.js"></script> 
+<script type="text/javascript" src="js/jquery.cookie.js"></script> 
+<script type="text/javascript" src="js/jquery.md5.js"></script>
 <script>
 
     $(document).ready(function () {
@@ -214,17 +215,48 @@
     {
         window.location = "visitorTry.html";
     }
+
     function isValidMail(email) {
-
         var patten = new RegExp(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]+$/);
-
         return patten.test(email);
+    }
+
+
+    //check if email aready exist in database
+    function uniqueUserEmail(email) {
+        var status = false;
+        method = "GET";
+        Url = '/api/MongoDB';
+        $.ajax({
+
+            url: Url,
+            type: method,
+            dataType: 'json',
+            data: "",
+
+        }).success(function (data) {
+            $.each(data, function (index, user) {
+                if (user["Email"] === email) {
+                    $("#divregEmail").find("span").remove();
+                    $("#divregEmail").css("width", "+=100");
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("This email address already registed!").appendTo('#divregEmail');
+                    $("#regEmail").focus();
+                    //alert("This email already register!");
+                    status = true;
+                    return false;
+                }
+                
+            });
+            return false;
+        });
 
     }
+
+
     function login()
     {
         var email = $('#Email').val();
-        var password = $('#Password').val();
+        var password =$('#Password').val();
         if (email != "") {
             var result = isValidMail(email);
             if (result == false) {
@@ -242,118 +274,10 @@
             alert("Password cannot be blank!")
             return;
         }	
-
-            method = "GET";
-            Url = '/api/MongoDB';
-            content = { Email: email, Password: password };
-            $.ajax({
-
-                url: Url,
-                type: method,
-                data: content,
-
-            }).success(function (data) {
-                myStorage = localStorage;
-                var isEmptyObject = jQuery.isEmptyObject(data);
-                if (isEmptyObject == false) {
-                    /*
-                    if (data.Status == "inactive") {
-                        alert("Your account has locked. Please contect administrator to Unlock your account!");
-                        return;
-                    }
-                    else {
-                        // window.location.replace("index.html");
-                    }*/
-                    $('#Email').val('');
-                    $('#Password').val('');
-                    localStorage.setItem('PersonInfo', JSON.stringify(data));
-                    localStorage.setItem('isLogin', true);
-
-                    window.location.href = "index.html";
-                  
-                }
-                else {
-                    alert("Please check your Account or Password!")
-                  
-                    //window.location.replace("login.html");
-                   // clearInputBox();
-                  
-                }
-
-            });
-
-    }
-    function registration()
-    {
-        $(".errorMSG").empty();
-        var FirstName = $('#fName').val();
-        var LastName = $('#lName').val();
-        var Email = $('#regEmail').val();
-        var Phone = $('#regPhone').val();
-        var Role = $('input[name="role"]:checked').val();
-        var Password = $('#regPassword').val();
-        var rePassword = $('#regRePassword').val();
-        if (FirstName == "") {
-            $("#divfName").css("width", "+=100");
-            $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divfName');
-
-            $("#fName").focus();
-            return;
-        }
-        if (LastName == "") {
-            $("#divlName").css("width", "+=100");
-            $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divlName');
-
-            $("#lName").focus();
-            return;
-        }
-        if (Email != "") {
-            var result = isValidMail(Email);
-            if (result == false) {   
-                $("#divregEmail").css("width", "+=100");
-                $('<span class="Validform_checktip Validform_wrong"></span>').html("Please Check your Email Format!").appendTo('#divregEmail');
-                $("#regEmail").focus();
-                return;
-            }
-        }
-        else {
-            $("#divregEmail").css("width", "+=100");
-            $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregEmail');
-            $("#regEmail").focus();
-            return;
-        }
-        if (Phone == "") {
-            $("#divregPhone").css("width", "+=100");
-            $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregPhone');
-            $("#regPhone").focus();
-            return;
-        }
-        if (Password == "") {
-           
-            $("#divregPassword").css("width", "+=100");
-            $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregPassword');
-            $("#regPassword").focus();
-            return;
-        }
-        if (Password != rePassword)
-        {
-            $("#divregRePassword").css("width", "+=100");
-            $('<span class="Validform_checktip Validform_wrong"></span>').html("Your password do not march!").appendTo('#divregRePassword');
-            $("#regRePassword").focus();
-            return;
-        }
-        if (Role == "Teacher")
-        {
-            Status = "inactive";
-        }
-        else if (Role == "User")
-        {
-            Status = "active";
-        }
-        content = { 'FirstName': FirstName, 'LastName': LastName, 'Email': Email, 'Phone':Phone, 'Password': Password, 'Status': Status, 'Role': Role };
-        method = "POST";
+        password = $.md5(password);
+        method = "GET";
         Url = '/api/MongoDB';
-
+        content = { Email: email, Password: password };
         $.ajax({
 
             url: Url,
@@ -361,19 +285,170 @@
             data: content,
 
         }).success(function (data) {
-            console.log(".net Output:");
-            console.log(data);
-            if (data == true) {
-                window.location.href = "index.html";
+            myStorage = localStorage;
+            var isEmptyObject = jQuery.isEmptyObject(data);
+            if (isEmptyObject == false) {
+                    
+                if (data.Status == "inactive" && data.Role=="User") {
+                    alert("Your account has locked. Please contect administrator to Unlock your account!");
+                    return;
+                }
+                else {
+                    $('#Email').val('');
+                    $('#Password').val('');
+                    localStorage.setItem('PersonInfo', JSON.stringify(data));
+                    localStorage.setItem('isLogin', true);
+
+                    window.location.href = "index.html";
+                }
+                  
+                  
             }
             else {
-                clearInputBox();
-  
+                alert("Please check your Account or Password!")
+                  
+                //window.location.replace("login.html");
+                // clearInputBox();
+                  
             }
 
         });
-    
+
     }
+        function registration()
+        {
+            $(".errorMSG").empty();
+            var FirstName = $('#fName').val();
+            var LastName = $('#lName').val();
+            var Email = $('#regEmail').val().toLowerCase();;
+            var Phone = $('#regPhone').val();
+            var Role = $('input[name="role"]:checked').val();
+            var Password = $('#regPassword').val();
+            var rePassword =$('#regRePassword').val();
+            if (FirstName == "") {             
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divfName');
+
+                $("#fName").focus();
+                return;
+            }
+            if (LastName == "") {
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divlName');
+
+                $("#lName").focus();
+                return;
+            }
+            if (Email != "") {
+                var result = isValidMail(Email);
+                if (result == false) {   
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("Please Check your Email Format!").appendTo('#divregEmail');
+                    $("#regEmail").focus();
+                    return;
+                }
+                if (uniqueUserEmail(Email)==true) {
+                    return;
+                }
+            }
+            else {
+                var divregEmail=$("#divregEmail");
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregEmail');
+                $("#regEmail").focus();
+                return;
+            }
+            if (Phone == "") {
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregPhone');
+                $("#regPhone").focus();
+                return;
+            }
+            else {
+                var phoneRe = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
+                if (Phone.match(phoneRe)===null) {
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("Phone number format is not correct!").appendTo('#divregPhone');
+                    return;
+                }
+            }
+
+
+            if (Password == "") {         
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregPassword');
+                $("#regPassword").focus();
+                return;
+            }
+
+            if (Password.length < 6 || Password.length > 12) {
+                $("#divregPassword").find("span").remove();
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("Password should be in 6 to 12 characters").appendTo('#divregPassword');
+                //alert("password should be in 6 to 12 characters")
+                validPassWord = false;
+            }
+            else {
+                $("#divregPassword").find("span").remove();
+                validPassWord = true;
+            }
+
+
+            if (!validPassWord) {
+                return;
+            }
+            if (Password != rePassword)
+            {
+                $('<span class="Validform_checktip Validform_wrong"></span>').html("Your password do not march!").appendTo('#divregRePassword');
+                $("#regRePassword").focus();
+                return;
+            }
+            if (Role == "Teacher")
+            {
+                Status = "inactive";
+            }
+            else if (Role == "User")
+            {
+                Status = "active";
+            }
+            Password = $.md5(Password);
+            
+            content = { 'FirstName': FirstName, 'LastName': LastName, 'Email': Email, 'Phone':Phone, 'Password': Password, 'Status': Status, 'Role': Role };
+            method = "POST";
+            Url = '/api/MongoDB';
+
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+           
+                if (data == true) {
+                    localStorage.setItem('PersonInfo', JSON.stringify(content));
+                    localStorage.setItem('isLogin', true);
+                    window.location.href = "index.html";
+                }
+                else {
+                    clearInputBox();
+  
+                }
+
+            });
+    
+        }
+
+           var validPassWord;
+           $("#regPassword").blur(function () {
+               var val = $(this).val();
+               if (val.length < 6 || val.length > 12) {
+                   $("#divregPassword").find("span").remove();            
+                   $('<span class="Validform_checktip Validform_wrong"></span>').html("Password should be in 6 to 12 characters").appendTo('#divregPassword');
+                   //alert("password should be in 6 to 12 characters")
+                   validPassWord=false;
+               }
+               else {
+                   $("#divregPassword").find("span").remove();
+                   validPassWord = true;
+               }
+           });
+
+      
+
+
 </script>
 </body>
 </html>

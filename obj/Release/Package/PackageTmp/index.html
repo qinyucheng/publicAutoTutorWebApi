@@ -37,9 +37,9 @@
 			<dt><i class="Hui-iconfont">&#xe616;</i> Classes Mangement<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a _href="http://localhost:12481" data-title="My Classes" href="javascript:void(0)">My Classes</a></li>
-					<li><a _href="teacher_buildClass.html" data-title="Build a Class" href="javascript:void(0)">Build a Class</a></li>
-					<li><a _href="article-list.html" data-title="Report" href="javascript:void(0)">Report</a></li>
+					<li><a _href="teacher_MyClass.html" data-title="My Classes" onclick="myClassOpen(this)" >My Classes</a></li>
+					<li><a _href="teacher_buildClass.html" data-title="Build a Class" onclick="buildClassOpen(this)">Build a Class</a></li>
+					<!--<li><a _href="article-list.html" data-title="Report" href="javascript:void(0)">Report</a></li>-->
 				</ul>
 			</dd>
 		</dl>
@@ -48,7 +48,7 @@
 			<dd>
 				<ul>
 					<li><a _href=" lessons-list.html"" data-title="Lesson List" href="javascript:void(0)">Lesson List</a></li>
-                    <li><a _href="picture-list.html" data-title="My Report" href="javascript:void(0)">My Report</a></li>
+                    <!-- <li><a _href="picture-list.html" data-title="My Report" href="javascript:void(0)">My Report</a></li>-->
 				</ul>
 			</dd>
 		</dl>
@@ -69,8 +69,7 @@
 			<dt><i class="Hui-iconfont">&#xe60d;</i> User Management<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a _href="admin_userList.html" data-title="User List" href="javascript:;">User List</a></li>
-					
+					<li><a _href="admin_userList.html" data-title="User List" href="javascript:;">User List</a></li>					
 				</ul>
 			</dd>
 		</dl>
@@ -80,11 +79,12 @@
 				<ul>
 					
 					<li><a _href="admin_adminList.html" data-title="Admin List" href="javascript:void(0)">Admin List</a></li>
+                    <li><a _href="admin_allClasses.html" data-title="Lessons Management" href="javascript:void(0)">Classes Management</a></li>
                     <li><a _href="admin_lessonslist.html" data-title="Lessons Management" href="javascript:void(0)">Lessons Management</a></li>
 				</ul>
 			</dd>
 		</dl>
-		<dl id="menu-comments">
+		<!--<dl id="menu-comments">
 			<dt><i class="Hui-iconfont">&#xe622;</i> Contact Us<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
@@ -92,7 +92,7 @@
 					<li><a _href="feedback-list.html" data-title="Contact Us" href="javascript:void(0)">Contact Us</a></li>
 				</ul>
 			</dd>
-		</dl>
+		</dl>-->
 		
 	</div>
 </aside>
@@ -152,7 +152,7 @@
                 $('#menu-member').hide();
                 $('#menu-admin').hide();
            }
-           else if (PersonInfo.Role == "Admin")
+           else if (PersonInfo.Role == "Admin" && PersonInfo.Status == "active")
            {
                $('#menu-article').show();
                $('#menu-member').show();
@@ -160,7 +160,13 @@
                $('#menu-admin').show();
 
            }
-          
+           else if (PersonInfo.Role == "Admin" && PersonInfo.Status == "inactive") {
+               $('#menu-article').hide();
+               $('#menu-member').hide();
+               $('#menu-member').hide();
+               $('#menu-admin').hide();
+
+           }
         }
 
     });

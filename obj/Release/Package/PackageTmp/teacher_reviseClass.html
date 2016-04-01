@@ -356,11 +356,6 @@
         $("#classInfo").show();
 
         $("#first_next").click(function () {
-            if ($("#group option:selected").text() == groupName) {
-            }
-            else {
-                lessonInformation = [];
-            }
             groupName = $("#group option:selected").text();
             createClass();
         });
@@ -723,7 +718,6 @@
             classInformation["StudyStartTime"] = document.getElementById("datemin").value;
             classInformation["StudyEndTime"] = document.getElementById("datemax").value;
             //classInformation["ClassName"] = $("#group option:selected").text();
-            classInformation["LessonGroup"] = groupName;
             lessonPut();
             $("#classInfo").hide();
             $("#lessonInfo").show();
@@ -788,7 +782,7 @@
             if (flag === true) {
                 studentsListName();
                 postStuName();
-                //putClassInfor();
+                putClassInfor();
             }
             else
                 return;
@@ -911,15 +905,12 @@
                     //location.replace(location.href);
                 }
                 else {
-                    $("#url").append("<td><a href=" + data + " target='_blank'>" + data + "</a></td>");
-                    //$("#url").append("<td>" + data + "</td>");
+                    $("#url").append("<td>" + data + "</td>");
                     $("#displayUrl").show();
                     $(".ideal-wrap").hide();
                     $("#doneButton").show();
                     $("#submitBtn").hide();
                     //alert(data);
-                    classInformation["StudyURL"] = data;
-                    putClassInfor();
                 }
 
             });
@@ -956,9 +947,9 @@
         $('#className').val(seletedClassInformation["ClassName"]);
         $('#datemin').val(startTime);
         $('#datemax').val(endTime);
-        groupName=seletedClassInformation["LessonGroup"];
+        classInformation["LessonGroup"] = seletedClassInformation["LessonGroup"];
         $('#group').val(seletedClassInformation["LessonGroup"]);
-        //$('#group').attr('disabled', 'disabled');
+        $('#group').attr('disabled', 'disabled');
         /**
         set value for lesson table and
         and student table
