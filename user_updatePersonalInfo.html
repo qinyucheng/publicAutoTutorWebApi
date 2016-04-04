@@ -161,6 +161,7 @@
 <script type="text/javascript" src="js/H-ui.js"></script> 
 <script type="text/javascript" src="js/H-ui.admin.js"></script> 
 <script type="text/javascript" src="js/jquery.md5.js"></script>
+<script type="text/javascript" src="js/serverUrl.js"></script>
 <script type="text/javascript">
     var PersonInfo;
     $(document).ready(function () {
@@ -264,7 +265,7 @@
 
         content = { 'FirstName': FirstName, 'LastName': LastName, 'Email': Email, 'Phone': Phone,  'Address': regAddress, 'City': regCity, 'Zip': regZip, 'State': reState };
         method = "PUT";
-        Url = '/api/MongoDB/ModifyUserInfo';
+         Url = serverUrl+'/api/MongoDB/ModifyUserInfo';
 
         $.ajax({
 

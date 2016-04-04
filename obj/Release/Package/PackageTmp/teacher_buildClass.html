@@ -243,7 +243,7 @@
 <script type="text/javascript" src="js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/jquery.idealforms.js"></script>
 <script type="text/javascript" src="js/lessonGroupList.js"></script>
-
+<script type="text/javascript" src="js/serverUrl.js"></script>
 
 
 <script type="text/javascript">
@@ -326,7 +326,13 @@ $("#step4").click(function () {
 //$(".idealsteps-step").hide();
 $("#classInfo").show();
 
-$("#first_next").click(function(){
+$("#first_next").click(function () {
+    if ($("#group option:selected").text() == groupName) {
+    }
+    else
+    {
+        lessonInformation = [];
+    }
     groupName = $("#group option:selected").text();
     createClass();
 });
@@ -401,7 +407,7 @@ function clearnConfirmTable() {
 function displayLessons() {
     method = "GET";
     content = { id: "status", status: "active" };
-    Url = '/api/Lessons';
+     Url = serverUrl+'/api/Lessons';
     $.ajax({
 
         url: Url,
@@ -744,7 +750,7 @@ $('#confirmBT').click(function () {
     if (flag === true) {
         studentsListName();
         postStuName();
-        putClassInfor();
+       // putClassInfor();
     }
     else
         return;
@@ -777,11 +783,11 @@ function lessonPost() {
     var Url;
     if (signForPut == false) {
         method = "POST";
-        Url = '/api/Classes';
+         Url = serverUrl+'/api/Classes';
     }
     else {
         method = "Put";
-        Url = '/api/Classes/ModifyClassBasicInfo';
+         Url = serverUrl+'/api/Classes/ModifyClassBasicInfo';
     }
     content = classInformation;
    
@@ -809,7 +815,7 @@ function lessonPost() {
 function putLessonInfo() {
     var method = "PUT";
     content = classInformation;
-    Url = '/api/Classes/ModifySelectedLessonsInfo';
+     Url = serverUrl+'/api/Classes/ModifySelectedLessonsInfo';
     $.ajax({
 
         url: Url,
@@ -829,8 +835,8 @@ function putStudentInfo() {
 
     content = classInformation;
 
-    // Url = '/api/MongoDB/' + email;
-    Url = '/api/Classes/ModifyClassStudents';
+    //  Url = serverUrl+'/api/MongoDB/' + email;
+     Url = serverUrl+'/api/Classes/ModifyClassStudents';
     $.ajax({
 
         url: Url,
@@ -848,7 +854,7 @@ function putStudentInfo() {
 function putClassInfor() {
     var method = "PUT";
     content = classInformation;
-    Url = '/api/Classes/ModifyUpdateClassInfo';
+     Url = serverUrl+'/api/Classes/ModifyUpdateClassInfo';
     $.ajax({
 
         url: Url,
@@ -866,7 +872,7 @@ function postStuName() {
     var method = "POST";
     content = { "StudentsName": studentsName, "group": groupName, ClassName: classInformation["ClassName"]};
     method = "POST";
-    Url = '/api/CreateClasses';
+     Url = serverUrl+'/api/CreateClasses';
 
     $.ajax({
 
@@ -881,12 +887,15 @@ function postStuName() {
             //location.replace(location.href);
         }
         else {
-            $("#url").append("<td>" + data + "</td>");
+            $("#url").append("<td><a href=" + data + " target='_blank'>" + data + "</a></td>");
+            //$("#url").append("<td>" + data + "</td>");
             $("#displayUrl").show();
             $(".ideal-wrap").hide();
             $("#doneButton").show();
             $("#submitBtn").hide();
             //alert(data);
+            classInformation["StudyURL"] = data;
+            putClassInfor();
         }
 
     });
@@ -897,7 +906,7 @@ function postStuName() {
 function uniqueClassName() {
     method = "GET";
     content = { "key": "getClassInfoByClassName", "searchKey": classInformation["ClassName"]};
-    Url = '/api/Classes';
+     Url = serverUrl+'/api/Classes';
     $.ajax({
 
         url: Url,

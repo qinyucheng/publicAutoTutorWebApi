@@ -258,7 +258,7 @@
     <script type="text/javascript" src="js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/jquery.idealforms.js"></script>
     <script type="text/javascript" src="js/lessonGroupList.js"></script>
-
+<script type="text/javascript" src="js/serverUrl.js"></script>
 
 
     <script type="text/javascript">
@@ -435,7 +435,7 @@
         function displayLessons() {
             method = "GET";
             content = { id: "status", status: "active" };
-            Url = '/api/Lessons';
+             Url = serverUrl+'/api/Lessons';
             $.ajax({
 
                 url: Url,
@@ -803,7 +803,7 @@
         function lessonPut() {
             var method = "put";
             var content = classInformation;
-            Url = '/api/Classes/ModifyClassBasicInfo';
+             Url = serverUrl+'/api/Classes/ModifyClassBasicInfo';
 
             $.ajax({
 
@@ -830,8 +830,8 @@
 
             content = classInformation;
 
-            // Url = '/api/MongoDB/' + email;
-            Url = '/api/Classes/ModifySelectedLessonsInfo';
+            //  Url = serverUrl+'/api/MongoDB/' + email;
+             Url = serverUrl+'/api/Classes/ModifySelectedLessonsInfo';
             $.ajax({
 
                 url: Url,
@@ -851,8 +851,8 @@
 
             content = classInformation;
 
-            // Url = '/api/MongoDB/' + email;
-            Url = '/api/Classes/ModifyClassStudents';
+            //  Url = serverUrl+'/api/MongoDB/' + email;
+             Url = serverUrl+'/api/Classes/ModifyClassStudents';
             $.ajax({
 
                 url: Url,
@@ -872,8 +872,8 @@
 
             content = classInformation;
 
-            // Url = '/api/MongoDB/' + email;
-            Url = '/api/Classes/ModifyUpdateClassInfo';
+            //  Url = serverUrl+'/api/MongoDB/' + email;
+             Url = serverUrl+'/api/Classes/ModifyUpdateClassInfo';
             $.ajax({
 
                 url: Url,
@@ -895,7 +895,7 @@
             //content = { "StudentsName": studentsName, "group": groupName, ClassName: classInformation["ClassName"], "teacherName": teacherName };
             content = { "StudentsName": studentsName, "group": groupName, ClassName: classInformation["ClassName"] };
             method = "POST";
-            Url = '/api/CreateClasses';
+             Url = serverUrl+'/api/CreateClasses';
 
             $.ajax({
 

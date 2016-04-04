@@ -111,6 +111,8 @@
     <script type="text/javascript" src="js/H-ui.js"></script>
     <script type="text/javascript" src="js/H-ui.admin.js"></script>
     <script type="text/javascript" src="js/URI.js"></script>
+    <script type="text/javascript" src="js/serverUrl.js"></script>
+	
     <script type="text/javascript">
         var pageActionMethod = "post";
         $(function () {
@@ -123,7 +125,7 @@
           
         });
         $(document).ready(function () {
-            Url = '/api/Lessons';
+             Url = serverUrl+'/api/Lessons';
             URLParams = URI.parseQuery(window.location.search);
             var isEmptyObject = jQuery.isEmptyObject(URLParams);
             if (isEmptyObject == false) {
@@ -299,7 +301,7 @@
         function addLessonInfo(content)
         {
             method = "POST";
-            Url = '/api/Lessons';
+             Url = serverUrl+'/api/Lessons';
             $.ajax({
                 type: method,
                 url: Url,
@@ -329,7 +331,7 @@
 
         function updateLessonInfo(content) {
             method = "PUT";
-            Url = '/api/Lessons/ModifyLessonInfo';
+             Url = serverUrl+'/api/Lessons/ModifyLessonInfo';
             $.ajax({
                 type: method,
                 url: Url,

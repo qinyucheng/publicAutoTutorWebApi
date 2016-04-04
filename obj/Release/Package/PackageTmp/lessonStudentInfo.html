@@ -55,6 +55,12 @@
             classInformation["StudyStartTime"] = (start.getMonth() + 1).toString() + "-" + start.getDate() + "-" + start.getFullYear();
             classInformation["StudyEndTime"] = (end.getMonth() + 1).toString() + "-" + end.getDate() + "-" + end.getFullYear();
         }
+        function PrintPage()
+        {
+            $("#doneButton").hide();
+            window.print();
+            $("#doneButton").show();
+        }
     </script>
 <title>Lesson and student info</title>
 </head>
@@ -99,26 +105,33 @@
         </section>
 
         <!--section for add students-->
-        <section id="studentList" class="idealsteps-step">
-            <div class="pd-20">
-                <table class="table table-border table-bordered table-bg" id="studentTable">
-                    <thead>
-                        <tr>
-                            <th scope="col" colspan="9">Student List</th>
-                        </tr>
-                        <tr>
-                            <th width="40">Student ID</th>
-                            <th width="150">Student Name</th>
-                            <th width="90">Student Email</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
+    <section id="studentList" class="idealsteps-step">
+        <div class="pd-20">
+            <table class="table table-border table-bordered table-bg" id="studentTable">
+                <thead>
+                    <tr>
+                        <th scope="col" colspan="9">Student List</th>
+                    </tr>
+                    <tr>
+                        <th width="40">Student ID</th>
+                        <th width="150">Student Name</th>
+                        <th width="90">Student Email</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+    <div class="cl pd-5 bg-1 bk-gray mt-20" id="doneButton">
+        <span class="r">
+            <button  data-title='My Classes' onclick='PrintPage();' class="btn btn-success" type="submit">Print</button>
+        </span>
+    </div>
             <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
             <script type="text/javascript" src="js/H-ui.js"></script>
             <script type="text/javascript" src="js/H-ui.admin.js"></script>
             <script type="text/javascript" src="js/URI.js"></script>
+			<script type="text/javascript" src="js/serverUrl.js"></script>
             <script type="text/javascript">
             </script>
 </body>

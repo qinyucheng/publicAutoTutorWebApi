@@ -31,7 +31,7 @@ function search() {
 function callAPI(content) {
     method = "GET";
     //content = { "key": "advanceSearch", "searchKey": $('#searchKey').val().trim(),"TeacherEmail":"" };
-    Url = '/api/Classes';
+     Url = serverUrl+'/api/Classes';
     $.ajax({
 
         url: Url,
@@ -99,7 +99,7 @@ function getClassList() {
     TeacherEmail = lessonsInfo.Email;
     method = "GET";
     content = { "TeacherEmail":TeacherEmail };                            //reset to teache eamil
-    Url = '/api/Classes';
+     Url = serverUrl+'/api/Classes';
     $.ajax({
 
         url: Url,
@@ -219,8 +219,8 @@ function class_start(obj, id) {
 function changeClassStatus(obj, id, Status) {
     content = { "ClassName": id, "ClassStatus": Status };
     method = "PUT";
-    // Url = '/api/MongoDB/' + email;
-    Url = '/api/Classes/ModifyClassStatus';
+    //  Url = serverUrl+'/api/MongoDB/' + email;
+     Url = serverUrl+'/api/Classes/ModifyClassStatus';
 
     $.ajax({
 

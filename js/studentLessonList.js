@@ -29,8 +29,8 @@ $(document).ready(function () {
 //lesson function
 function getStudentLessonList() {
     method = "GET";
-    content = { key: "getClassInfoByClassName", searchKey: classnames};
-    Url = "/api/Classes/";
+    content = { key: "getClassInfoByClassName", searchKey: classnames };
+    Url = serverUrl + "/api/Classes/";
     $.ajax({
 
         url: Url,
@@ -40,6 +40,7 @@ function getStudentLessonList() {
 
 
         success: function (data) {
+            localStorage.setItem("LessonGroup", data[0].LessonGroup)
             classObj = data;
             var today = new Date();
             var startTime = new Date(data[0]["StudyStartTime"]);
@@ -113,6 +114,7 @@ function startLesson() {
         var LessonGroup = LessonsList[i]["LessonGroup"];
         if (LessonsList[i]["LessonGroup"] === undefined) {
             LessonGroup = classObj[0]["ClassName"];
+            LessonGroup = localStorage.getItem("LessonGroup");
         }
         var LessonURL = LessonsList[i]["LessonURL"]
         if (LessonID == selectedID) {
@@ -142,10 +144,12 @@ function PopUpLesson(LessonID, LessonName, LessonGroup, lessonURL) {
 
     if (LessonGroup == "CSAL") {
         countPopupTimes++;
+        lessonURL = lessonURL + "&UID=" + UID + "&SID=" + SID;
 
-        layer_show(LessonName, CSALURL, "1030", "740");
+        layer_show(LessonName, lessonURL, "1030", "740");
         var PopUpIframeID = "layui-layer-iframe" + countPopupTimes;
         $("#" + PopUpIframeID).attr("scrolling", "no");
+        /*
         document.getElementById(PopUpIframeID).onload = function () {
 
             var iframe = document.getElementById(PopUpIframeID);
@@ -161,7 +165,7 @@ function PopUpLesson(LessonID, LessonName, LessonGroup, lessonURL) {
 
             iframe.contentWindow.postMessage(json, '*');
 
-        }
+        }*/
     }
     else if (LessonGroup == "ET") {
         countPopupTimes++;
@@ -172,4 +176,3 @@ function PopUpLesson(LessonID, LessonName, LessonGroup, lessonURL) {
     }
 
 }
-

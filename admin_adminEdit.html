@@ -167,6 +167,7 @@
     <script type="text/javascript" src="js/H-ui.admin.js"></script>
     <script type="text/javascript" src="js/URI.js"></script>
     <script type="text/javascript" src="js/jquery.md5.js"></script>
+	<script type="text/javascript" src="js/serverUrl.js"></script>
     <script type="text/javascript">
         var status = false;  //false means email haven't registed , true means registed
         function isValidMail(email) {
@@ -251,7 +252,7 @@
             Password = $.md5(Password);
             content = { 'FirstName': FirstName, 'LastName': LastName, 'Email': Email, 'Phone': Phone, 'Password': Password, 'Address': regAddress, 'City': regCity, 'Zip': regZip, 'State': reState, 'Status': "active", 'Role': Role };
             method = "POST";
-            Url = '/api/MongoDB';
+             Url = serverUrl+'/api/MongoDB';
 
             $.ajax({
 
@@ -275,7 +276,7 @@
         function uniqueUserEmail(email) {
             var status = false;
             method = "GET";
-            Url = '/api/MongoDB';
+             Url = serverUrl+'/api/MongoDB';
             $.ajax({
 
                 url: Url,

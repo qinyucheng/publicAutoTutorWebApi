@@ -19,7 +19,7 @@
     <script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="js/H-ui.js"></script>
     <script type="text/javascript" src="js/H-ui.admin.js"></script>
-
+<script type="text/javascript" src="js/serverUrl.js"></script>
     <script type="text/javascript">
 
         var lessonStatusAction;
@@ -81,7 +81,7 @@
         {
             method = "GET";
 
-            Url = '/api/Lessons';
+             Url = serverUrl+'/api/Lessons';
             $.ajax({
 
                 url: Url,
@@ -148,8 +148,8 @@
 
             content = { 'LessonID': id, 'Status': Status };
             method = "PUT";
-            // Url = '/api/MongoDB/' + email;
-            Url = '/api/Lessons/ChangeLessonStatus';
+            //  Url = serverUrl+'/api/MongoDB/' + email;
+             Url = serverUrl+'/api/Lessons/ChangeLessonStatus';
 
             $.ajax({
 
@@ -186,8 +186,8 @@
         function deleteLessonById(obj,LessonID) {
            
             method = "DELETE";
-            // Url = '/api/MongoDB/' + email;
-            Url = '/api/Lessons/deleteLessonById';
+            //  Url = serverUrl+'/api/MongoDB/' + email;
+             Url = serverUrl+'/api/Lessons/deleteLessonById';
             content = { "LessonID": LessonID };
 
             $.ajax({

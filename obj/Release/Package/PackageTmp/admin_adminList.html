@@ -34,6 +34,7 @@
 <script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="js/H-ui.js"></script> 
 <script type="text/javascript" src="js/H-ui.admin.js"></script> 
+<script type="text/javascript" src="js/serverUrl.js"></script>
 <script type="text/javascript">
 
 
@@ -93,8 +94,8 @@ function changeUserStatus(obj, id, Status) {
 
     content = { 'Email': id, 'Status': Status };
     method = "PUT";
-    // Url = '/api/MongoDB/' + email;
-    Url = '/api/MongoDB/ModifyUserStatus';
+    //  Url = serverUrl+'/api/MongoDB/' + email;
+     Url = serverUrl+'/api/MongoDB/ModifyUserStatus';
 
     $.ajax({
 
@@ -154,7 +155,7 @@ function getInfo(content)
 {
     method = "GET";
 
-    Url = '/api/MongoDB';
+     Url = serverUrl+'/api/MongoDB';
     $.ajax({
 
         url: Url,

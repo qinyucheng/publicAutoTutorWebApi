@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    
+    <script type="text/javascript" src="js/serverUrl.js"></script>
     <style type='text/css'>
         thead {
             font-size: 12pt;
@@ -71,7 +71,7 @@
         function getAllLessonsInfo() {
             method = "GET";
             content = "";
-            Url = '/api/Lessons';
+             Url = serverUrl+'/api/Lessons';
             $.ajax({
 
                 url: Url,
@@ -135,7 +135,7 @@
 
             content = { TeacherEmail: TeacherEmail, ClassName: ClassName, StudyStartTime: StudyStartTime, StudyEndTime: StudyEndTime};
             method = "POST";
-            Url = '/api/Classes';
+             Url = serverUrl+'/api/Classes';
 
             $.ajax({
 
@@ -172,7 +172,7 @@
             var ClassName = document.BasicClassInfo.ClassName.value;
             content = {"ClassName": ClassName, "SeletedLeassons": SeletedLeassons };
             method = "Put";
-            Url = '/api/Classes/ModifySelectedLessonsInfo';
+             Url = serverUrl+'/api/Classes/ModifySelectedLessonsInfo';
 
             $.ajax({
 

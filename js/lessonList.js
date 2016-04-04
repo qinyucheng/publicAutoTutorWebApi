@@ -52,7 +52,7 @@ function callAPI(content)
 {
     method = "GET";
 
-    Url = '/api/Lessons';
+     Url = serverUrl+'/api/Lessons';
     $.ajax({
 
         url: Url,
@@ -150,6 +150,7 @@ function startLesson() {
         var LessonID = LessonsList[i]["LessonID"];
         var LessonName = LessonsList[i]["LessonName"];
         var LessonGroup = LessonsList[i]["LessonGroup"];
+       
         if (LessonsList[i]["LessonGroup"] === undefined) {
             LessonGroup = classObj[0]["ClassName"];
         }
@@ -200,14 +201,30 @@ function getValueFromPopupWindow(id, Name) {
 }
 
 function PopUpLesson(LessonID, LessonName, LessonGroup, lessonURL) {
+    var PersonInfoObj = localStorage.getItem('PersonInfo');
+    if (PersonInfoObj != "")
+    {
+        var PersonInfo = JSON.parse(PersonInfoObj);
+        var isEmptyObject = jQuery.isEmptyObject(PersonInfo);
+        if (isEmptyObject == false) {
+            var role = PersonInfo.Role;
+            var userEmail = PersonInfo.Email;
+            var userFName = PersonInfo.FirstName;
+            UID = role + "_" + userEmail + "_" + userFName;
 
+        }
+
+    }
+   
 
     if (LessonGroup == "CSAL") {
         countPopupTimes++;
-
-        layer_show(LessonName, CSALURL, "1030", "740");
+        lessonURL = lessonURL + "&UID=" + UID + "&SID=" + SID + "&IP=" + getIpAddress;
+        //layer_show(LessonName, CSALURL, "1030", "740");
+        layer_show(LessonName, lessonURL, "1030", "740");
         var PopUpIframeID = "layui-layer-iframe" + countPopupTimes;
         $("#" + PopUpIframeID).attr("scrolling", "no");
+        /*
         document.getElementById(PopUpIframeID).onload = function () {
 
             var iframe = document.getElementById(PopUpIframeID);
@@ -223,7 +240,7 @@ function PopUpLesson(LessonID, LessonName, LessonGroup, lessonURL) {
 
             iframe.contentWindow.postMessage(json, '*');
 
-        }
+        }*/
     }
     else if (LessonGroup == "ET") {
         countPopupTimes++;

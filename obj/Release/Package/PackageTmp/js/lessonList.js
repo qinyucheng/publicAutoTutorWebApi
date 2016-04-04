@@ -52,7 +52,7 @@ function callAPI(content)
 {
     method = "GET";
 
-    Url = '/api/Lessons';
+     Url = serverUrl+'/api/Lessons';
     $.ajax({
 
         url: Url,
