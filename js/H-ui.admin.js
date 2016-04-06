@@ -174,6 +174,14 @@ function layer_show(title,url,w,h){
 		title: title,
 		content: url
 	});
+
+	var p = $(".layui-layer-iframe");
+	var position = p.position();
+	if (position.top < 0)
+	{
+	   
+	    $(".layui-anim").css('top', "5px");
+	}
 }
 /*关闭弹出框口*/
 function layer_close(id,Name){

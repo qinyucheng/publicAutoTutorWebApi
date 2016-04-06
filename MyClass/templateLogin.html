@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
-<script type="text/javascript" src="lib/html5.js"></script>
-<script type="text/javascript" src="lib/respond.min.js"></script>
+<script type="text/javascript" src="../lib/html5.js"></script>
+<script type="text/javascript" src="../lib/respond.min.js"></script>
 <style>			
 	#instruct
 	{
@@ -62,7 +62,7 @@
 
                     if (isExisit != -1) {
                         getStudentUID(isExisit);
-                        localStorage.clear();
+                        //localStorage.clear();
                         localStorage.setItem("className", ClassName);
                         localStorage.setItem("returnURL", URI);
                         //localStorage.setItem("classGroup", ClassGroup);

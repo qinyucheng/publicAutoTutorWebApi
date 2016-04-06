@@ -36,13 +36,17 @@
                     }
                 );
             }
-            for (i = 0; i < length - 1; i = +2) {
+            for (i = 0; i < length; i++) {
+                $("#lessonsTable").append("<tr align='center'><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td></tr>");
+            }
+            /*for (i = 0; i < length - 1; i = +2) {
                 $("#lessonsTable").append("<tr align='center'><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td>" + lessonInfo[i + 1]['LessonID'] + "</td><td id=" + lessonInfo[i + 1]['LessonID'] + " >" + lessonInfo[i + 1]['LessonName'] + "</td><td>" + lessonInfo[i + 1]['Description'] + "</td></tr>");
             }
             if (length - 1 == i) {
                 $("#lessonsTable").append("<tr align='center' ><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td></td><td></td><td></td></tr>");
-            }
+            }*/
             $("#ClassInfo").append("<tr align='center'><td>" + classInformation["ClassName"] + "</td>" + "<td>" + classInformation["LessonGroup"] + "</td>" + "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td></tr>");
+            $("#displayClassName").html(classInformation["ClassName"]);
             if (classUrl === null) {
                 classUrl="You did't finish building class!"
             }
@@ -70,7 +74,7 @@
         <table class="table table-border table-bordered table-bg" id="url" align="center">
             <thead>
                 <tr>
-                    <th scope="col" colspan="9">Study URL</th>
+                    <th scope="col" colspan="9">URL for your " <span id="displayClassName"></span> "Class</th>
                 </tr>
             </thead>
 
@@ -96,7 +100,7 @@
                     <thead>
                         <tr><th scope='col' colspan='9'>Lesson List</th></tr>
                         <tr>
-                            <th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th><td width='25'></td><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th>
+                            <th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th>
                         </tr>
                     </thead>
                 </table>
