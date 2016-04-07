@@ -22,24 +22,31 @@ namespace publicAutoTutorWebApi.Controllers
     {
         Models.OprationMongo opm = new OprationMongo();
         string strconn = ConfigurationManager.AppSettings["connectionString"];
-        public string put(Users userinfo ) {
+        public bool put(Users userinfo ) {
+            string result="";
             string password=Membership.GeneratePassword(6, 2);
             string MD5pwd=MD5Hash(password);
+            userinfo.Password = MD5pwd;
             //changePassword(userinfo);
             if(changePassword(userinfo)){
-                sendGmail(userinfo.FirstName, userinfo.Email, password);
+               result= sendGmail(userinfo.Email, password);
             }
-            
-            return "true";
+            if (result == "Mail has been successfully sent!")
+            {
+                return true;
+            }
+            else
+                return false;
         }
 
 
 
 
-        public string sendGmail(string name, string userEmail, string value)
+        public string sendGmail(string userEmail, string value)
         {
-            string reciverEmail = "AutoTutorMem@gmail.com";
-            string content = "'" + name + "' send a new message from AutoTutor Website\n\n Email address: " + userEmail + "\n\n Message content: " + value;
+            //string reciverEmail = "AutoTutorMem@gmail.com";
+            string reciverEmail = ConfigurationManager.AppSettings["sendEmail"];
+            string content ="' send a new message from AutoTutor Website\n\n Email address: " + userEmail + "\n\n Message content: " + value;
             MailMessage msg = new MailMessage();
 
             msg.From = new MailAddress(reciverEmail);
@@ -70,8 +77,8 @@ namespace publicAutoTutorWebApi.Controllers
         }
 
         public bool changePassword(Users info) {
-            opm.updateUserPassword(info);
-            return true;
+            opm.ConnDatabase(strconn);
+            return opm.updateUserPassword(info);
         }
 
         public string MD5Hash(string text)
