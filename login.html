@@ -154,13 +154,13 @@
             <div class="row cl">
                 <label class="form-label col-3"><i class="Hui-iconfont">&#xe63b;</i></label>
                 <div class="formControls col-8">
-                    <input name="regEmail" id="regEmail" type="text" placeholder="Email" class="input-text size-L" autocomplete="off">
-                    <div class="col-4 errorMSG" id="divregEmail" style="width:300px"></div>
+                    <input name="emailAddress" id="emailAddress" type="text" placeholder="Email" class="input-text size-L" autocomplete="off">
+                    <div class="col-4 errorMSG" id="userEmail" style="width:300px"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="formControls col-8 col-offset-3">
-                    <input name="" type="submit" class="btn btn-success radius size-L" value="&nbsp;Sign Up" onclick="resetPassword()">
+                    <input name="" type="submit" class="btn btn-success radius size-L" value="&nbsp;Send Email" onclick="resetPassword()">
                 </div>
             </div>
          </div>
@@ -178,9 +178,8 @@
 <script type="text/javascript" src="js/jquery.md5.js"></script>
 <script type="text/javascript" src="js/serverUrl.js"></script>
 <script>
-
+    var statusEmail = false;
     $(document).ready(function () {
-      
         $('#regForm').hide();
         $('#forgetPwd').hide();
         var cookies = $.cookie();
@@ -253,31 +252,29 @@
 
     //check if email aready exist in database
     function uniqueUserEmail(email) {
-        var status = false;
         method = "GET";
-         Url = serverUrl+'/api/MongoDB';
+        Url = serverUrl + '/api/MongoDB';
         $.ajax({
-
+            async: false,
             url: Url,
             type: method,
             dataType: 'json',
             data: "",
-
-        }).success(function (data) {
-            $.each(data, function (index, user) {
-                if (user["Email"] === email) {
-                    $("#divregEmail").find("span").remove();
-                    $("#divregEmail").css("width", "+=100");
-                    $('<span class="Validform_checktip Validform_wrong"></span>').html("This email address already registed!").appendTo('#divregEmail');
-                    $("#regEmail").focus();
-                    //alert("This email already register!");
-                    status = true;
-                    return false;
-                }
-                
-            });
-            return false;
-        });
+            success: function (data) {
+                $.each(data, function (index, user) {
+                    if (user["Email"] === email) {
+                        $("#divregEmail").find("span").remove();
+                        $("#divregEmail").css("width", "+=100");
+                        $('<span class="Validform_checktip Validform_wrong"></span>').html("This email address already registed!").appendTo('#divregEmail');
+                        $("#regEmail").focus();
+                        //alert("This email already register!");
+                        statusEmail = true;
+                        return statusEmail;
+                    }
+                });
+                return statusEmail;
+            }
+         });
 
     }
 
@@ -373,7 +370,8 @@
                     $("#regEmail").focus();
                     return;
                 }
-                if (uniqueUserEmail(Email)==true) {
+                uniqueUserEmail(Email);
+                if (statusEmail== true) {
                     return;
                 }
             }
@@ -482,9 +480,25 @@
            }
 
            function resetPassword() {
+               var getPasswordEmail=$("#emailAddress").val();
+               if (getPasswordEmail != "") {
+                   var result = isValidMail(getPasswordEmail);
+                   if (result == false) {
+                       $("#userEmail").find("span").remove();
+                       $('<span class="Validform_checktip Validform_wrong"></span>').html("Please Check your Email Format!").appendTo('#userEmail');                     
+                       return;
+                   }
+               }
+               else {
+                   $("#userEmail").find("span").remove();
+                   $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#userEmail');
+                   return;
+               }
+               $("#userEmail").find("span").remove();
+
                var method = "PUT";
-               //content = classInformation;
-               Url = serverUrl + '/api/MongoDB/ModifyUserPassword';
+               content = { "Email": getPasswordEmail };
+               Url = serverUrl + '/api/ChangePassword';
                $.ajax({
 
                    url: Url,
