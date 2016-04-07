@@ -644,9 +644,9 @@ $("#addStudent").click(function () {
 function checkStudentIdExit(studentID) {
     var bool=true;
     $.each(studentsList, function (index, student) {
-        if (student["StudentID"] === studentID){
-            bool=false
-            return false
+        if (student["StudentID"].toLowerCase() === studentID.toLowerCase()) {
+            bool = false;
+            return false;
         }
     });
     return bool;
@@ -657,12 +657,12 @@ function checkStudentIdExit(studentID) {
 function checkStudentIdExitExcept(studentID, reviseBTN) {
     var bool = true;
     $.each(studentsList, function (index, student) {
-        if (student["StudentID"] === reviseBTN[0].innerHTML) {
+        if (student["StudentID"].toLowerCase() === reviseBTN[0].innerHTML.toLowerCase()) {
             return true;
         }
         if (student["StudentID"] === studentID) {
-            bool = false
-            return false
+            bool = false;
+            return false;
         }
     });
     return bool;

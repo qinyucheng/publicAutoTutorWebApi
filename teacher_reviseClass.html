@@ -674,9 +674,9 @@
         function checkStudentIdExit(studentID) {
             var bool = true;
             $.each(studentsList, function (index, student) {
-                if (student["StudentID"] === studentID) {
-                    bool = false
-                    return false
+                if (student["StudentID"].toLowerCase() === studentID.toLowerCase()) {
+                    bool = false;
+                    return false;
                 }
             });
             return bool;
@@ -685,12 +685,12 @@
         function checkStudentIdExitExcept(studentID, reviseBTN) {
             var bool = true;
             $.each(studentsList, function (index, student) {
-                if (student["StudentID"] === reviseBTN[0].innerHTML) {
+                if (student["StudentID"].toLowerCase() === reviseBTN[0].innerHTML.toLowerCase()) {
                     return true;
                 }
                 if (student["StudentID"] === studentID) {
-                    bool = false
-                    return false
+                    bool = false;
+                    return false;
                 }
             });
             return bool;
@@ -724,19 +724,47 @@
             classInformation["StudyEndTime"] = document.getElementById("datemax").value;
             //classInformation["ClassName"] = $("#group option:selected").text();
             classInformation["LessonGroup"] = groupName;
-            lessonPut();
-            $("#classInfo").hide();
-            $("#lessonInfo").show();
-            $("#step1").attr("class", "ideal-tabs-tab");
-            $("#step2").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
-            $("#lessonsTable thead").remove();
-            $("#lessonsTable tr").remove();
-            displayLessons();
-            step[1] = true;
-            tabId = "step2";
+            uniqueClassName();
         }
 
+        function uniqueClassName() {
+            method = "GET";
+            content = { "key": "getClassInfoByClassName", "searchKey": classInformation["ClassName"] };
+            Url = serverUrl + '/api/Classes';
+            $.ajax({
 
+                url: Url,
+                type: method,
+                dataType: 'json',
+                data: content,
+
+            }).success(function (data) {
+                if (data.length === 0) {
+                    if (ClassName.toLowerCase() != classInformation["ClassName"].toLowerCase()) {
+                        setUrlAsEmpty();
+                    }
+                    $("#divClassname").find("span").remove();
+                    $("#dateTime").find("span").remove();
+                    lessonPut();
+                    $("#classInfo").hide();
+                    $("#lessonInfo").show();
+                    $("#step1").attr("class", "ideal-tabs-tab");
+                    $("#step2").attr("class", "ideal-tabs-tab ideal-tabs-tab-active");
+                    $("#lessonsTable thead").remove();
+                    $("#lessonsTable tr").remove();
+                    displayLessons();
+                    step[1] = true;
+                    tabId = "step2";
+                }
+                else {
+                    $("#divClassname").find("span").remove();
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("This class name already exist!").appendTo('#divClassname');
+                    return;
+                }
+
+            });
+
+        }
 
 
         //get studentList and studentname list
@@ -893,7 +921,7 @@
 
             var method = "POST";
             //content = { "StudentsName": studentsName, "group": groupName, ClassName: classInformation["ClassName"], "teacherName": teacherName };
-            content = { "StudentsName": studentsName, "group": groupName, ClassName: classInformation["ClassName"] };
+            content = { "StudentsName": studentsName, "group": groupName, "ClassName": classInformation["ClassName"] };
             method = "POST";
              Url = serverUrl+'/api/CreateClasses';
 
@@ -924,6 +952,29 @@
 
             });
         }
+
+        function setUrlAsEmpty() {
+            var method = "PUT";
+
+            content = { "StudyURL": "null" };
+
+            //  Url = serverUrl+'/api/MongoDB/' + email;
+            Url = serverUrl + '/api/Classes/ModifyClassStadyURL';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                //alert(data);
+
+            });
+
+        }
+
     var ClassName;
     $(document).ready(function () {
         //unbindClick();

@@ -67,6 +67,9 @@
           <div class="formControls col-8 col-offset-3">
               <a data-title="Admin List" href="javascript:changeToRegForm()">Create account</a>
           </div>
+          <div class="formControls col-8 col-offset-3">
+              <a data-title="Admin List" href="javascript:changeTORestPassword()">Forget password</a>
+          </div>
       </div>
   </div>
     <div id="regForm" class="regBox">
@@ -144,6 +147,29 @@
             </div>
         </div> 
     </div>
+
+
+    <div id="forgetPwd" class="forgetPwd">
+        <div class="form form-horizontal">
+            <div class="row cl">
+                <label class="form-label col-3"><i class="Hui-iconfont">&#xe63b;</i></label>
+                <div class="formControls col-8">
+                    <input name="regEmail" id="regEmail" type="text" placeholder="Email" class="input-text size-L" autocomplete="off">
+                    <div class="col-4 errorMSG" id="divregEmail" style="width:300px"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="formControls col-8 col-offset-3">
+                    <input name="" type="submit" class="btn btn-success radius size-L" value="&nbsp;Sign Up" onclick="resetPassword()">
+                </div>
+            </div>
+         </div>
+            <div class="row">
+                <div class="formControls col-8 col-offset-3">
+                    <a data-title="Admin List" href="javascript:changeToLoginForm()">Return to Log In</a>
+                </div>
+            </div>
+        </div>
 </div>
 <div class="footer"></div>
 <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
@@ -156,6 +182,7 @@
     $(document).ready(function () {
       
         $('#regForm').hide();
+        $('#forgetPwd').hide();
         var cookies = $.cookie();
         for (var cookie in cookies) {
             $.removeCookie(cookie);
@@ -210,6 +237,7 @@
         clearInputBox();
         $('#loginform').show();
         $('#regForm').hide();
+        $('#forgetPwd').hide();
     }
 
     function changeToVisitorTryPage()
@@ -447,9 +475,28 @@
                }
            });
 
-      
+           function changeTORestPassword() {
+               clearInputBox();
+               $('#loginform').hide();
+               $('#forgetPwd').show();
+           }
 
+           function resetPassword() {
+               var method = "PUT";
+               //content = classInformation;
+               Url = serverUrl + '/api/MongoDB/ModifyUserPassword';
+               $.ajax({
 
+                   url: Url,
+                   type: method,
+                   data: content,
+
+               }).success(function (data) {
+                   console.log(".net Output:");
+                   console.log(data);
+
+               });
+           }
 </script>
 </body>
 </html>
