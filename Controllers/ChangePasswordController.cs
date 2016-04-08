@@ -44,9 +44,47 @@ namespace publicAutoTutorWebApi.Controllers
 
         public string sendGmail(string userEmail, string value)
         {
-            //string reciverEmail = "AutoTutorMem@gmail.com";
-            string reciverEmail = ConfigurationManager.AppSettings["sendEmail"];
-            string content ="' send a new message from AutoTutor Website\n\n Email address: " + userEmail + "\n\n Message content: " + value;
+             #region email
+            string emailFromAddress ="AutoTutorMem@gmail.com";
+            string emailPassword = "TNMemFIT410";
+            string emailToAddress1 = userEmail;
+          
+            string emailSubject = "AutoTutor--Find your password";
+            string emailBody = "You new password is <b>" + value + "</b> Please change to new password ASAP! <br/>Do not reply this Email";
+            #endregion
+            try
+            {
+                MailMessage myMail = new MailMessage();
+                myMail.From = new MailAddress(emailFromAddress);
+                myMail.To.Add(new MailAddress(emailToAddress1));
+               
+                myMail.Subject = emailSubject;
+                myMail.SubjectEncoding = Encoding.UTF8;
+
+                myMail.Body = emailBody;
+                myMail.BodyEncoding = Encoding.UTF8;
+                myMail.IsBodyHtml = true;
+                
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 587;                    
+                smtp.Credentials = new NetworkCredential(emailFromAddress, emailPassword);
+                smtp.EnableSsl = true;             
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network; 
+                //smtp.DeliveryFormat=HtmlString
+                smtp.Send(myMail);
+                return "Mail has been successfully sent!";
+            }
+            catch (Exception err) 
+            {
+                return "false";
+            }
+        
+            /*
+            string reciverEmail = "qinyucheng711@gmail.com";
+            //string reciverEmail = ConfigurationManager.AppSettings["sendEmail"];
+            //string content ="' send a new message from AutoTutor Website\n\n Email address: " + userEmail + "\n\n Message content: " + value;
+            string content = "test";
             MailMessage msg = new MailMessage();
 
             msg.From = new MailAddress(reciverEmail);
@@ -73,7 +111,7 @@ namespace publicAutoTutorWebApi.Controllers
             finally
             {
                 msg.Dispose();
-            }
+            }*/
         }
 
         public bool changePassword(Users info) {

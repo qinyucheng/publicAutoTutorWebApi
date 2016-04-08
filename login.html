@@ -154,7 +154,7 @@
             <div class="row cl">
                 <label class="form-label col-3"><i class="Hui-iconfont">&#xe63b;</i></label>
                 <div class="formControls col-8">
-                    <input name="emailAddress" id="emailAddress" type="text" placeholder="Email" class="input-text size-L" autocomplete="off">
+                    <input name="emailAddress" id="emailAddress" type="text" placeholder="Input your email to reset your password" class="input-text size-L" autocomplete="off">
                     <div class="col-4 errorMSG" id="userEmail" style="width:300px"></div>
                 </div>
             </div>
@@ -260,21 +260,25 @@
             type: method,
             dataType: 'json',
             data: "",
-            success: function (data) {
-                $.each(data, function (index, user) {
-                    if (user["Email"] === email) {
-                        $("#divregEmail").find("span").remove();
-                        $("#divregEmail").css("width", "+=100");
-                        $('<span class="Validform_checktip Validform_wrong"></span>').html("This email address already registed!").appendTo('#divregEmail');
-                        $("#regEmail").focus();
-                        //alert("This email already register!");
-                        statusEmail = true;
-                        return statusEmail;
-                    }
-                });
-                return statusEmail;
-            }
-         });
+
+        }).success(function (data) {
+            $.each(data, function (index, user) {
+                if (user["Email"] === email) {
+                    $("#divregEmail").find("span").remove();
+                    //$("#divregEmail").css("width", "+=100");
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("This email address already registed!").appendTo('#divregEmail');
+                    $("#regEmail").focus();
+                    //alert("This email already register!");
+                    statusEmail = true;
+                    return statusEmail;
+                }
+                else {
+                    $("#divregEmail").find("span").remove();
+                }
+
+            });
+            return statusEmail;
+        });
 
     }
 
@@ -370,8 +374,8 @@
                     $("#regEmail").focus();
                     return;
                 }
-                uniqueUserEmail(Email);
-                if (statusEmail== true) {
+                if (statusEmail == true) {
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("This email address already registed!").appendTo('#divregEmail');
                     return;
                 }
             }
@@ -381,6 +385,7 @@
                 $("#regEmail").focus();
                 return;
             }
+            $("#divregEmail").find("span").remove();
             if (Phone == "") {
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregPhone');
                 $("#regPhone").focus();
@@ -473,6 +478,14 @@
                }
            });
 
+
+    //yehui blur function for check email address
+           $("#regEmail").blur(function () {
+               var Email = $('#regEmail').val().toLowerCase();;
+               uniqueUserEmail(Email);
+           });
+
+
            function changeTORestPassword() {
                clearInputBox();
                $('#loginform').hide();
@@ -480,7 +493,7 @@
            }
 
            function resetPassword() {
-               var getPasswordEmail=$("#emailAddress").val();
+               var getPasswordEmail=$("#emailAddress").val().toLowerCase();
                if (getPasswordEmail != "") {
                    var result = isValidMail(getPasswordEmail);
                    if (result == false) {
@@ -506,8 +519,12 @@
                    data: content,
 
                }).success(function (data) {
-                   console.log(".net Output:");
-                   console.log(data);
+                   if (data == true) {
+                       alert("please check your email to get your temporal password");
+                   }
+                   else
+                       alert("please submit your email again");
+                       $("#emailAddress").val("");
 
                });
            }
