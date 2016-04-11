@@ -61,7 +61,7 @@
             <table class="table table-border table-bordered table-bg" id="url" align="center">
                 <thead>
                     <tr>
-                        <th scope="col" colspan="9">Study URL</th>
+                        <th scope="col" colspan="9">URL for your " <span id="displayClassName"></span> "Class</th>
                     </tr>
                 </thead>
 
@@ -447,7 +447,8 @@
 
                 success: function (data) {
                     console.log(".net Output:");
-                    $("#lessonsTable").append("<thead><tr><th scope='col' colspan='9'>Lesson List</th></tr><tr class='text-c'><th width='25'></th><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th><td width='25'></td><th width='25'></th><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th></tr></thead>");
+                   // $("#lessonsTable").append("<thead><tr><th scope='col' colspan='9'>Lesson List</th></tr><tr class='text-c'><th width='25'></th><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th><td width='25'></td><th width='25'></th><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th></tr></thead>");
+                    $("#lessonsTable").append(" <thead><tr align='center' class='text-c'><th width='50'><input type='checkbox' value='1'" + "onclick=\"checkboxControl()\"" + "id='SelectAll'></th><th width='100'>Lesson ID</th><th width='200'>Lesson Name</th><th width='300'>Description</th></tr></thead>");
                     var countNO = 0;
                     var lessonArray = [];
                     var i;
@@ -455,16 +456,20 @@
                     $.each(data, function (index, array) { //loop  items for display
                         if (array['LessonGroup'] == groupName && array['Status'] === "active") {
                             lessonArray.push(array);
+                            $("#lessonsTable").append("<tr align='center' class='text-c'><td><input type='checkbox' value='1' id=" + array['LessonID'] + "class='checkbox1'></td><td>" + array['LessonID'] + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['Description'] + "</td></tr>");
+
                         }
                     });
                     var length = lessonArray.length;
-
+                   
+                    /*
                     for (i = 0; i < length - 1; i = +2) {
                         $("#lessonsTable").append("<tr align='center' class='text-c'><td><input type='checkbox' value='1' name=''></td><td>" + lessonArray[i]['LessonID'] + "</td><td id=" + lessonArray[i]['LessonID'] + " >" + lessonArray[i]['LessonName'] + "</td><td>" + lessonArray[i]['Description'] + "</td><td width='25'></td><td><input type='checkbox' value='1' name=''></td><td>" + lessonArray[i + 1]['LessonID'] + "</td><td id=" + lessonArray[i + 1]['LessonID'] + " >" + lessonArray[i + 1]['LessonName'] + "</td><td>" + lessonArray[i + 1]['Description'] + "</td></tr>");
                     }
                     if (length - 1 == i) {
                         $("#lessonsTable").append("<tr align='center' class='text-c'><td><input type='checkbox' value='1' name=''></td><td>" + lessonArray[i]['LessonID'] + "</td><td id=" + lessonArray[i]['LessonID'] + " >" + lessonArray[i]['LessonName'] + "</td><td>" + lessonArray[i]['Description'] + "</td><td width='25'></td><td></td><td></td><td></td><td></td></tr>");
                     }
+                    */
                 },
 
 
@@ -513,7 +518,34 @@
             });
 
         }
+        //cheng 4-6
+        function checkboxControl() {
+            lessonInformation = [];
+            if (document.getElementById('SelectAll').checked) { // check select status
+                $('.checkbox1').each(function () { //loop through each checkbox
+                    this.checked = true;  //select all checkboxes with class "checkbox1"      
+                    var lessonIDC = this.id;
+                    $.each(lessonObj, function (index, array) {
+                        if (array["LessonID"] == lessonIDC) {
+                            var oneLesson = { "LessonID": array["LessonID"], "LessonName": array["LessonName"], "Description": array["Description"], "ScriptURL": array["ScriptURL"], "LessonURL": array["LessonURL"] };
+                            lessonInformation.push(oneLesson);
+                            return;
+                        }
 
+
+
+                    });
+
+                });
+            } else {
+                $('.checkbox1').each(function () { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"      
+                    lessonInformation = [];
+                });
+            }
+
+        }
+     
 
         // reviseStudentInfo button click event
         $('#reviseStudentInfo').click(function () {
@@ -945,6 +977,7 @@
                     //location.replace(location.href);
                 }
                 else {
+                    $("#displayClassName").html(classInformation["ClassName"]);
                     $("#url").append("<td><a href=" + data + " target='_blank'>" + data + "</a></td>");
                     //$("#url").append("<td>" + data + "</td>");
                     $("#displayUrl").show();

@@ -43,6 +43,7 @@
                 $("#lessonsTable").append("<tr align='center' ><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td></td><td></td><td></td></tr>");
             }
             $("#ClassInfo").append("<tr align='center'><td>" + classInformation["ClassName"] + "</td>" + "<td>" + classInformation["LessonGroup"] + "</td>" + "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td></tr>");
+            $("#displayClassName").html(classInformation["ClassName"]);
             if (classUrl === null || classUrl=="null") {
                 classUrl="You did't finish building class!"
             }
