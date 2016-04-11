@@ -739,9 +739,15 @@
                 data: content,
 
             }).success(function (data) {
-                if (data.length === 0) {
-                    if (ClassName.toLowerCase() != classInformation["ClassName"].toLowerCase()) {
-                        setUrlAsEmpty();
+                if (data.length != 0){
+                    if (data[0]["ClassName"] === ClassName) {
+                        data.splice(0, 1);
+                    }
+                }
+                if (data.length===0) {
+                    if (ClassName.toLowerCase() != classInformation["ClassName"].toLowerCase()) {  //ClassName is old one, classInformation["ClassName"] is current one
+                        var newurl = olderUrl.replace(ClassName, classInformation["ClassName"]);
+                        resetPageUrl(newurl,classInformation["ClassName"], ClassName);
                     }
                     $("#divClassname").find("span").remove();
                     $("#dateTime").find("span").remove();
@@ -953,10 +959,33 @@
             });
         }
 
-        function setUrlAsEmpty() {
+
+        function resetPageUrl(newUrl, newName,oldeName) {
+            var method = "Put";
+
+            content = { "NewPageName": newName, "OldPageName": oldeName};
+
+            Url = serverUrl + '/api/CreateClasses';
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(".net Output:");
+                console.log(data);
+                resetUrl(newUrl);
+
+            });
+
+        }
+
+
+        function resetUrl(newUrl) {
             var method = "PUT";
 
-            content = { "StudyURL": "null" };
+            content = {"_id":classId, "StudyURL": newUrl };
 
             //  Url = serverUrl+'/api/MongoDB/' + email;
             Url = serverUrl + '/api/Classes/ModifyClassStadyURL';
@@ -994,6 +1023,7 @@
 
     var seletedClassInformation = localStorage.getItem('seletedClass');
     var seletedClassInformation = JSON.parse(seletedClassInformation);
+    var olderUrl = seletedClassInformation["StudyURL"];
     localStorage.removeItem('seletedClass');
     var selectLessons;
     var classId = seletedClassInformation['_id'];
