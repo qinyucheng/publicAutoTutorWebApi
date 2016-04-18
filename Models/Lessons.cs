@@ -18,6 +18,6 @@ namespace publicAutoTutorWebApi.Models
         public string ServerUrl { get; set; }
         public string Status { get; set; }
         public string Description { get; set; }
-      
+        public string VideoURL { get; set; }      
     }
 }

@@ -40,6 +40,7 @@ function getStudentLessonList() {
 
 
         success: function (data) {
+            lessonGroup=data[0].LessonGroup;
             localStorage.setItem("LessonGroup", data[0].LessonGroup)
             classObj = data;
             var today = new Date();
@@ -53,16 +54,39 @@ function getStudentLessonList() {
                 //alert("")
                 return;
             }
-            $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='75%'>Description</th></thead>");
+            //$("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='20%'>Lesson Video</th><th width='55%'>Description</th></thead>");
             console.log(".net Output:");
             LessonsList = $.map(data[0]["SeletedLeassons"], function (el) { return el });
             var countNO = 0;
-            $.each(data[0]["SeletedLeassons"], function (index, array) { //loop  items for display
-                countNO++;
-                //$("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['Description'] + "</td></tr>");
-                $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['Description'] + "</td></tr>");
 
-            });
+            //revise for display video
+            if (lessonGroup == "ET") {
+                $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='75%'>Description</th></thead>");
+                $.each(data[0]["SeletedLeassons"], function (index, array) { //loop  items for display
+                    countNO++;
+                    //$("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['Description'] + "</td></tr>");
+                    $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['Description'] + "</td></tr>");
+
+                });
+            }
+
+            if (lessonGroup == "CSAL") {
+                $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='20%'>Lesson Video</th><th width='55%'>Description</th></thead>");
+                $.each(data[0]["SeletedLeassons"], function (index, array) { //loop  items for display
+                    countNO++;
+                    var videoUrl = array['VideoURL'];
+                    if (videoUrl == null || videoUrl == "") {
+                        $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>No video</td><td>" + array['Description'] + "</td></tr>");
+                    }
+                    else {
+                        //$("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['Description'] + "</td></tr>");
+                        $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + "<u style='cursor:pointer' class='text-primary' onclick='layer_show(" + "\"" + array['LessonName'] + "\"" + "," + "\"" + videoUrl + "\"" + ",\"1030\",\"640\")'>" + "Introduction Video" + "</u></td><td>" + array['Description'] + "</td></tr>");
+                    }
+                });
+            }
+            
+
+
         },
         complete: function () { //
             $('tbody > tr', $('#LessonsList')).click(function () {
@@ -176,3 +200,5 @@ function PopUpLesson(LessonID, LessonName, LessonGroup, lessonURL) {
     }
 
 }
+
+

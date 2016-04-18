@@ -70,7 +70,8 @@ function callAPI(content)
             LessonsList = $.map(data, function (el) { return el });
             if (lessonGroup == "All") {
 
-                $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='15%'>Lesson Group</th><th width='75%'>Description</th></thead>");
+               // $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='15%'>Lesson Group</th><th width='75%'>Description</th></thead>");
+                $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='15%'>Lesson Group</th><th width='20%'>Lesson Video</th><th width='45%'>Description</th></thead>");
             }
             else {
                 $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='75%'>Description</th></thead>");
@@ -85,7 +86,20 @@ function callAPI(content)
                 }
                 else if (lessonGroup == "All") {
                     countNO++;
-                    $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['LessonGroup'] + "</td><td>" + array['Description'] + "</td></tr>");
+                    var videoUrl = array['VideoURL'];
+                    if (array['LessonGroup'] == "CSAL") {
+                        if (videoUrl == null || videoUrl == "") {
+                            $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['LessonGroup'] + "</td><td>No video</td><td>" + array['Description'] + "</td></tr>");
+                        }
+                        else {
+                            $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['LessonGroup'] + "</td><td><u style='cursor:pointer' class='text-primary' onclick='layer_show(" + "\"" + array['LessonName'] + "\"" + "," + "\"" + videoUrl + "\"" + ",\"1030\",\"640\")'>" + "Introduction Video" + "</u></td><td>" + array['Description'] + "</td></tr>");
+                        }
+                    }
+                    if (array['LessonGroup'] == "ET") {
+                        $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['LessonGroup'] + "</td><td>No video</td><td>" + array['Description'] + "</td></tr>");
+                    }
+                    
+                    //$("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['LessonGroup'] + "</td><td>" + array['Description'] + "</td></tr>");
 
                 }
 

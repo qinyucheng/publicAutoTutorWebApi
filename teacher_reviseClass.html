@@ -258,7 +258,7 @@
     <script type="text/javascript" src="js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/jquery.idealforms.js"></script>
     <script type="text/javascript" src="js/lessonGroupList.js"></script>
-<script type="text/javascript" src="js/serverUrl.js"></script>
+    <script type="text/javascript" src="js/serverUrl.js"></script>
 
 
     <script type="text/javascript">
@@ -276,7 +276,13 @@
         var studentsName;
         var flag = 0;
         var teacherName;
-
+        // class json format instore ace database
+        //var aceDBInfo = { "_id": "", "Location": "", "ClassID": "", "TeacherName": "", "Lessons": "", "Students": "", "MeetingTime": "", "AutoCreated": "", "ATClassName": "" };
+        var aceDBInfo = {"Location": "", "ClassID": "", "TeacherName": "", "Lessons": "", "Students": "", "MeetingTime": "", "AutoCreated": "", "ATClassID": "" };
+        var aceBDLessons = [];
+        var aceBDStudents = [];
+        var BDStudent = { "UserID": "", "LastTurnTime": "", "TurnCount": "", "FirstName": "", "LastName": "", "AutoCreated": "" }
+        var BDStudentsArray = {};
 
 
         function admin_del(obj, id) {
@@ -456,7 +462,7 @@
                     $.each(data, function (index, array) { //loop  items for display
                         if (array['LessonGroup'] == groupName && array['Status'] === "active") {
                             lessonArray.push(array);
-                            $("#lessonsTable").append("<tr align='center' class='text-c'><td><input type='checkbox' value='1' id=" + array['LessonID'] + "class='checkbox1'></td><td>" + array['LessonID'] + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['Description'] + "</td></tr>");
+                            $("#lessonsTable").append("<tr align='center' class='text-c'><td><input type='checkbox' value='1' id=" + array['LessonID'] + " class='checkbox1'></td><td>" + array['LessonID'] + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['Description'] + "</td></tr>");
 
                         }
                     });
@@ -756,6 +762,12 @@
             classInformation["StudyEndTime"] = document.getElementById("datemax").value;
             //classInformation["ClassName"] = $("#group option:selected").text();
             classInformation["LessonGroup"] = groupName;
+            // add for ace database
+            //aceDBInfo["ClassID"] = classInformation["ClassName"];
+            aceDBInfo["ATClassID"] = classInformation["ClassName"];
+            aceDBInfo["ClassID"] = ClassName;
+            aceDBInfo["TeacherName"] = document.getElementById("email").value;
+
             uniqueClassName();
         }
 
@@ -784,6 +796,7 @@
                     $("#divClassname").find("span").remove();
                     $("#dateTime").find("span").remove();
                     lessonPut();
+                    aceDBClassInfoAPI();                 //post to ace database
                     $("#classInfo").hide();
                     $("#lessonInfo").show();
                     $("#step1").attr("class", "ideal-tabs-tab");
@@ -907,8 +920,8 @@
             }).success(function (data) {
                 console.log(".net Output:");
                 console.log(data);
-                //alert(data);
-
+                getLessonsNumber();
+                aceDBClassInfoAPI();
             });
         }
 
@@ -928,16 +941,18 @@
             }).success(function (data) {
                 console.log(".net Output:");
                 console.log(data);
-                //alert(data);
-
+                getStudentsID();
+                aceDBClassInfoAPI();
+                getStudentJson();
+                //aceDBPutForStus();
             });
         }
 
         function putClassInfor() {
             var method = "PUT";
-
+            classInformation["StudentGroup"] = studentsList;
+            classInformation["SeletedLeassons"] = lessonInformation;
             content = classInformation;
-
             //  Url = serverUrl+'/api/MongoDB/' + email;
              Url = serverUrl+'/api/Classes/ModifyUpdateClassInfo';
             $.ajax({
@@ -949,8 +964,12 @@
             }).success(function (data) {
                 console.log(".net Output:");
                 console.log(data);
-                //alert(data);
-
+                getLessonsNumber();
+                getStudentsID();
+                getStudentJson();
+                aceDBClassInfoAPI();
+                aceDBPutForStus();
+                console.log(data);
             });
         }
 
@@ -1135,6 +1154,67 @@
         function isValidMail(email) {
             var patten = new RegExp(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]+$/);
             return patten.test(email);
+        }
+
+
+        //post && put function for seeing report
+        function aceDBClassInfoAPI() {
+            var method = "PUT";;
+            content = aceDBInfo;
+            Url = "http://ace.autotutor.org/aceapicors10/api/classinput";
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(data);
+            });
+        }
+
+        function aceDBPutForStus() {
+            var method = "Put";
+            content = BDStudentsArray;
+            Url = "http://ace.autotutor.org/aceapicors10/api/studentinput";
+            $.ajax({
+
+                url: Url,
+                type: method,
+                data: content,
+
+            }).success(function (data) {
+                console.log(data);
+            });
+        }
+
+
+        function getLessonsNumber() {
+            aceBDLessons = [];
+            $.each(lessonInformation, function (index, lesson) {
+                var lessonsNumber = lesson["LessonID"].split('_')[0];
+                aceBDLessons.push(lessonsNumber);
+            });
+            aceDBInfo["Lessons"] = aceBDLessons;
+        }
+
+        function getStudentsID() {
+            aceBDStudents = [];
+            $.each(studentsList, function (index, student) {
+                var studnetID = student["ID"];
+                aceBDStudents.push(studnetID);
+            });
+            aceDBInfo["Students"] = aceBDStudents;
+        }
+
+        function getStudentJson() {
+            var BDStudentsList = [];
+            $.each(studentsList, function (index, student) {
+                BDStudent["UserID"] = student["ID"];
+                BDStudent["FirstName"] = student["StudentName"];
+                BDStudentsList.push(BDStudent);
+            });
+            BDStudentsArray["BDStudentsArray"] = BDStudentsList;
         }
     </script>
 </body>

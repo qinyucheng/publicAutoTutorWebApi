@@ -30,7 +30,7 @@ namespace publicAutoTutorWebApi.Models
         public string LessonURL { get; set; }
         public string ScriptURL { get; set; }
         public string Description { get; set; }
-        
+        public string VideoURL { get; set; }  
     }
     public class SeletedStudent 
     {
