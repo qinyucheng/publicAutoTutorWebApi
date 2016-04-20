@@ -39,7 +39,7 @@
 				<ul>
 					<li><a _href="teacher_MyClass.html" data-title="My Classes" onclick="myClassOpen(this)" >My Classes</a></li>
 					<li><a _href="teacher_buildClass.html" data-title="Build a Class" onclick="buildClassOpen(this)">Build a Class</a></li>
-					<li><a _href="" data-title="Report" href="javascript:void(0)" class="addReport">Report</a></li>
+					<li><a _href="" data-title="Report" href="javascript:void(0)" id="addTeacherReport">Report</a></li>
 				</ul>
 			</dd>
 		</dl>
@@ -48,7 +48,7 @@
 			<dd>
 				<ul>
 					<li><a _href="lessons-list.html"  data-title="Lesson List" href="javascript:void(0)">Lesson List</a></li>
-                    <li><a _href="" data-title="My Report" href="javascript:void(0)" class="addReport">My Report</a></li>
+                    <li><a _href="" data-title="My Report" href="javascript:void(0)" id="addMyReport">My Report</a></li>
 				</ul>
 			</dd>
 		</dl>
@@ -169,8 +169,11 @@
 
            }
 
-            var reportPage="http://ace.autotutor.org/csaldb/home/TeachersClasses/"+PersonInfo.Email;
-            $(".addReport").attr("_href", reportPage);
+            var myReportPage = "http://ace.autotutor.org/csaldb/home/TeachersClasses/" + PersonInfo.Email;
+            var teacherReprot = "http://ace.autotutor.org/csaldb/home/TeachersClasses/" + PersonInfo.Email;
+
+            $("#addMyReport").attr("_href", myReportPage);
+            $("#addTeacherReport").attr("_href", teacherReprot);
         }
     });
 
