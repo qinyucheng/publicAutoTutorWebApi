@@ -70,7 +70,8 @@ function callAPI(content)
             LessonsList = $.map(data, function (el) { return el });
             if (lessonGroup == "All") {
 
-                $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='15%'>Lesson Group</th><th width='75%'>Description</th></thead>");
+               // $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='15%'>Lesson Group</th><th width='75%'>Description</th></thead>");
+                $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='15%'>Lesson Group</th><th width='20%'>Lesson Video</th><th width='45%'>Description</th></thead>");
             }
             else {
                 $("#LessonsList").append(" <thead><th width='5%'>NO.</th><th width='15%'>Lesson Name</th><th width='75%'>Description</th></thead>");
@@ -85,7 +86,20 @@ function callAPI(content)
                 }
                 else if (lessonGroup == "All") {
                     countNO++;
-                    $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['LessonGroup'] + "</td><td>" + array['Description'] + "</td></tr>");
+                    var videoUrl = array['VideoURL'];
+                    if (array['LessonGroup'] == "CSAL") {
+                        if (videoUrl == null || videoUrl == "") {
+                            $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['LessonGroup'] + "</td><td>No video</td><td>" + array['Description'] + "</td></tr>");
+                        }
+                        else {
+                            $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['LessonGroup'] + "</td><td><u style='cursor:pointer' class='text-primary' onclick='layer_show(" + "\"" + array['LessonName'] + "\"" + "," + "\"" + videoUrl + "\"" + ",\"1030\",\"640\")'>" + "Introduction Video" + "</u></td><td>" + array['Description'] + "</td></tr>");
+                        }
+                    }
+                    if (array['LessonGroup'] == "ET") {
+                        $("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['LessonGroup'] + "</td><td>No video</td><td>" + array['Description'] + "</td></tr>");
+                    }
+                    
+                    //$("#LessonsList").append("<tr align='center'><td>" + countNO + "</td><td id=" + array['LessonID'] + " >" + array['LessonName'] + "</td><td>" + array['LessonGroup'] + "</td><td>" + array['Description'] + "</td></tr>");
 
                 }
 
@@ -150,6 +164,7 @@ function startLesson() {
         var LessonID = LessonsList[i]["LessonID"];
         var LessonName = LessonsList[i]["LessonName"];
         var LessonGroup = LessonsList[i]["LessonGroup"];
+       
         if (LessonsList[i]["LessonGroup"] === undefined) {
             LessonGroup = classObj[0]["ClassName"];
         }
@@ -200,14 +215,30 @@ function getValueFromPopupWindow(id, Name) {
 }
 
 function PopUpLesson(LessonID, LessonName, LessonGroup, lessonURL) {
+    var PersonInfoObj = localStorage.getItem('PersonInfo');
+    if (PersonInfoObj != "")
+    {
+        var PersonInfo = JSON.parse(PersonInfoObj);
+        var isEmptyObject = jQuery.isEmptyObject(PersonInfo);
+        if (isEmptyObject == false) {
+            var role = PersonInfo.Role;
+            var userEmail = PersonInfo.Email;
+            var userFName = PersonInfo.FirstName;
+            UID = role + "_" + userEmail + "_" + userFName;
 
+        }
+
+    }
+   
 
     if (LessonGroup == "CSAL") {
         countPopupTimes++;
-
-        layer_show(LessonName, CSALURL, "1030", "740");
+        lessonURL = lessonURL + "&UID=" + UID + "&SID=" + SID + "&IP=" + getIpAddress;
+        //layer_show(LessonName, CSALURL, "1030", "740");
+        layer_show(LessonName, lessonURL, "1030", "740");
         var PopUpIframeID = "layui-layer-iframe" + countPopupTimes;
         $("#" + PopUpIframeID).attr("scrolling", "no");
+        /*
         document.getElementById(PopUpIframeID).onload = function () {
 
             var iframe = document.getElementById(PopUpIframeID);
@@ -223,7 +254,7 @@ function PopUpLesson(LessonID, LessonName, LessonGroup, lessonURL) {
 
             iframe.contentWindow.postMessage(json, '*');
 
-        }
+        }*/
     }
     else if (LessonGroup == "ET") {
         countPopupTimes++;

@@ -67,6 +67,9 @@
           <div class="formControls col-8 col-offset-3">
               <a data-title="Admin List" href="javascript:changeToRegForm()">Create account</a>
           </div>
+          <div class="formControls col-8 col-offset-3">
+              <a data-title="Admin List" href="javascript:changeTORestPassword()">Forget password</a>
+          </div>
       </div>
   </div>
     <div id="regForm" class="regBox">
@@ -144,6 +147,29 @@
             </div>
         </div> 
     </div>
+
+
+    <div id="forgetPwd" class="forgetPwd">
+        <div class="form form-horizontal">
+            <div class="row cl">
+                <label class="form-label col-3"><i class="Hui-iconfont">&#xe63b;</i></label>
+                <div class="formControls col-8">
+                    <input name="emailAddress" id="emailAddress" type="text" placeholder="Input your email to reset your password" class="input-text size-L" autocomplete="off">
+                    <div class="col-4 errorMSG" id="userEmail" style="width:300px"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="formControls col-8 col-offset-3">
+                    <input name="" type="submit" class="btn btn-success radius size-L" value="&nbsp;Send Email" onclick="resetPassword()">
+                </div>
+            </div>
+         </div>
+            <div class="row">
+                <div class="formControls col-8 col-offset-3">
+                    <a data-title="Admin List" href="javascript:changeToLoginForm()">Return to Log In</a>
+                </div>
+            </div>
+        </div>
 </div>
 <div class="footer"></div>
 <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
@@ -152,10 +178,10 @@
 <script type="text/javascript" src="js/jquery.md5.js"></script>
 <script type="text/javascript" src="js/serverUrl.js"></script>
 <script>
-
+    var statusEmail = false;
     $(document).ready(function () {
-      
         $('#regForm').hide();
+        $('#forgetPwd').hide();
         var cookies = $.cookie();
         for (var cookie in cookies) {
             $.removeCookie(cookie);
@@ -210,6 +236,7 @@
         clearInputBox();
         $('#loginform').show();
         $('#regForm').hide();
+        $('#forgetPwd').hide();
     }
 
     function changeToVisitorTryPage()
@@ -225,11 +252,10 @@
 
     //check if email aready exist in database
     function uniqueUserEmail(email) {
-        var status = false;
         method = "GET";
-         Url = serverUrl+'/api/MongoDB';
+        Url = serverUrl + '/api/MongoDB';
         $.ajax({
-
+            //async: false,
             url: Url,
             type: method,
             dataType: 'json',
@@ -239,16 +265,19 @@
             $.each(data, function (index, user) {
                 if (user["Email"] === email) {
                     $("#divregEmail").find("span").remove();
-                    $("#divregEmail").css("width", "+=100");
+                    //$("#divregEmail").css("width", "+=100");
                     $('<span class="Validform_checktip Validform_wrong"></span>').html("This email address already registed!").appendTo('#divregEmail');
                     $("#regEmail").focus();
                     //alert("This email already register!");
-                    status = true;
-                    return false;
+                    statusEmail = true;
+                    return statusEmail;
                 }
-                
+                else {
+                    $("#divregEmail").find("span").remove();
+                }
+
             });
-            return false;
+            return statusEmail;
         });
 
     }
@@ -345,7 +374,8 @@
                     $("#regEmail").focus();
                     return;
                 }
-                if (uniqueUserEmail(Email)==true) {
+                if (statusEmail == true) {
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("This email address already registed!").appendTo('#divregEmail');
                     return;
                 }
             }
@@ -355,6 +385,7 @@
                 $("#regEmail").focus();
                 return;
             }
+            $("#divregEmail").find("span").remove();
             if (Phone == "") {
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divregPhone');
                 $("#regPhone").focus();
@@ -447,9 +478,56 @@
                }
            });
 
-      
+
+    //yehui blur function for check email address
+           $("#regEmail").blur(function () {
+               var Email = $('#regEmail').val().toLowerCase();;
+               uniqueUserEmail(Email);
+           });
 
 
+           function changeTORestPassword() {
+               clearInputBox();
+               $('#loginform').hide();
+               $('#forgetPwd').show();
+           }
+
+           function resetPassword() {
+               var getPasswordEmail=$("#emailAddress").val().toLowerCase();
+               if (getPasswordEmail != "") {
+                   var result = isValidMail(getPasswordEmail);
+                   if (result == false) {
+                       $("#userEmail").find("span").remove();
+                       $('<span class="Validform_checktip Validform_wrong"></span>').html("Please Check your Email Format!").appendTo('#userEmail');                     
+                       return;
+                   }
+               }
+               else {
+                   $("#userEmail").find("span").remove();
+                   $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#userEmail');
+                   return;
+               }
+               $("#userEmail").find("span").remove();
+
+               var method = "PUT";
+               content = { "Email": getPasswordEmail };
+               Url = serverUrl + '/api/ChangePassword';
+               $.ajax({
+
+                   url: Url,
+                   type: method,
+                   data: content,
+
+               }).success(function (data) {
+                   if (data == true) {
+                       alert("please check your email to get your temporal password");
+                   }
+                   else
+                       alert("please submit your email again");
+                       $("#emailAddress").val("");
+
+               });
+           }
 </script>
 </body>
 </html>

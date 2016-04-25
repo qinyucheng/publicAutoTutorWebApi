@@ -415,7 +415,8 @@ namespace publicAutoTutorWebApi.Models
                 { "LessonForder", lessonInfo.LessonForder},
                 { "ServerUrl", lessonInfo.ServerUrl},
                 { "Status", lessonInfo.Status},
-                { "Description", lessonInfo.Description}
+                { "Description", lessonInfo.Description},
+                { "VideoURL", lessonInfo.VideoURL}
                 } } };
 
                     var result = collect.Update(query, update);

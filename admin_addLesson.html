@@ -63,9 +63,16 @@
                 <div class="col-4 errorMSG" id="divScriptURL"></div>
             </div>
             <div class="row cl">
-                <label class="form-label col-3"> Lesson Forder：</label>
+                <label class="form-label col-3"> Video URL：</label>
                 <div class="formControls col-5">
                     <input type="text" class="input-text" value="" placeholder="" id="LessonForder" name="LessonForder">
+                </div>
+                <div class="col-4"> </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"> Lesson Forder：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" value="" placeholder="" id=" VideoURL" name=" VideoURL">
                 </div>
                 <div class="col-4"> </div>
             </div>
@@ -178,6 +185,7 @@
             $("#LessonURL").val(obj["LessonURL"]) ;
             $("#ScriptURL").val(obj["ScriptURL"]);
             $("#LessonForder").val(obj["LessonForder"]);
+            $("#VideoURL").val(obj["VideoURL"]);
             if (obj["Status"] == "active")
             {
                 $("#active").parent().attr("class", "iradio-blue checked");
@@ -208,6 +216,7 @@
             var ScriptURL = $("#ScriptURL").val();
             var LessonForder = $("#LessonForder").val();
             var ServerUrl = $("#ServerUrl").val();
+            var VideoUrl = $("#VideoURL").val();
             var Status = $('input[name="Status"]:checked').val();
             var Description = $('#Description').val();
             $(".errorMSG").empty();
@@ -284,7 +293,7 @@
                 $('<span class="Validform_checktip Validform_right"></span>').html("").appendTo('#divScriptURL');
 
             }
-            content = { LessonID: LessonID, LessonGroup: LessonGroup, LessonName: LessonName, Author: Author, LessonURL: LessonURL, ScriptURL: ScriptURL, LessonForder: LessonForder, ServerUrl: ServerUrl, Status: Status, Description: Description };
+            content = { LessonID: LessonID, LessonGroup: LessonGroup, LessonName: LessonName, Author: Author, LessonURL: LessonURL, ScriptURL: ScriptURL, LessonForder: LessonForder, ServerUrl: ServerUrl, Status: Status, Description: Description, VideoURL: VideoUrl };
             if (pageActionMethod == "post") {
                 addLessonInfo(content);
 

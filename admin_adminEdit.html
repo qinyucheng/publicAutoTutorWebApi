@@ -169,7 +169,7 @@
     <script type="text/javascript" src="js/jquery.md5.js"></script>
 	<script type="text/javascript" src="js/serverUrl.js"></script>
     <script type="text/javascript">
-        var status = false;  //false means email haven't registed , true means registed
+        var statusEmail = false; //false means email haven't registed , true means registed
         function isValidMail(email) {
 
             var patten = new RegExp(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]+$/);
@@ -200,7 +200,8 @@
                     $("#regEmail").focus();
                     return;
                 }
-                if (uniqueUserEmail(Email) == true) {
+                if (statusEmail == true) {
+                    $('<span class="Validform_checktip Validform_wrong"></span>').html("This email address already registed!").appendTo('#divregEmail');
                     return;
                 }
             }
@@ -210,6 +211,7 @@
                 $("#regEmail").focus();
                 return;
             }
+            $("#divregEmail").find("span").remove();
             if (FirstName == "") {
               
                 $('<span class="Validform_checktip Validform_wrong"></span>').html("You must fill this field!").appendTo('#divfName');
@@ -274,7 +276,6 @@
         }
 
         function uniqueUserEmail(email) {
-            var status = false;
             method = "GET";
              Url = serverUrl+'/api/MongoDB';
             $.ajax({
@@ -293,16 +294,23 @@
                         $("#regEmail").focus();
                         //alert("This email already register!");
                         status = true;
-                        return false;
+                        return statusEmail;
+                    }
+                    else {
+                        $("#divregEmail").find("span").remove();
                     }
 
                 });
-                return false;
+                return statusEmail;
             });
 
         }
 
-
+        //yehui blur function for check email address
+        $("#regEmail").blur(function () {
+            var Email = $('#regEmail').val().toLowerCase();;
+            uniqueUserEmail(Email);
+        });
 
 
 

@@ -54,7 +54,6 @@ C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Net.Http.Form
 C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.Helpers.xml
 C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.Http.xml
 C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.Http.WebHost.xml
-C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.Mvc.xml
 C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.Optimization.xml
 C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.Razor.xml
 C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.WebPages.xml
@@ -64,3 +63,4 @@ C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\Antlr3.Runtime.pdb
 C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\obj\Release\publicAutoTutorWebApi.csprojResolveAssemblyReference.cache
 C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\obj\Release\publicAutoTutorWebApi.dll
 C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\obj\Release\publicAutoTutorWebApi.pdb
+C:\Users\ManYang\Documents\GitHub\publicAutoTutorWebApi\bin\System.Web.Mvc.dll
