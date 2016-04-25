@@ -26,7 +26,7 @@
 	</nav>
 	<ul class="Hui-userbar">
 		<li>Welcome &nbsp;</li><li id="showUserFname"></id>
-<li class="dropDown dropDown_hover"><a class="dropDown_A" id="logout">Log Out <i class="Hui-iconfont"></i></a></li>
+<li class="dropDown dropDown_hover"><a class="dropDown_A" id="logout" >Log Out <i class="Hui-iconfont"></i></a></li>
 
 	</ul>
 	<a href="javascript:;" class="Hui-nav-toggle Hui-iconfont" aria-hidden="false">&#xe667;</a> </header>
@@ -121,6 +121,12 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+        var PersonInfoObj = localStorage.getItem('PersonInfo');
+        if (PersonInfoObj == null || PersonInfoObj == "")
+        {
+            window.location.href = "login.html";
+            return;
+        }
         $("#logout").bind("click", function () {
             localStorage.PersonInfo = '';
             localStorage.isLogin = '';
