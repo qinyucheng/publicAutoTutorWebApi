@@ -1,53 +1,55 @@
-﻿<!DOCTYPE HTML>
+﻿<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="renderer" content="webkit|ie-comp|ie-stand">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-<link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="lib/Hui-iconfont/1.0.6/iconfont.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="Scripts/jquery-1.10.2.js"></script> 
+    <link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+    <link href="lib/Hui-iconfont/1.0.6/iconfont.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="Scripts/jquery-1.10.2.js"></script>
     <script>
         var classInformation = parent.selectedClassInformation;
         var studentsInfo = classInformation.StudentGroup;
         var lessonInfo = classInformation.SeletedLeassons;
         var classUrl = classInformation.StudyURL;
-        
+
         var length;
         if (lessonInfo == null) length = 0;
-        else  length= lessonInfo.length;
+        else length = lessonInfo.length;
         $(function () {
             formatTime();
             genrateTable();
         });
-       
+
         function genrateTable() {
-            if(studentsInfo!=null){
+            if (studentsInfo != null) {
                 $.each(studentsInfo, function (index, array) {
-                    if (array["StudentEmail"] == null)
-                    {
+                    if (array["StudentEmail"] == null) {
                         array["StudentEmail"] = "";
                     }
-                $("#studentTable").append("<tr align='center'><td>" + array["StudentID"] + "</td><td>" + array["StudentName"] + "</td>" + "<td>" + array["StudentEmail"] + "</td></tr>");
-                    }
+                    $("#studentTable").append("<tr align='center'><td>" + array["StudentID"] + "</td><td>" + array["StudentName"] + "</td>" + "<td>" + array["StudentEmail"] + "</td></tr>");
+                }
                 );
             }
-            for (i = 0; i < length - 1; i = +2) {
+            for (i = 0; i < length; i++) {
+                $("#lessonsTable").append("<tr align='center'><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td></tr>");
+            }
+            /*for (i = 0; i < length - 1; i = +2) {
                 $("#lessonsTable").append("<tr align='center'><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td>" + lessonInfo[i + 1]['LessonID'] + "</td><td id=" + lessonInfo[i + 1]['LessonID'] + " >" + lessonInfo[i + 1]['LessonName'] + "</td><td>" + lessonInfo[i + 1]['Description'] + "</td></tr>");
             }
             if (length - 1 == i) {
                 $("#lessonsTable").append("<tr align='center' ><td>" + lessonInfo[i]['LessonID'] + "</td><td id=" + lessonInfo[i]['LessonID'] + " >" + lessonInfo[i]['LessonName'] + "</td><td>" + lessonInfo[i]['Description'] + "</td><td width='25'></td><td></td><td></td><td></td></tr>");
-            }
+            }*/
             $("#ClassInfo").append("<tr align='center'><td>" + classInformation["ClassName"] + "</td>" + "<td>" + classInformation["LessonGroup"] + "</td>" + "<td>" + classInformation["StudyStartTime"] + "</td><td>" + classInformation["StudyEndTime"] + "</td></tr>");
             $("#displayClassName").html(classInformation["ClassName"]);
-            if (classUrl === null || classUrl=="null") {
-                classUrl="You did't finish building class!"
+            if (classUrl === null || classUrl == "null") {
+                classUrl = "You did't finish building class!"
             }
-            $("#url").append("<td><a href="+classUrl+" target='_blank'>" + classUrl + "</a></td>");
+            $("#url").append("<td><a href=" + classUrl + " target='_blank'>" + classUrl + "</a></td>");
         }
 
         function formatTime() {
@@ -56,14 +58,13 @@
             classInformation["StudyStartTime"] = (start.getMonth() + 1).toString() + "-" + start.getDate() + "-" + start.getFullYear();
             classInformation["StudyEndTime"] = (end.getMonth() + 1).toString() + "-" + end.getDate() + "-" + end.getFullYear();
         }
-        function PrintPage()
-        {
+        function PrintPage() {
             $("#doneButton").hide();
             window.print();
             $("#doneButton").show();
         }
     </script>
-<title>Lesson and student info</title>
+    <title>Lesson and student info</title>
 </head>
 <body>
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>Class information</nav>
@@ -71,7 +72,7 @@
         <table class="table table-border table-bordered table-bg" id="url" align="center">
             <thead>
                 <tr>
-                    <th scope="col" colspan="9">Study URL</th>
+                    <th scope="col" colspan="9">URL for your " <span id="displayClassName"></span> "Class</th>
                 </tr>
             </thead>
 
@@ -83,29 +84,32 @@
         <table class="table table-border table-bordered table-bg" id="ClassInfo" align="center">
             <thead>
                 <tr><th scope='col' colspan='9'>Class Information</th></tr>
-                <tr><th width='40'>Class Name</th>
-                <th width='40'>Lesson Group</th>
-                <th width='150'>Study Start Time</th>
-                <th width='150'>Study End Time</th>
+                <tr>
+                    <th width='40'>Class Name</th>
+                    <th width='40'>Lesson Group</th>
+                    <th width='150'>Study Start Time</th>
+                    <th width='150'>Study End Time</th>
                 </tr>
             </thead>
         </table>
     </div>
-        <section id="lessonInfo" class="idealsteps-step">
-            <div class="pd-20">
-                <table class="table table-border table-bordered table-bg" id="lessonsTable" align="center">
-                    <thead>
-                        <tr><th scope='col' colspan='9'>Lesson List</th></tr>
-                        <tr>
-                            <th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th><td width='25'></td><th width='40'>Lesson ID</th><th width='40'>Lesson Name</th><th width='150'>Description</th>
-                        </tr>
-                    </thead>
-                </table>
+    <section id="lessonInfo" class="idealsteps-step">
+        <div class="pd-20">
+            <table class="table table-border table-bordered table-bg" id="lessonsTable" align="center">
+                <thead>
+                    <tr><th scope='col' colspan='9'>Lesson List</th></tr>
+                    <tr>
+                        <th width='40'>Lesson ID</th>
+                        <th width='40'>Lesson Name</th>
+                        <th width='150'>Description</th>
+                    </tr>
+                </thead>
+            </table>
 
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <!--section for add students-->
+    <!--section for add students-->
     <section id="studentList" class="idealsteps-step">
         <div class="pd-20">
             <table class="table table-border table-bordered table-bg" id="studentTable">
@@ -125,15 +129,15 @@
     </section>
     <div class="cl pd-5 bg-1 bk-gray mt-20" id="doneButton">
         <span class="r">
-            <button  data-title='My Classes' onclick='PrintPage();' class="btn btn-success" type="submit">Print</button>
+            <button data-title='My Classes' onclick='PrintPage();' class="btn btn-success" type="submit">Print</button>
         </span>
     </div>
-            <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
-            <script type="text/javascript" src="js/H-ui.js"></script>
-            <script type="text/javascript" src="js/H-ui.admin.js"></script>
-            <script type="text/javascript" src="js/URI.js"></script>
-			<script type="text/javascript" src="js/serverUrl.js"></script>
-            <script type="text/javascript">
-            </script>
+    <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/H-ui.js"></script>
+    <script type="text/javascript" src="js/H-ui.admin.js"></script>
+    <script type="text/javascript" src="js/URI.js"></script>
+    <script type="text/javascript" src="js/serverUrl.js"></script>
+    <script type="text/javascript">
+    </script>
 </body>
 </html>
