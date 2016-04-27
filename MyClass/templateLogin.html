@@ -63,6 +63,7 @@
                     if (isExisit != -1) {
                         getStudentUID(isExisit);
                         //localStorage.clear();
+						ClassName = URI.substring((URI.lastIndexOf("/")) + 1).spilt('.')[0];
                         localStorage.setItem("className", ClassName);
                         localStorage.setItem("returnURL", URI);
                         //localStorage.setItem("classGroup", ClassGroup);
